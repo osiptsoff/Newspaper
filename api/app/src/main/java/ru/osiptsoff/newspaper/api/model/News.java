@@ -3,6 +3,7 @@ package ru.osiptsoff.newspaper.api.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.osiptsoff.newspaper.api.model.auth.User;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -41,12 +42,15 @@ public class News {
     private Collection<NewsContentBlock> content;
 
     @OneToMany(
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             mappedBy = "news",
             cascade = CascadeType.ALL
     )
     private Collection<Comment> comments;
 
     @ManyToMany(mappedBy = "news")
-    Collection<Tag> tags;
+    private Collection<Tag> tags;
+
+    @ManyToMany(mappedBy = "likedNews")
+    private Collection<User> likers;
 }

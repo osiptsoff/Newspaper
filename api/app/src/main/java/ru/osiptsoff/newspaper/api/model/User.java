@@ -1,14 +1,10 @@
-package ru.osiptsoff.newspaper.api.model.auth;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+package ru.osiptsoff.newspaper.api.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.osiptsoff.newspaper.api.model.News;
-import ru.osiptsoff.newspaper.api.model.Tag;
-import ru.osiptsoff.newspaper.api.model.UserTag;
+import ru.osiptsoff.newspaper.api.model.auth.Role;
+import ru.osiptsoff.newspaper.api.model.auth.Token;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -30,7 +26,7 @@ import java.util.stream.Collectors;
 @Setter
 @Getter
 @NoArgsConstructor
-public class User implements UserDetails {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "userid")
@@ -76,40 +72,5 @@ public class User implements UserDetails {
             .filter( rel -> rel.getLikes() == false )
             .map( rel -> rel.getTag() )
             .collect( Collectors.toSet() );
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return login;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 }

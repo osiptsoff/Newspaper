@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.osiptsoff.newspaper.api.model.auth.User;
+
 
 @Embeddable
 @Setter

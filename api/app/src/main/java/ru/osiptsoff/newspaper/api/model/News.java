@@ -33,7 +33,7 @@ public class News {
     private String picturePath;
 
     @OneToMany(
-            fetch = FetchType.EAGER,
+            fetch = FetchType.LAZY,
             mappedBy = "news",
             cascade = CascadeType.ALL
     )
@@ -46,7 +46,7 @@ public class News {
     )
     private Collection<Comment> comments;
 
-    @ManyToMany(mappedBy = "news")
+    @ManyToMany(mappedBy = "news", fetch = FetchType.EAGER)
     private Collection<Tag> tags;
 
     @ManyToMany(mappedBy = "likedNews")

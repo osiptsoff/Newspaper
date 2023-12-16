@@ -3,8 +3,6 @@ package ru.osiptsoff.newspaper.api.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.osiptsoff.newspaper.api.model.auth.User;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

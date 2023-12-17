@@ -9,9 +9,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
+import ru.osiptsoff.newspaper.api.model.NewsContentBlockId;
 
 @Repository
-public interface NewsContentRepository extends PagingAndSortingRepository<NewsContentBlock, Integer> {
+public interface NewsContentRepository extends PagingAndSortingRepository<NewsContentBlock, NewsContentBlockId> {
     @Query("SELECT b FROM NewsContentBlock b WHERE b.newsContentBlockId.newsId = :id ORDER BY b.newsContentBlockId.number")
     public List<NewsContentBlock> findByNewsId(@Param("id") Integer newsId, Pageable pageable);
 }

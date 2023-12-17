@@ -1,8 +1,12 @@
 package ru.osiptsoff.newspaper.api.model;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,16 +17,20 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.time.OffsetDateTime;
 import java.util.Collection;
 
 @Entity
-@Table(name = "subject.news")
-@Setter
-@Getter
+@DynamicInsert
+@Table(name = "news", schema = "subject")
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class News {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "newsid")
     private Integer id;
 
@@ -32,6 +40,9 @@ public class News {
     @Column(name = "picturepath")
     private String picturePath;
 
+    @Column(name = "posttime")
+    private OffsetDateTime postTime;
+
     @OneToMany(
             fetch = FetchType.LAZY,
             mappedBy = "news",
@@ -39,6 +50,8 @@ public class News {
     )
     private Collection<NewsContentBlock> content;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(
             fetch = FetchType.LAZY,
             mappedBy = "news",
@@ -49,6 +62,8 @@ public class News {
     @ManyToMany(mappedBy = "news", fetch = FetchType.EAGER)
     private Collection<Tag> tags;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "likedNews")
     private Collection<User> likers;
 }

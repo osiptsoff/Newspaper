@@ -1,8 +1,11 @@
 package ru.osiptsoff.newspaper.api.model;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -13,14 +16,16 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "subject.chunk")
-@Setter
-@Getter
+@Table(name = "textchunk", schema = "subject")
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class NewsContentBlock {
     @EmbeddedId
     private NewsContentBlockId newsContentBlockId;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "newsid")
     @MapsId("newsId")

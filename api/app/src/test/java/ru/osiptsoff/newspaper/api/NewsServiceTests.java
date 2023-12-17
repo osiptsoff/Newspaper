@@ -7,8 +7,8 @@ import org.springframework.util.Assert;
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlockId;
-import ru.osiptsoff.newspaper.api.model.Tag;
 import ru.osiptsoff.newspaper.api.service.NewsService;
+import ru.osiptsoff.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResponse;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,10 +38,6 @@ public class NewsServiceTests {
                 new NewsContentBlock(new NewsContentBlockId(null, 1), firstNews, "First"),
                 new NewsContentBlock(new NewsContentBlockId(null, 2), firstNews, "Second")
         ) );
-        firstNews.setTags( Arrays.asList(
-                new Tag(null, "Tag1", null),
-                new Tag(null, "Tag2", null)
-        ) );
 
         firstNews = newsService.saveNews(firstNews);
         System.out.println(firstNews);
@@ -49,11 +45,13 @@ public class NewsServiceTests {
         secondNews = new News();
         secondNews.setTitle("Second test news");
         secondNews.setContent( Arrays.asList(
-                new NewsContentBlock(new NewsContentBlockId(null, 1), secondNews, "First"),
-                new NewsContentBlock(new NewsContentBlockId(null, 2), secondNews, "Second")
-        ) );
-        secondNews.setTags( Arrays.asList(
-                new Tag(null, "Tag1", null)
+                new NewsContentBlock(new NewsContentBlockId(null, 1), secondNews, "F"),
+                new NewsContentBlock(new NewsContentBlockId(null, 2), secondNews, "S"),
+                new NewsContentBlock(new NewsContentBlockId(null, 3), secondNews, "T"),
+                new NewsContentBlock(new NewsContentBlockId(null, 4), secondNews, "F"),
+                new NewsContentBlock(new NewsContentBlockId(null, 5), secondNews, "FF"),
+                new NewsContentBlock(new NewsContentBlockId(null, 6), secondNews, "S"),
+                new NewsContentBlock(new NewsContentBlockId(null, 7), secondNews, "SS")
         ) );
 
         secondNews = newsService.saveNews(secondNews);
@@ -73,12 +71,25 @@ public class NewsServiceTests {
     }
 
     @Test
-    public void getOneTest() {
-        News res = newsService.findNewsById(firstNews.getId());
+    public void getOneFullyFetchTest() {
+        NewsServiceFindNewsByIdResponse res = newsService.findNewsById(firstNews.getId());
 
         System.out.println(res);
 
         Assert.notNull(res, "Must not get null");
+        Assert.isTrue(res.getIsLastCommentsPage(), "Must be true");
+        Assert.isTrue(res.getIsLastContentPage(), "Must be true");
+    }
+
+    @Test
+    public void getOnePartiallyFetchTest() {
+        NewsServiceFindNewsByIdResponse res = newsService.findNewsById(secondNews.getId());
+
+        System.out.println(res);
+
+        Assert.notNull(res, "Must not get null");
+        Assert.isTrue(res.getIsLastCommentsPage(), "Must be true");
+        Assert.isTrue(!res.getIsLastContentPage(), "Must be false");
     }
 
     @Test

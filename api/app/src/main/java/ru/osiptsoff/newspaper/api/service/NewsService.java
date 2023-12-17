@@ -1,7 +1,9 @@
 package ru.osiptsoff.newspaper.api.service;
 
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.osiptsoff.newspaper.api.model.Comment;
@@ -10,26 +12,25 @@ import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
 import ru.osiptsoff.newspaper.api.repository.CommentRepository;
 import ru.osiptsoff.newspaper.api.repository.NewsContentRepository;
 import ru.osiptsoff.newspaper.api.repository.NewsRepository;
+import ru.osiptsoff.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResponse;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class NewsService {
     private final NewsRepository newsRepository;
     private final CommentRepository commentRepository;
     private final NewsContentRepository newsContentRepository;
 
-    @Autowired
-    public NewsService(
-            NewsRepository newsRepository,
-            CommentRepository commentRepository,
-            NewsContentRepository newsContentRepository) {
-        this.newsRepository = newsRepository;
-        this.commentRepository = commentRepository;
-        this.newsContentRepository = newsContentRepository;
-    }
+    @Value("${app.config.commentPageSize}")
+    @Setter
+    private Integer commentPageSize;
+    @Value("${app.config.textBlockPageSize}")
+    @Setter
+    private Integer textBlockPageSize;
 
     public List<News> findAllNews() {
         log.info("Got request for all news");
@@ -62,7 +63,7 @@ public class NewsService {
         }
     }
 
-    public News findNewsById(Integer id) {
+    public NewsServiceFindNewsByIdResponse findNewsById(Integer id) {
         log.info("Got request for news with id = " + id);
 
         try {
@@ -76,16 +77,23 @@ public class NewsService {
 
             News news = res.get();
 
-            List<Comment> comments = commentRepository.findAllByNewsOrderByPostTimeDesc(news, PageRequest.of(0, 3));
+            List<Comment> comments = commentRepository
+                    .findAllByNewsOrderByPostTimeDesc(news, PageRequest.of(0, commentPageSize));
             news.setComments(comments);
+            Boolean isLastCommentsPage = commentRepository.countAllByNews(news) <= commentPageSize;
+
             log.info("Request for " + id +  ": successfully fetched first 3 or less comments");
 
-            List<NewsContentBlock> contentBlocks = newsContentRepository.findByNewsId(id, PageRequest.of(0, 5));
+            List<NewsContentBlock> contentBlocks = newsContentRepository
+                    .findByNewsId(id, PageRequest.of(0, textBlockPageSize));
             news.setContent(contentBlocks);
+            Boolean isLastContentPage = newsContentRepository.countAllByNews(news) <= textBlockPageSize;
+
             log.info("Request for " + id +  ": successfully fetched first 5 or less blocks");
+
             log.info("Request for " + id +  ": success");
 
-            return news;
+            return new NewsServiceFindNewsByIdResponse(news, isLastContentPage, isLastCommentsPage);
         } catch (Exception e) {
             log.error("Got exception: ", e);
             throw e;
@@ -93,6 +101,16 @@ public class NewsService {
     }
 
     public void deleteNews(News news) {
-        newsRepository.delete(news);
+        log.info("Got request to delete news with id = " + news.getId());
+
+        try {
+            newsRepository.delete(news);
+
+            log.info("Successfully deleted news, id = " + news.getId());
+        } catch(Exception e) {
+            log.error("Got exception: ", e);
+            throw e;
+        }
+
     }
 }

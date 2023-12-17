@@ -8,6 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlockId;
 
@@ -15,4 +16,6 @@ import ru.osiptsoff.newspaper.api.model.NewsContentBlockId;
 public interface NewsContentRepository extends PagingAndSortingRepository<NewsContentBlock, NewsContentBlockId> {
     @Query("SELECT b FROM NewsContentBlock b WHERE b.newsContentBlockId.newsId = :id ORDER BY b.newsContentBlockId.number")
     public List<NewsContentBlock> findByNewsId(@Param("id") Integer newsId, Pageable pageable);
+
+    public Long countAllByNews(News news);
 }

@@ -13,4 +13,6 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, NewsContentBlockId>{
     List<Comment> findAllByNewsOrderByPostTimeDesc(News news,  Pageable pageable);
+
+    public Long countAllByNews(News news);
 }

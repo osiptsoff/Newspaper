@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 import ru.osiptsoff.newspaper.api.model.Comment;
 import ru.osiptsoff.newspaper.api.model.News;
 
-import java.util.List;
-
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer>{
     Page<Comment> findAllByNewsOrderByPostTimeDesc(News news, Pageable pageable);

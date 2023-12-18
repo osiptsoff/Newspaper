@@ -115,17 +115,14 @@ public class NewsService {
             }
             Tag tag = tagResult.get();
 
-            Optional<News> newsResult = newsRepository.findById(newsId);
-            if(!newsResult.isPresent()) {
-                log.info("News with id = " + newsId + " are not present");
+            if(!newsRepository.existsById(newsId)) {
+                log.info("News with id = " + tagName + " not present");
                 return;
             }
-            News news = newsResult.get();
 
-            news.getTags().add(tag);
-            newsRepository.save(news);
+            tagRepository.associate(newsId, tag.getId());
 
-            log.info("Associated news with id = " + newsId + " and tag with name = '" + tagName + "'");
+            log.info("Aassociated news with id = " + newsId + " and tag with name = '" + tagName + "'");
         } catch (Exception e) {
             log.error("Got exception: ", e);
             throw e;

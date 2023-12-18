@@ -1,7 +1,5 @@
 package ru.osiptsoff.newspaper.api;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +8,7 @@ import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlockId;
 import ru.osiptsoff.newspaper.api.model.Tag;
+import ru.osiptsoff.newspaper.api.repository.NewsRepository;
 import ru.osiptsoff.newspaper.api.repository.TagRepository;
 import ru.osiptsoff.newspaper.api.service.NewsService;
 import ru.osiptsoff.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResult;
@@ -22,16 +21,19 @@ import java.util.List;
 public class NewsServiceTests {
     private final NewsService newsService;
     private final TagRepository tagRepository;
+    private final NewsRepository newsRepository;
 
     private static News firstNews;
     private static News secondNews;
+    private static News associationNews;
 
     private static Tag testTag;
 
     @Autowired
-    public NewsServiceTests(NewsService newsService, TagRepository tagRepository) {
+    public NewsServiceTests(NewsService newsService, TagRepository tagRepository, NewsRepository newsRepository) {
         this.newsService = newsService;
         this.tagRepository = tagRepository;
+        this.newsRepository = newsRepository;
     }
 
     @Test
@@ -111,18 +113,35 @@ public class NewsServiceTests {
         Assert.isTrue(!res.getIsLastContentPage(), "Must be false");
     }
 
-    @Test
-    public void deleteTest() {
+        @Test
+        public void deleteTest() {
         newsService.deleteNews(firstNews);
         newsService.deleteNews(secondNews);
     }
 
     @Test
-    public void associateWithTagTest() {
-        //todo
-    }
+    public void tagAssociationTest() {
+        testTag = new Tag();
+        testTag.setName("Test tag");
 
-    public void deassociateWithTagTest() {
-        //todo
+        tagRepository.save(testTag);
+        associationNews = new News();
+        associationNews.setTitle("Second test news");
+        associationNews = newsRepository.save(associationNews);
+        
+        newsService.associateWithTag(associationNews.getId(), testTag.getName());
+        associationNews = newsRepository.findById(associationNews.getId()).get();
+
+        Assert.isTrue(associationNews.getTags().size() == 1, "Must have one tag, but have " + associationNews.getTags().size());
+
+
+        newsService.deassociateWithTag(associationNews.getId(), testTag.getName());
+
+        associationNews = newsRepository.findById(associationNews.getId()).get();
+
+        Assert.isTrue(associationNews.getTags().size() == 0, "Must have no tags, but have " + associationNews.getTags().size());
+
+        newsRepository.delete(associationNews);
+        tagRepository.delete(testTag);
     }
 }

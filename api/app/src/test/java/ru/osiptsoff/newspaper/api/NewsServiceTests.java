@@ -1,5 +1,7 @@
 package ru.osiptsoff.newspaper.api;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -7,27 +9,29 @@ import org.springframework.util.Assert;
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlockId;
+import ru.osiptsoff.newspaper.api.model.Tag;
+import ru.osiptsoff.newspaper.api.repository.TagRepository;
 import ru.osiptsoff.newspaper.api.service.NewsService;
-import ru.osiptsoff.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResponse;
+import ru.osiptsoff.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResult;
 
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
 public class NewsServiceTests {
     private final NewsService newsService;
+    private final TagRepository tagRepository;
 
     private static News firstNews;
     private static News secondNews;
 
-    @Autowired
-    public NewsServiceTests(NewsService newsService) {
-        this.newsService = newsService;
-    }
+    private static Tag testTag;
 
-    @Test
-    public void loads() {
-        Assert.notNull(newsService, "Service not loaded.");
+    @Autowired
+    public NewsServiceTests(NewsService newsService, TagRepository tagRepository) {
+        this.newsService = newsService;
+        this.tagRepository = tagRepository;
     }
 
     @Test
@@ -59,6 +63,21 @@ public class NewsServiceTests {
     };
 
     @Test
+    public void updateTest() {
+        System.out.println(firstNews);
+
+        firstNews.setTitle("First test news updated");
+        firstNews.setContent( Arrays.asList(
+                new NewsContentBlock(new NewsContentBlockId(firstNews.getId(), 1), firstNews, "First updated"),
+                new NewsContentBlock(new NewsContentBlockId(firstNews.getId(), 2), firstNews, "Second updated"),
+                new NewsContentBlock(new NewsContentBlockId(firstNews.getId(), 3), firstNews, "Third")
+        ) );
+        firstNews.setPostTime(OffsetDateTime.now());
+
+        firstNews = newsService.saveNews(firstNews);
+    }
+
+    @Test
     public void getAllTest() {
         List<News> newsList = newsService.findAllNews();
 
@@ -72,7 +91,7 @@ public class NewsServiceTests {
 
     @Test
     public void getOneFullyFetchTest() {
-        NewsServiceFindNewsByIdResponse res = newsService.findNewsById(firstNews.getId());
+        NewsServiceFindNewsByIdResult res = newsService.findNewsById(firstNews.getId());
 
         System.out.println(res);
 
@@ -83,7 +102,7 @@ public class NewsServiceTests {
 
     @Test
     public void getOnePartiallyFetchTest() {
-        NewsServiceFindNewsByIdResponse res = newsService.findNewsById(secondNews.getId());
+        NewsServiceFindNewsByIdResult res = newsService.findNewsById(secondNews.getId());
 
         System.out.println(res);
 
@@ -96,5 +115,14 @@ public class NewsServiceTests {
     public void deleteTest() {
         newsService.deleteNews(firstNews);
         newsService.deleteNews(secondNews);
+    }
+
+    @Test
+    public void associateWithTagTest() {
+        //todo
+    }
+
+    public void deassociateWithTagTest() {
+        //todo
     }
 }

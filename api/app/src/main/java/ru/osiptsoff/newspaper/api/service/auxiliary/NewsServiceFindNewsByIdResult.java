@@ -10,7 +10,7 @@ import ru.osiptsoff.newspaper.api.model.News;
 @Getter
 @AllArgsConstructor
 @ToString
-public class NewsServiceFindNewsByIdResponse {
+public class NewsServiceFindNewsByIdResult {
     private News news;
     private Boolean isLastContentPage;
     private Boolean isLastCommentsPage;

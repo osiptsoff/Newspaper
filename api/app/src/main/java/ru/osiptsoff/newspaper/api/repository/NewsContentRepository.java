@@ -1,7 +1,6 @@
 package ru.osiptsoff.newspaper.api.repository;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -15,7 +14,10 @@ import ru.osiptsoff.newspaper.api.model.NewsContentBlockId;
 @Repository
 public interface NewsContentRepository extends PagingAndSortingRepository<NewsContentBlock, NewsContentBlockId> {
     @Query("SELECT b FROM NewsContentBlock b WHERE b.newsContentBlockId.newsId = :id ORDER BY b.newsContentBlockId.number")
-    public List<NewsContentBlock> findByNewsId(@Param("id") Integer newsId, Pageable pageable);
+    Page<NewsContentBlock> findByNewsId(@Param("id") Integer newsId, Pageable pageable);
 
-    public Long countAllByNews(News news);
+    Long countAllByNews(News news);
+
+    void deleteAllByNews(News news);
+
 }

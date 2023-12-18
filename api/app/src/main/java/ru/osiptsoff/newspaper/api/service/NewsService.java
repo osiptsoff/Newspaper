@@ -4,15 +4,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.osiptsoff.newspaper.api.model.Comment;
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
+import ru.osiptsoff.newspaper.api.model.Tag;
 import ru.osiptsoff.newspaper.api.repository.CommentRepository;
 import ru.osiptsoff.newspaper.api.repository.NewsContentRepository;
 import ru.osiptsoff.newspaper.api.repository.NewsRepository;
-import ru.osiptsoff.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResponse;
+import ru.osiptsoff.newspaper.api.repository.TagRepository;
+import ru.osiptsoff.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResult;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +27,7 @@ public class NewsService {
     private final NewsRepository newsRepository;
     private final CommentRepository commentRepository;
     private final NewsContentRepository newsContentRepository;
+    private final TagRepository tagRepository;
 
     @Value("${app.config.commentPageSize}")
     @Setter
@@ -63,7 +67,7 @@ public class NewsService {
         }
     }
 
-    public NewsServiceFindNewsByIdResponse findNewsById(Integer id) {
+    public NewsServiceFindNewsByIdResult findNewsById(Integer id) {
         log.info("Got request for news with id = " + id);
 
         try {
@@ -77,40 +81,91 @@ public class NewsService {
 
             News news = res.get();
 
-            List<Comment> comments = commentRepository
+            Page<Comment> comments = commentRepository
                     .findAllByNewsOrderByPostTimeDesc(news, PageRequest.of(0, commentPageSize));
-            news.setComments(comments);
-            Boolean isLastCommentsPage = commentRepository.countAllByNews(news) <= commentPageSize;
+            news.setComments(comments.toList());
+            Boolean isLastCommentsPage = comments.isLast();
 
             log.info("Request for " + id +  ": successfully fetched first 3 or less comments");
 
-            List<NewsContentBlock> contentBlocks = newsContentRepository
+            Page<NewsContentBlock> contentBlocks = newsContentRepository
                     .findByNewsId(id, PageRequest.of(0, textBlockPageSize));
-            news.setContent(contentBlocks);
-            Boolean isLastContentPage = newsContentRepository.countAllByNews(news) <= textBlockPageSize;
+            news.setContent(contentBlocks.toList());
+            Boolean isLastContentPage = contentBlocks.isLast();
 
             log.info("Request for " + id +  ": successfully fetched first 5 or less blocks");
 
             log.info("Request for " + id +  ": success");
 
-            return new NewsServiceFindNewsByIdResponse(news, isLastContentPage, isLastCommentsPage);
+            return new NewsServiceFindNewsByIdResult(news, isLastContentPage, isLastCommentsPage);
         } catch (Exception e) {
             log.error("Got exception: ", e);
             throw e;
         }
     }
 
-    public void deleteNews(News news) {
-        log.info("Got request to delete news with id = " + news.getId());
+    public void associateWithTag(Integer newsId, String tagName) {
+        log.info("Got request to associate news with id = " + newsId + " with tag named '" + tagName + "'");
 
         try {
-            newsRepository.delete(news);
+            Optional<Tag> tagResult = tagRepository.findByName(tagName);
+            if(!tagResult.isPresent()) {
+                log.info("Tag with name = '" + tagName + "' is not present");
+                return;
+            }
+            Tag tag = tagResult.get();
 
-            log.info("Successfully deleted news, id = " + news.getId());
+            Optional<News> newsResult = newsRepository.findById(newsId);
+            if(!newsResult.isPresent()) {
+                log.info("News with id = " + newsId + " are not present");
+                return;
+            }
+            News news = newsResult.get();
+
+            news.getTags().add(tag);
+            newsRepository.save(news);
+
+            log.info("Associated news with id = " + newsId + " and tag with name = '" + tagName + "'");
+        } catch (Exception e) {
+            log.error("Got exception: ", e);
+            throw e;
+        }
+    }
+
+    public void deassociateWithTag(Integer newsId, String tagName) {
+        log.info("Got request to deassociate news with id = " + newsId + " with tag named '" + tagName + "'");
+
+        try {
+            Optional<Tag> tagResult = tagRepository.findByName(tagName);
+            if(!tagResult.isPresent()) {
+                log.info("Tag with name = '" + tagName + "' is not present");
+                return;
+            }
+            Tag tag = tagResult.get();
+
+            tagRepository.deassociate(newsId, tag.getId());
+
+            log.info("Deassociated news with id = " + newsId + " and tag with name = '" + tagName + "'");
+        } catch (Exception e) {
+            log.error("Got exception: ", e);
+            throw e;
+        }
+    }
+
+    public void deleteNews(Integer id) {
+        log.info("Got request to delete news with id = " + id);
+
+        try {
+            newsRepository.deleteById(id);
+
+            log.info("Successfully deleted news, id = " + id);
         } catch(Exception e) {
             log.error("Got exception: ", e);
             throw e;
         }
+    }
 
+    public void deleteNews(News news) {
+        deleteNews(news.getId());
     }
 }

@@ -43,7 +43,7 @@ public class CommentsService {
             Page<Comment> result = commentRepository
                     .findAllByNewsOrderByPostTimeDesc(news, PageRequest.of(page, commentPageSize));
 
-            log.info("Successfully got " + result.getSize() + " comments");
+            log.info("Successfully got " + result.getNumberOfElements() + " comments");
 
             return result;
         } catch(Exception e) {

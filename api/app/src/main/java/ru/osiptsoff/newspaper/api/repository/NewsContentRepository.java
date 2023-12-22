@@ -16,8 +16,8 @@ public interface NewsContentRepository extends PagingAndSortingRepository<NewsCo
     @Query("SELECT b FROM NewsContentBlock b WHERE b.newsContentBlockId.newsId = :id ORDER BY b.newsContentBlockId.number")
     Page<NewsContentBlock> findByNewsId(@Param("id") Integer newsId, Pageable pageable);
 
-    Long countAllByNews(News news);
+    Long countByNews(News news);
 
-    void deleteAllByNews(News news);
+    Long deleteByNews(News news);
 
 }

@@ -56,7 +56,7 @@ public class NewsContentService {
         log.info("Got request to delete content of news with id = " + news.getId());
 
         try {
-            newsContentRepository.deleteAllByNews(news);
+            newsContentRepository.deleteByNews(news);
 
             log.info("Successfully deleted content of news with id = " + news.getId());
         } catch(Exception e) {

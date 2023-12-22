@@ -26,7 +26,7 @@ public class NewsContentBlock {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "newsid")
     @MapsId("newsId")
     private News news;

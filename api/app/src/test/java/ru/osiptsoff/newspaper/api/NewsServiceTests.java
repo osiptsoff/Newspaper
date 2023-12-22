@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
+
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlockId;
@@ -30,10 +31,10 @@ public class NewsServiceTests {
     private static Tag testTag;
 
     @Autowired
-    public NewsServiceTests(NewsService newsService, TagRepository tagRepository, NewsRepository newsRepository) {
-        this.newsService = newsService;
-        this.tagRepository = tagRepository;
-        this.newsRepository = newsRepository;
+    public NewsServiceTests(NewsService ns, TagRepository tr, NewsRepository nr) {
+        newsService = ns;
+        tagRepository = tr;
+        newsRepository = nr;
     }
 
     @Test

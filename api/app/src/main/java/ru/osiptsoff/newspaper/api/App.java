@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 public class App {
 	@Bean
 	public Logger logger() {
-		return this.log;
+		return log;
 	}
 
 	public static void main(String[] args) {

@@ -1,8 +1,10 @@
 package ru.osiptsoff.newspaper.api.model;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
 import ru.osiptsoff.newspaper.api.model.auth.Role;
 import ru.osiptsoff.newspaper.api.model.auth.Token;
 
@@ -22,13 +24,13 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "auth.user")
-@Setter
-@Getter
+@Table(name = "user", schema = "auth")
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userid")
     private Integer id;
 
@@ -38,23 +40,31 @@ public class User {
     @Column(name = "passwhash")
     private String password;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)
     private Token token;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Collection<UserTag> tags;
 
     @ManyToMany
     @JoinTable(
-        name = "auth.user_role",
+        name = "user_role",
+        schema = "auth",
         joinColumns = @JoinColumn(name = "userid"),
         inverseJoinColumns = @JoinColumn(name = "roleid")
     )
     private Collection<Role> roles;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     @JoinTable(
-        name = "subject.user_liked_news",
+        name = "user_liked_news",
+        schema = "subject",
         joinColumns = @JoinColumn(name = "userid"),
         inverseJoinColumns = @JoinColumn(name = "newsid")
     )

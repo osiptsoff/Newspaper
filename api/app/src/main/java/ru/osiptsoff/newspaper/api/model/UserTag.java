@@ -11,17 +11,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 
 @Embeddable
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
-@EqualsAndHashCode
+@AllArgsConstructor
 class UserTagId implements Serializable {
     @Column(name = "userid")
     private Integer userId;
@@ -31,10 +28,10 @@ class UserTagId implements Serializable {
 }
 
 @Entity
-@Table(name = "subject.user_tag")
-@Setter
-@Getter
+@Table(name = "user_tag", schema = "subject")
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserTag {
     @EmbeddedId
     private UserTagId userTagId;

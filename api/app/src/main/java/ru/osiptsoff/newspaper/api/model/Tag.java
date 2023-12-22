@@ -1,8 +1,11 @@
 package ru.osiptsoff.newspaper.api.model;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,22 +18,25 @@ import javax.persistence.Table;
 import java.util.Collection;
 
 @Entity
-@Table(name = "subject.tag")
-@Getter
-@Setter
+@Table(name = "tag", schema = "subject")
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Tag {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tagid")
     private Integer id;
 
     @Column(name = "name")
     private String name;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany()
     @JoinTable(
-            name = "subject.news_tag",
+            name = "news_tag",
+            schema = "subject",
             joinColumns = @JoinColumn(name = "tagid"),
             inverseJoinColumns = @JoinColumn(name = "newsid")
     )

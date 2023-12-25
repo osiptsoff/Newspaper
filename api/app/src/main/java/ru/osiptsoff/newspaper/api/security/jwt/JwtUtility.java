@@ -44,11 +44,11 @@ public class JwtUtility {
         return generateToken(userPrincipal, accessKey, accesLifespawn);
     }
 
-    public UserPrincipal parseRefreshToken(String refreshToken) {
+    public UserPrincipal parseAndValidateRefreshToken(String refreshToken) {
         return generateUserPrincipal(refreshToken, refreshKey);
     }
 
-    public UserPrincipal parseAccessToken(String accessToken) {
+    public UserPrincipal parseAndValidateAccessToken(String accessToken) {
         return generateUserPrincipal(accessToken, accessKey);
     }
 

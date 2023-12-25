@@ -1,4 +1,4 @@
-package ru.auth.config;
+package ru.osiptsoff.newspaper.api.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

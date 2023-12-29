@@ -41,6 +41,8 @@ public class News {
     @Column(name = "posttime")
     private OffsetDateTime postTime;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(
             fetch = FetchType.LAZY,
             mappedBy = "news",
@@ -58,6 +60,7 @@ public class News {
     private Collection<Comment> comments;
 
     @ManyToMany(mappedBy = "news", fetch = FetchType.EAGER)
+    @EqualsAndHashCode.Exclude
     private Collection<Tag> tags;
 
     @ToString.Exclude

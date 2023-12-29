@@ -9,9 +9,7 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "auth.role")

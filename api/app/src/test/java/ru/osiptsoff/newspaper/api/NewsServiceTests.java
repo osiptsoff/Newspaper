@@ -5,144 +5,102 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
+import ru.osiptsoff.newspaper.api.environment.NewsServiceTestEnvironment;
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlockId;
 import ru.osiptsoff.newspaper.api.model.Tag;
-import ru.osiptsoff.newspaper.api.repository.NewsRepository;
-import ru.osiptsoff.newspaper.api.repository.TagRepository;
-import ru.osiptsoff.newspaper.api.service.NewsService;
 import ru.osiptsoff.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResult;
 
-import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 public class NewsServiceTests {
-    private final NewsService newsService;
-    private final TagRepository tagRepository;
-    private final NewsRepository newsRepository;
-
-    private static News firstNews;
-    private static News secondNews;
-    private static News associationNews;
-
-    private static Tag testTag;
+    private final NewsServiceTestEnvironment env;
 
     @Autowired
-    public NewsServiceTests(NewsService ns, TagRepository tr, NewsRepository nr) {
-        newsService = ns;
-        tagRepository = tr;
-        newsRepository = nr;
+    public NewsServiceTests(NewsServiceTestEnvironment env) {
+        this.env = env;
     }
 
     @Test
-    public void saveTest() {
-        firstNews = new News();
-        firstNews.setTitle("First test news");
-        firstNews.setContent( Arrays.asList(
-                new NewsContentBlock(new NewsContentBlockId(null, 1), firstNews, "First"),
-                new NewsContentBlock(new NewsContentBlockId(null, 2), firstNews, "Second")
+    public void saveAndDeleteTest() {
+        News testNews = new News();
+        testNews.setTitle("Test news save");
+        testNews.setContent( Arrays.asList(
+                new NewsContentBlock(new NewsContentBlockId(null, 1), testNews, "First"),
+                new NewsContentBlock(new NewsContentBlockId(null, 2), testNews, "Second")
         ) );
 
-        firstNews = newsService.saveNews(firstNews);
-        System.out.println(firstNews);
+        testNews = env.getNewsService().saveNews(testNews);
 
-        secondNews = new News();
-        secondNews.setTitle("Second test news");
-        secondNews.setContent( Arrays.asList(
-                new NewsContentBlock(new NewsContentBlockId(null, 1), secondNews, "F"),
-                new NewsContentBlock(new NewsContentBlockId(null, 2), secondNews, "S"),
-                new NewsContentBlock(new NewsContentBlockId(null, 3), secondNews, "T"),
-                new NewsContentBlock(new NewsContentBlockId(null, 4), secondNews, "F"),
-                new NewsContentBlock(new NewsContentBlockId(null, 5), secondNews, "FF"),
-                new NewsContentBlock(new NewsContentBlockId(null, 6), secondNews, "S"),
-                new NewsContentBlock(new NewsContentBlockId(null, 7), secondNews, "SS")
-        ) );
+        Optional<News> result = env.getNewsRepository().findById(testNews.getId());
 
-        secondNews = newsService.saveNews(secondNews);
-        System.out.println(secondNews);
+        Assert.isTrue(result.isPresent(), "Saved news must be present");
+        Assert.isTrue(result.get().getTitle().equals(testNews.getTitle()), "Headers must be equal");
+
+        env.getNewsService().deleteNews(testNews);
+        result = env.getNewsRepository().findById(testNews.getId());
+
+        Assert.isTrue(!result.isPresent(), "Deleted news must not be present");
     };
 
-    @Test
-    public void updateTest() {
-        System.out.println(firstNews);
-
-        firstNews.setTitle("First test news updated");
-        firstNews.setContent( Arrays.asList(
-                new NewsContentBlock(new NewsContentBlockId(firstNews.getId(), 1), firstNews, "First updated"),
-                new NewsContentBlock(new NewsContentBlockId(firstNews.getId(), 2), firstNews, "Second updated"),
-                new NewsContentBlock(new NewsContentBlockId(firstNews.getId(), 3), firstNews, "Third")
-        ) );
-        firstNews.setPostTime(OffsetDateTime.now());
-
-        firstNews = newsService.saveNews(firstNews);
-    }
 
     @Test
     public void getAllTest() {
-        List<News> newsList = newsService.findAllNews();
+        List<News> newsList = env.getNewsService().findAllNews();
 
-        for(News news : newsList) {
-            System.out.println(news.getTitle());
-            System.out.println(news.getPostTime());
-        }
+        Assert.isTrue(newsList.size() >= 2, "At least two test news must be present");
 
-        Assert.notEmpty(newsList, "Must not get empty list");
+        Assert.isTrue(newsList
+                        .stream()
+                        .map( n -> n.getTitle() )
+                        .collect(Collectors.toList())
+                        .contains(env.getSmallNews().getTitle()), "Small news must be present");
+        Assert.isTrue(newsList
+                        .stream()
+                        .map( n -> n.getTitle() )
+                        .collect(Collectors.toList())
+                        .contains(env.getBigNews().getTitle()), "Big news must be present");
     }
 
     @Test
     public void getOneFullyFetchTest() {
-        NewsServiceFindNewsByIdResult res = newsService.findNewsById(firstNews.getId());
+        NewsServiceFindNewsByIdResult smallNews = env.getNewsService().findNewsById(env.getSmallNews().getId());
 
-        System.out.println(res);
-
-        Assert.notNull(res, "Must not get null");
-        Assert.isTrue(res.getIsLastCommentsPage(), "Must be true");
-        Assert.isTrue(res.getIsLastContentPage(), "Must be true");
+        Assert.notNull(smallNews, "Small news must be present");
+        Assert.isTrue(smallNews.getNews().getContent().size() == env.getSmallNews().getContent().size(), "Sizes of content must be equal");
+        Assert.isTrue(smallNews.getNews().getTitle().equals(env.getSmallNews().getTitle()), "Headers must be equal");
+        Assert.isTrue(smallNews.getIsLastContentPage(), "This news must have only one content page");
     }
 
     @Test
     public void getOnePartiallyFetchTest() {
-        NewsServiceFindNewsByIdResult res = newsService.findNewsById(secondNews.getId());
+        NewsServiceFindNewsByIdResult bigNews = env.getNewsService().findNewsById(env.getBigNews().getId());
 
-        System.out.println(res);
-
-        Assert.notNull(res, "Must not get null");
-        Assert.isTrue(res.getIsLastCommentsPage(), "Must be true");
-        Assert.isTrue(!res.getIsLastContentPage(), "Must be false");
-    }
-
-        @Test
-        public void deleteTest() {
-        newsService.deleteNews(firstNews);
-        newsService.deleteNews(secondNews);
+        Assert.notNull(bigNews, "Big news must be present");
+        Assert.isTrue(bigNews.getNews().getContent().size() == env.getBlocksPerPage(), "Size must be equal to max size of page");
+        Assert.isTrue(bigNews.getNews().getTitle().equals(env.getBigNews().getTitle()), "Headers must be equal");
+        Assert.isTrue(!bigNews.getIsLastContentPage(), "This news must have more content pages");
     }
 
     @Test
     public void tagAssociationTest() {
-        testTag = new Tag();
-        testTag.setName("Test tag");
+        Tag tag = new Tag();
+        tag.setName("Tag association test tag");
+        tag = env.getTagRepository().save(tag);
 
-        tagRepository.save(testTag);
-        associationNews = new News();
-        associationNews.setTitle("Second test news");
-        associationNews = newsRepository.save(associationNews);
-        
-        newsService.associateWithTag(associationNews.getId(), testTag.getName());
-        associationNews = newsRepository.findById(associationNews.getId()).get();
+        env.getNewsService().associateWithTag(env.getSmallNews().getId(), tag.getName());
+        Optional<News> smallNewsOptional = env.getNewsRepository().findById(env.getSmallNews().getId());
+        Assert.isTrue(smallNewsOptional.get().getTags().contains(tag), "News must be associated with tag");
 
-        Assert.isTrue(associationNews.getTags().size() == 1, "Must have one tag, but have " + associationNews.getTags().size());
+        env.getNewsService().deassociateWithTag(env.getSmallNews().getId(), tag.getName());
+        smallNewsOptional = env.getNewsRepository().findById(env.getSmallNews().getId());
+        Assert.isTrue(!smallNewsOptional.get().getTags().contains(tag), "News must not be associated with tag");
 
-
-        newsService.deassociateWithTag(associationNews.getId(), testTag.getName());
-
-        associationNews = newsRepository.findById(associationNews.getId()).get();
-
-        Assert.isTrue(associationNews.getTags().size() == 0, "Must have no tags, but have " + associationNews.getTags().size());
-
-        newsRepository.delete(associationNews);
-        tagRepository.delete(testTag);
+        env.getTagRepository().delete(tag);
     }
 }

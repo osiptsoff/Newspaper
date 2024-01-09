@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "auth.role")
+@Table(name = "role", schema = "auth")
 @Data
 @NoArgsConstructor
 public class Role implements GrantedAuthority {

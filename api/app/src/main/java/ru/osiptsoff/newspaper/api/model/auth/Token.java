@@ -13,7 +13,7 @@ import lombok.Setter;
 import ru.osiptsoff.newspaper.api.model.User;
 
 @Entity
-@Table(name = "auth.token")
+@Table(name = "token", schema = "auth")
 @Setter
 @Getter
 @NoArgsConstructor
@@ -26,7 +26,7 @@ public class Token {
     private String value;
 
     @OneToOne
-    @JoinColumn(name = "newsid")
+    @JoinColumn(name = "userid")
     @MapsId("userId")
     private User owner;
 }

@@ -1,4 +1,4 @@
-package ru.osiptsoff.newspaper.api;
+package ru.osiptsoff.newspaper.api.test;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

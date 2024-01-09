@@ -65,6 +65,23 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public void deleteUser(Integer userId) {
+        log.info("Got request to delete user with id = " + userId);
+
+        try {
+            userRepository.deleteById(userId);
+
+            log.info("Successfully deleted user, id = " + userId);
+        } catch(Exception e) {
+            log.error("Got exception: ", e);
+            throw e;
+        }
+    }
+
+    public void deleteUser(User user) {
+        deleteUser(user.getId());
+    }
+
     public Boolean isNewsLiked(String login, Integer newsid) {
         log.info("Got request for user '" + login + "'s attitude for news with id = " + newsid);
 

@@ -1,4 +1,4 @@
-package ru.osiptsoff.newspaper.api;
+package ru.osiptsoff.newspaper.api.test;
 
 import java.util.Optional;
 

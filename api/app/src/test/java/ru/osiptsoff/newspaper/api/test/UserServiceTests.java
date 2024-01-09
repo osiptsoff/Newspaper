@@ -37,4 +37,44 @@ public class UserServiceTests {
 
         Assert.isTrue(!result.isPresent(), "Deleted user must not be present");
     }
+
+    @Test
+    public void findByLoginTest() {
+        User foundUser = env.getUserService().findByLogin(env.getTestUser().getLogin());
+
+        Assert.notNull(foundUser, "Must not be null");
+        Assert.isTrue(foundUser.equals(env.getTestUser()), "Must be equal");
+    }
+
+    @Test
+    public void tagAssociationTest() {
+        String userLogin = env.getTestUser().getLogin();
+        String tagName = env.getTestTag().getName();
+
+        env.getUserService().likeTag(userLogin, tagName);
+        Assert.isTrue(env.getUserService().isTagLiked(userLogin, tagName) == true, 
+                "Tag must be liked");
+
+        env.getUserService().dislikeTag(userLogin, tagName);
+        Assert.isTrue(env.getUserService().isTagLiked(userLogin, tagName) == false, 
+                "Tag must be disliked");
+
+        env.getUserService().undoTagAssociation(userLogin, tagName);
+        Assert.isTrue(env.getUserService().isTagLiked(userLogin, tagName) == null, 
+                "User must not be associated with tag");
+    }
+
+    @Test
+    public void newsLikeTest() {
+        String userLogin = env.getTestUser().getLogin();
+        Integer newsId = env.getTestNews().getId();
+
+        env.getUserService().likeNews(userLogin, newsId);
+        Assert.isTrue(env.getUserService().isNewsLiked(userLogin, newsId), 
+                        "Must be liked");
+
+        env.getUserService().undoLikeNews(userLogin, newsId);
+        Assert.isTrue(env.getUserService().isNewsLiked(userLogin, newsId) == false, 
+                        "Must not be liked");
+    }
 }

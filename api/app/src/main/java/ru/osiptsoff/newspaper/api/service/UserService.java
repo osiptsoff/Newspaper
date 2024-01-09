@@ -36,7 +36,7 @@ public class UserService implements UserDetailsService {
         try {
             Optional<User> res = userRepository.findByLogin(login);
             if(!res.isPresent()) {
-                log.info("No user with login = '" + login + "'' present");
+                log.info("No user with login = '" + login + "' present");
                 return null;
             }
             User user = res.get();
@@ -129,34 +129,34 @@ public class UserService implements UserDetailsService {
     }
 
     public void likeTag(String login, String tag) {
-        log.info("Got request to like tag '" + tag + "'' by user '" + login + "'");
+        log.info("Got request to like tag '" + tag + "' by user '" + login + "'");
 
         associateWithTag(login, tag, true);
 
-        log.info("Successfully liked tag '" + tag + "'' by user '" + login + "'");
+        log.info("Successfully liked tag '" + tag + "' by user '" + login + "'");
     }
 
     public void dislikeTag(String login, String tag) {
-        log.info("Got request to dislike tag '" + tag + "'' by user '" + login + "'");
+        log.info("Got request to dislike tag '" + tag + "' by user '" + login + "'");
 
         associateWithTag(login, tag, false);
 
-        log.info("Successfully liked tag '" + tag + "'' by user '" + login + "'");
+        log.info("Successfully liked tag '" + tag + "' by user '" + login + "'");
     }
 
     public void undoTagAssociation(String login, String tag) {
-        log.info("Got request to undo association with tag '" + tag + "'' and user '" + login + "'");
+        log.info("Got request to undo association with tag '" + tag + "' and user '" + login + "'");
 
         associateWithTag(login, tag, null);
 
-        log.info("Successfully undid association with tag '" + tag + "'' and user '" + login + "'");
+        log.info("Successfully undid association with tag '" + tag + "' and user '" + login + "'");
     }
 
     private void likeNews(String login, Integer newsId, boolean like) {
         try {
-            Optional<User> res = userRepository.findByLogin(login);
+            Optional<User> res = userRepository.findByLoginFetchLikedNews(login);
             if(!res.isPresent()) {
-                throw new MissingEntityException("No user with login = '" + login + "'' present");
+                throw new MissingEntityException("No user with login = '" + login + "' present");
             }
             User user = res.get();
  
@@ -182,7 +182,7 @@ public class UserService implements UserDetailsService {
         try {
             Optional<User> res = userRepository.findByLogin(login);
             if(!res.isPresent()) {
-                throw new MissingEntityException("No user with login = '" + login + "'' present");
+                throw new MissingEntityException("No user with login = '" + login + "' present");
             }
             User user = res.get();
  

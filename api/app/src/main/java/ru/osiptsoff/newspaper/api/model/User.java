@@ -51,6 +51,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Collection<UserTag> tags;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "user_role",

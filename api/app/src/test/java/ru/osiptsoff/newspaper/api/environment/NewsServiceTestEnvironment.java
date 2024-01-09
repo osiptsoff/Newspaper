@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
-import ru.osiptsoff.newspaper.api.model.NewsContentBlockId;
+import ru.osiptsoff.newspaper.api.model.embeddable.NewsContentBlockId;
 import ru.osiptsoff.newspaper.api.repository.NewsRepository;
 import ru.osiptsoff.newspaper.api.repository.TagRepository;
 import ru.osiptsoff.newspaper.api.service.NewsService;

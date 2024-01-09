@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
-import ru.osiptsoff.newspaper.api.model.NewsContentBlockId;
+import ru.osiptsoff.newspaper.api.model.embeddable.NewsContentBlockId;
 
 @Repository
 public interface NewsContentRepository extends PagingAndSortingRepository<NewsContentBlock, NewsContentBlockId> {

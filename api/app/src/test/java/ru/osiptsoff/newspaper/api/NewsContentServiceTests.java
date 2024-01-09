@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 
 import ru.osiptsoff.newspaper.api.environment.NewsContentServiceTestEnvironment;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
-import ru.osiptsoff.newspaper.api.model.NewsContentBlockId;
+import ru.osiptsoff.newspaper.api.model.embeddable.NewsContentBlockId;
 
 @SpringBootTest
 public class NewsContentServiceTests {

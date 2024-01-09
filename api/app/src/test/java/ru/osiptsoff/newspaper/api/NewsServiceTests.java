@@ -8,8 +8,8 @@ import org.springframework.util.Assert;
 import ru.osiptsoff.newspaper.api.environment.NewsServiceTestEnvironment;
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
-import ru.osiptsoff.newspaper.api.model.NewsContentBlockId;
 import ru.osiptsoff.newspaper.api.model.Tag;
+import ru.osiptsoff.newspaper.api.model.embeddable.NewsContentBlockId;
 import ru.osiptsoff.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResult;
 
 import java.util.Arrays;

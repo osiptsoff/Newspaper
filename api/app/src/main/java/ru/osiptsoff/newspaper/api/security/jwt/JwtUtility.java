@@ -36,11 +36,11 @@ public class JwtUtility {
         this.refreshKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(base64RefreshKey));
     }
 
-    public String generateRefreshToken(UserPrincipal userPrincipal) {
+    public String generateRefreshToken(UserDetails userPrincipal) {
         return generateToken(userPrincipal, refreshKey, refreshLifespawn);
     }
 
-    public String generateAccessToken(UserPrincipal userPrincipal) {
+    public String generateAccessToken(UserDetails userPrincipal) {
         return generateToken(userPrincipal, accessKey, accesLifespawn);
     }
 
@@ -78,7 +78,7 @@ public class JwtUtility {
         return new UserPrincipal(user);
     }
 
-    private String generateToken(UserPrincipal userPrincipal, SecretKey key, Long lifespawn) {
+    private String generateToken(UserDetails userPrincipal, SecretKey key, Long lifespawn) {
         Date now = new Date();
 
         return Jwts.builder()

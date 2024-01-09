@@ -1,21 +1,28 @@
 package ru.osiptsoff.newspaper.api.service;
 
+import java.util.HashSet;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.Tag;
 import ru.osiptsoff.newspaper.api.model.User;
 import ru.osiptsoff.newspaper.api.model.UserTag;
+import ru.osiptsoff.newspaper.api.model.auth.Role;
 import ru.osiptsoff.newspaper.api.model.auth.UserPrincipal;
 import ru.osiptsoff.newspaper.api.model.embeddable.UserTagId;
 import ru.osiptsoff.newspaper.api.repository.NewsRepository;
+import ru.osiptsoff.newspaper.api.repository.RoleRepository;
 import ru.osiptsoff.newspaper.api.repository.TagRepository;
 import ru.osiptsoff.newspaper.api.repository.UserRepository;
 import ru.osiptsoff.newspaper.api.repository.UserTagRepository;
@@ -29,6 +36,17 @@ public class UserService implements UserDetailsService {
     private final NewsRepository newsRepository;
     private final TagRepository tagRepository;
     private final UserTagRepository userTagRepository;
+    private final RoleRepository roleRepository;
+
+    @Setter
+    @Value("${app.config.security.defaultUserRole}")
+    private String defaultUserRoleName;
+    private Role defaultUserRole;
+
+    @PostConstruct
+    public void setDefaultUserRole() {
+        defaultUserRole = roleRepository.findByName(defaultUserRoleName).get();
+    }
 
     public User findByLogin(String login) {
         log.info("Got request for user with login = " + login);
@@ -54,6 +72,10 @@ public class UserService implements UserDetailsService {
         log.info("Got request to save user '" + user.getLogin() + "'");
 
         try {
+            if(user.getRoles() == null)
+                user.setRoles(new HashSet<Role>());
+            user.getRoles().add(defaultUserRole);
+
             User result = userRepository.save(user);
 
             log.info("Successfully saved user '" + result.getLogin() + "', id = " + result.getId());
@@ -212,6 +234,10 @@ public class UserService implements UserDetailsService {
          }
     }
 
+    public UserDetails userToDetails(User user) {
+        return new UserPrincipal(user);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -220,6 +246,6 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("No user with requested username");
         }
 
-        return new UserPrincipal(user);
+        return userToDetails(user);
     }    
 }

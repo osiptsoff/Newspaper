@@ -14,3 +14,4 @@ app.config.security.accessSecret=
 app.config.security.refreshSecret=
 app.config.security.accessLifespawnSec=
 app.config.security.refreshLifespawnSec=
+app.config.security.defaultUserRole=

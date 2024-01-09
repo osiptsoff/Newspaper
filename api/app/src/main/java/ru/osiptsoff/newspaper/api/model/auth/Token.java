@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +19,7 @@ import ru.osiptsoff.newspaper.api.model.User;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Token {
     @Id
     @Column(name = "userid")

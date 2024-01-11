@@ -21,6 +21,8 @@ import ru.osiptsoff.newspaper.api.service.exceptions.MissingEntityException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -53,6 +55,7 @@ public class NewsService {
 
     }
 
+    @Transactional
     public News saveNews(News news) {
         log.info("Got request to save news");
 
@@ -136,6 +139,7 @@ public class NewsService {
         }
     }
 
+    @Transactional
     public void deleteNews(Integer newsId) {
         log.info("Got request to delete news with id = " + newsId);
 
@@ -153,6 +157,7 @@ public class NewsService {
         deleteNews(news.getId());
     }
 
+    @Transactional
     private void changeAssociation(Integer newsId, String tagName, boolean associate) {
         try {
            Optional<Tag> tagResult = tagRepository.findByNameFetchNews(tagName);

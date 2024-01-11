@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface TagRepository extends CrudRepository<Tag, Integer> {
     Optional<Tag> findByName(String name);
-    void deleteByName(String name);
+    Long deleteByName(String name);
 
     @Query(value = "SELECT t FROM Tag t LEFT JOIN FETCH t.news WHERE t.name = :name")
     Optional<Tag> findByNameFetchNews(@Param("name") String name);

@@ -1,28 +1,23 @@
 package ru.osiptsoff.newspaper.api.service;
 
-import java.util.HashSet;
 import java.util.Optional;
 
-import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.Tag;
 import ru.osiptsoff.newspaper.api.model.User;
 import ru.osiptsoff.newspaper.api.model.UserTag;
-import ru.osiptsoff.newspaper.api.model.auth.Role;
 import ru.osiptsoff.newspaper.api.model.auth.UserPrincipal;
 import ru.osiptsoff.newspaper.api.model.embeddable.UserTagId;
 import ru.osiptsoff.newspaper.api.repository.NewsRepository;
-import ru.osiptsoff.newspaper.api.repository.RoleRepository;
 import ru.osiptsoff.newspaper.api.repository.TagRepository;
 import ru.osiptsoff.newspaper.api.repository.UserRepository;
 import ru.osiptsoff.newspaper.api.repository.UserTagRepository;
@@ -36,17 +31,6 @@ public class UserService implements UserDetailsService {
     private final NewsRepository newsRepository;
     private final TagRepository tagRepository;
     private final UserTagRepository userTagRepository;
-    private final RoleRepository roleRepository;
-
-    @Setter
-    @Value("${app.config.security.defaultUserRole}")
-    private String defaultUserRoleName;
-    private Role defaultUserRole;
-
-    @PostConstruct
-    public void setDefaultUserRole() {
-        defaultUserRole = roleRepository.findByName(defaultUserRoleName).get();
-    }
 
     public User findByLogin(String login) {
         log.info("Got request for user with login = " + login);
@@ -68,14 +52,11 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    @Transactional
     public User saveUser(User user) {
         log.info("Got request to save user '" + user.getLogin() + "'");
 
         try {
-            if(user.getRoles() == null)
-                user.setRoles(new HashSet<Role>());
-            user.getRoles().add(defaultUserRole);
-
             User result = userRepository.save(user);
 
             log.info("Successfully saved user '" + result.getLogin() + "', id = " + result.getId());
@@ -87,6 +68,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    @Transactional
     public void deleteUser(Integer userId) {
         log.info("Got request to delete user with id = " + userId);
 
@@ -104,6 +86,7 @@ public class UserService implements UserDetailsService {
         deleteUser(user.getId());
     }
 
+    @Transactional
     public Boolean isNewsLiked(String login, Integer newsid) {
         log.info("Got request for user '" + login + "'s attitude for news with id = " + newsid);
 
@@ -119,6 +102,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    @Transactional
     public Boolean isTagLiked(String login, String tag) {
         log.info("Got request for user '" + login + "'s attitude for tag '" + tag + "'");
 
@@ -174,6 +158,7 @@ public class UserService implements UserDetailsService {
         log.info("Successfully undid association with tag '" + tag + "' and user '" + login + "'");
     }
 
+    @Transactional
     private void likeNews(String login, Integer newsId, boolean like) {
         try {
             Optional<User> res = userRepository.findByLoginFetchLikedNews(login);
@@ -200,6 +185,7 @@ public class UserService implements UserDetailsService {
          }
     }
 
+    @Transactional
     private void associateWithTag(String login, String tagName, Boolean association) {
         try {
             Optional<User> res = userRepository.findByLogin(login);

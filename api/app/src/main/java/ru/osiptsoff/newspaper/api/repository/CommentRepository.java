@@ -12,5 +12,5 @@ import ru.osiptsoff.newspaper.api.model.News;
 public interface CommentRepository extends JpaRepository<Comment, Integer>{
     Page<Comment> findAllByNewsOrderByPostTimeDesc(News news, Pageable pageable);
 
-    void deleteAllByNews(News news);
+    Long deleteAllByNews(News news);
 }

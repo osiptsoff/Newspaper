@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -114,6 +115,6 @@ public class JwtUtility {
             && claims.getExpiration() != null
             && claims.getSubject() != null
             && claims.getAudience() != null
-            && claims.getExpiration().compareTo(new Date()) < 0;
+            && claims.getExpiration().compareTo(new Date()) > 0;
     }
 }

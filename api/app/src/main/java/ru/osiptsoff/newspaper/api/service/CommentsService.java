@@ -3,6 +3,9 @@ package ru.osiptsoff.newspaper.api.service;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +17,7 @@ import ru.osiptsoff.newspaper.api.repository.CommentRepository;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class CommentsService {
     private final CommentRepository commentRepository;
 

@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -32,4 +33,9 @@ public class Token {
     @JoinColumn(name = "userid")
     @MapsId("userId")
     private User owner;
+
+    @PreRemove
+    private void breakAssociation() {
+        owner.setToken(null);
+    }
 }

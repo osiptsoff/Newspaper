@@ -8,9 +8,12 @@ import ru.osiptsoff.newspaper.api.repository.TagRepository;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class TagService {
     private final TagRepository tagRepository;
 

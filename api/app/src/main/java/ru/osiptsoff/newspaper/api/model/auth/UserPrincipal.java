@@ -5,8 +5,10 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.AllArgsConstructor;
 import ru.osiptsoff.newspaper.api.model.User;
 
+@AllArgsConstructor
 public class UserPrincipal implements UserDetails {
     private User user;
 

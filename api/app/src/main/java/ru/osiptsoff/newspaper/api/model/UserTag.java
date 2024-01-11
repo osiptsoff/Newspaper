@@ -1,9 +1,6 @@
 package ru.osiptsoff.newspaper.api.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -14,18 +11,7 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-@Embeddable
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-class UserTagId implements Serializable {
-    @Column(name = "userid")
-    private Integer userId;
-
-    @Column(name = "tagid")
-    private Integer tagId;
-}
+import ru.osiptsoff.newspaper.api.model.embeddable.UserTagId;
 
 @Entity
 @Table(name = "user_tag", schema = "subject")

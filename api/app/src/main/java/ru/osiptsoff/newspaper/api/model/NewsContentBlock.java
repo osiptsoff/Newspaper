@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import ru.osiptsoff.newspaper.api.model.embeddable.NewsContentBlockId;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;

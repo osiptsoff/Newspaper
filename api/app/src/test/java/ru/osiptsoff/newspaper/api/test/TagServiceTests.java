@@ -1,4 +1,4 @@
-package ru.osiptsoff.newspaper.api;
+package ru.osiptsoff.newspaper.api.test;
 
 import java.util.Optional;
 
@@ -12,12 +12,12 @@ import ru.osiptsoff.newspaper.api.repository.TagRepository;
 import ru.osiptsoff.newspaper.api.service.TagService;
 
 @SpringBootTest
-public class TagServiceTest {
+public class TagServiceTests {
     private final TagRepository tagRepository;
     private final TagService tagService;
 
     @Autowired
-    public TagServiceTest(TagRepository tagRepository, TagService tagService) {
+    public TagServiceTests(TagRepository tagRepository, TagService tagService) {
         this.tagRepository = tagRepository;
         this.tagService = tagService;
     }

@@ -1,4 +1,4 @@
-package ru.osiptsoff.newspaper.api;
+package ru.osiptsoff.newspaper.api.test;
 
 import java.util.Optional;
 
@@ -9,12 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.util.Assert;
 
 import ru.osiptsoff.newspaper.api.environment.NewsContentServiceTestEnvironment;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
-import ru.osiptsoff.newspaper.api.model.NewsContentBlockId;
+import ru.osiptsoff.newspaper.api.model.embeddable.NewsContentBlockId;
 
 @SpringBootTest
 public class NewsContentServiceTests {

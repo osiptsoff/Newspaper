@@ -7,14 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
-import lombok.Getter;
+
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Table(name = "auth.role")
-@Setter
-@Getter
+@Table(name = "role", schema = "auth")
+@Data
 @NoArgsConstructor
 public class Role implements GrantedAuthority {
     @Id

@@ -1,4 +1,4 @@
-package ru.osiptsoff.newspaper.api.model;
+package ru.osiptsoff.newspaper.api.model.embeddable;
 
 import java.io.Serializable;
 

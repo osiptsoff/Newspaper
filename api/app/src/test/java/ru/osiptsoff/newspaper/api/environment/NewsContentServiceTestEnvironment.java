@@ -14,14 +14,14 @@ import ru.osiptsoff.newspaper.api.service.NewsContentService;
 
 @Component
 @RequiredArgsConstructor
+@Getter
 public class NewsContentServiceTestEnvironment {
-    @Getter
     private final NewsRepository newsRepository;
 
-    private @Getter final NewsContentRepository newsContentRepository;
-    private @Getter final NewsContentService newsContentService;
+    private final NewsContentRepository newsContentRepository;
+    private final NewsContentService newsContentService;
 
-    private @Getter News testNews;
+    private News testNews;
 
     @PostConstruct
     public void createTestNews() {

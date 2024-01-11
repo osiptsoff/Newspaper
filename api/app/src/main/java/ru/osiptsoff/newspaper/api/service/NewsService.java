@@ -16,9 +16,12 @@ import ru.osiptsoff.newspaper.api.repository.NewsContentRepository;
 import ru.osiptsoff.newspaper.api.repository.NewsRepository;
 import ru.osiptsoff.newspaper.api.repository.TagRepository;
 import ru.osiptsoff.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResult;
+import ru.osiptsoff.newspaper.api.service.exceptions.MissingEntityException;
 
 import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 @Service
 @Slf4j
@@ -52,6 +55,7 @@ public class NewsService {
 
     }
 
+    @Transactional
     public News saveNews(News news) {
         log.info("Got request to save news");
 
@@ -107,55 +111,42 @@ public class NewsService {
     public void associateWithTag(Integer newsId, String tagName) {
         log.info("Got request to associate news with id = " + newsId + " with tag named '" + tagName + "'");
 
-        try {
-            Optional<Tag> tagResult = tagRepository.findByName(tagName);
-            if(!tagResult.isPresent()) {
-                log.info("Tag with name = '" + tagName + "' is not present");
-                return;
-            }
-            Tag tag = tagResult.get();
+        changeAssociation(newsId, tagName, true);
 
-            if(!newsRepository.existsById(newsId)) {
-                log.info("News with id = " + tagName + " not present");
-                return;
-            }
-
-            tagRepository.associate(newsId, tag.getId());
-
-            log.info("Aassociated news with id = " + newsId + " and tag with name = '" + tagName + "'");
-        } catch (Exception e) {
-            log.error("Got exception: ", e);
-            throw e;
-        }
+        log.info("Associated news with id = " + newsId + " and tag with name = '" + tagName + "'");
     }
 
     public void deassociateWithTag(Integer newsId, String tagName) {
         log.info("Got request to deassociate news with id = " + newsId + " with tag named '" + tagName + "'");
 
+        changeAssociation(newsId, tagName, false);
+
+        log.info("Deassociated news with id = " + newsId + " and tag with name = '" + tagName + "'");
+    }
+
+    public Integer countLikes(Integer newsId) {
+        log.info("Got request to count likes of news with id = " + newsId);
+
         try {
-            Optional<Tag> tagResult = tagRepository.findByName(tagName);
-            if(!tagResult.isPresent()) {
-                log.info("Tag with name = '" + tagName + "' is not present");
-                return;
-            }
-            Tag tag = tagResult.get();
+            Integer likesCount = newsRepository.countLikes(newsId);
 
-            tagRepository.deassociate(newsId, tag.getId());
+            log.info("Counted " + likesCount + " likes of news with id = " + newsId);
 
-            log.info("Deassociated news with id = " + newsId + " and tag with name = '" + tagName + "'");
-        } catch (Exception e) {
+            return likesCount;
+        } catch(Exception e) {
             log.error("Got exception: ", e);
             throw e;
         }
     }
 
-    public void deleteNews(Integer id) {
-        log.info("Got request to delete news with id = " + id);
+    @Transactional
+    public void deleteNews(Integer newsId) {
+        log.info("Got request to delete news with id = " + newsId);
 
         try {
-            newsRepository.deleteById(id);
+            newsRepository.deleteById(newsId);
 
-            log.info("Successfully deleted news, id = " + id);
+            log.info("Successfully deleted news, id = " + newsId);
         } catch(Exception e) {
             log.error("Got exception: ", e);
             throw e;
@@ -164,5 +155,32 @@ public class NewsService {
 
     public void deleteNews(News news) {
         deleteNews(news.getId());
+    }
+
+    @Transactional
+    private void changeAssociation(Integer newsId, String tagName, boolean associate) {
+        try {
+           Optional<Tag> tagResult = tagRepository.findByNameFetchNews(tagName);
+            if(!tagResult.isPresent()) {
+                throw new MissingEntityException("Tag with name = '" + tagName + "' is not present");
+            }
+            Tag tag = tagResult.get();
+
+            Optional<News> newsResult = newsRepository.findById(newsId);
+            if(!newsResult.isPresent()) {
+                throw new MissingEntityException("News with id = " + newsId + " not present");
+            }
+            News news = newsResult.get();
+
+            if(associate)
+                tag.getNews().add(news);
+            else
+                tag.getNews().remove(news);
+
+            tagRepository.save(tag);
+        } catch (Exception e) {
+            log.error("Got exception: ", e);
+            throw e;
+        }
     }
 }

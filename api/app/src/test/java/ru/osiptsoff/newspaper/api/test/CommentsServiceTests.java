@@ -41,6 +41,22 @@ public class CommentsServiceTests {
     }
 
     @Test
+    public void getAuthorLoginTest() {
+        Comment comment = new Comment();
+        comment.setText("Another comment");
+        comment.setNews(env.getTestNews());
+        comment.setAuthor(env.getTestUser());
+
+        comment = env.getCommentService().saveComment(comment);
+
+        Assert.isTrue(env
+                        .getCommentRepository()
+                        .getAuthorLogin(comment.getId())
+                        .equals(env.getTestUser().getLogin()),
+                         "Author must be set");
+    }
+
+    @Test
     public void deleteCommentTest() {
         Comment comment = new Comment();
         comment.setText("First comment");

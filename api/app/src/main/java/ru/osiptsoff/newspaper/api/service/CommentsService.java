@@ -40,12 +40,12 @@ public class CommentsService {
         }
     }
 
-    public Page<Comment> findNthPageOfCommentsByNews(News news, Integer page) {
-        log.info("Got request for comments; page = " + page + " , news id = " + news.getId());
+    public Page<Comment> findNthPageOfCommentsByNewsId(Integer newsId, Integer page) {
+        log.info("Got request for comments; page = " + page + " , news id = " + newsId);
 
         try {
             Page<Comment> result = commentRepository
-                    .findAllByNewsOrderByPostTimeDesc(news, PageRequest.of(page, commentPageSize));
+                    .findByNewsId(newsId, PageRequest.of(page, commentPageSize));
 
             log.info("Successfully got " + result.getNumberOfElements() + " comments");
 
@@ -54,6 +54,10 @@ public class CommentsService {
             log.error("Got exception: ", e);
             throw e;
         }
+    }
+
+    public Page<Comment> findNthPageOfCommentsByNews(News news, Integer page) {
+        return findNthPageOfCommentsByNewsId(news.getId(), page);
     }
 
     public void deleteComment(Integer id) {
@@ -71,5 +75,20 @@ public class CommentsService {
 
     public void deleteComment(Comment comment) {
         deleteComment(comment.getId());
+    }
+
+    public String getLoginOfAuthor(Integer newsId) {
+        log.info("Got request for login of user who authored comment witd id = " + newsId);
+
+        try {
+            String result = commentRepository.getAuthorLogin(newsId);
+
+            log.info("Successfully got login of user who authored comment witd id = " + newsId);
+
+            return result;
+        } catch(Exception e) {
+            log.error("Got exception: ", e);
+            throw e;
+        }
     }
 }

@@ -11,4 +11,5 @@ import ru.osiptsoff.newspaper.api.model.auth.Token;
 public interface TokenRepository extends CrudRepository<Token, Integer> {
     Long deleteByValue(String value);
     Optional<Token> findByValue(String value);
+    Boolean existsByValue(String value);
 }

@@ -176,16 +176,18 @@ public class UserService implements UserDetailsService {
             }
             News news = newsResult.get();
  
-             if(like)
-                 user.getLikedNews().add(news);
-             else
-                 user.getLikedNews().remove(news);
- 
-             userRepository.save(user);
-         } catch (Exception e) {
-             log.error("Got exception: ", e);
-             throw e;
-         }
+            if(like)
+                user.getLikedNews().add(news);
+            else
+                user.getLikedNews().remove(news);
+
+            userRepository.save(user);
+        } catch (MissingEntityException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("Got exception: ", e);
+            throw e;
+        }
     }
 
     @Transactional
@@ -216,11 +218,13 @@ public class UserService implements UserDetailsService {
             else
                 userTagRepository.delete(userTag);
  
-             userRepository.save(user);
-         } catch (Exception e) {
-             log.error("Got exception: ", e);
-             throw e;
-         }
+            userRepository.save(user);
+        } catch (MissingEntityException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("Got exception: ", e);
+            throw e;
+        }
     }
 
     public UserDetails userToDetails(User user) {

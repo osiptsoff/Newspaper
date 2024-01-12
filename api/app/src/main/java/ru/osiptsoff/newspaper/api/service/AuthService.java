@@ -24,7 +24,6 @@ import ru.osiptsoff.newspaper.api.repository.RoleRepository;
 import ru.osiptsoff.newspaper.api.repository.TokenRepository;
 import ru.osiptsoff.newspaper.api.repository.UserRepository;
 import ru.osiptsoff.newspaper.api.security.jwt.JwtUtility;
-import ru.osiptsoff.newspaper.api.service.exceptions.MissingEntityException;
 
 @Service
 @Slf4j
@@ -95,7 +94,8 @@ public class AuthService {
             log.info("Completed authentication");
 
             return token;
-
+        } catch (BadCredentialsException e) {
+            throw e;
         } catch(Exception e) {
             log.error("Got exception: ", e);
             throw e;
@@ -122,19 +122,15 @@ public class AuthService {
         log.info("Got request to get access token");
 
         try {
-            Optional<Token> dbTokenOptional = tokenRepository.findByValue(refreshToken);
-            if(!dbTokenOptional.isPresent()) {
+            if(!tokenRepository.existsByValue(refreshToken)) {
                 log.info("Got unregistered refresh token");
 
-                throw new MissingEntityException("Token is not registered");
+                throw new BadCredentialsException("Token is not registered");
             }
-            Token dbToken = dbTokenOptional.get();
 
-            UserDetails userDetails = jwtUtility.parseAndValidateRefreshToken(dbToken.getValue());
+            UserDetails userDetails = jwtUtility.parseAndValidateRefreshToken(refreshToken);
             if(userDetails == null) {
                 log.info("Refresh token expired");
-
-                tokenRepository.delete(dbToken);
 
                 throw new JwtException("Token expired");
             }
@@ -144,6 +140,8 @@ public class AuthService {
             log.info("Refreshed token");
 
             return accessToken;
+        } catch (BadCredentialsException | JwtException e) {
+            throw e;
         } catch(Exception e) {
             log.error("Got exception: ", e);
             throw e;

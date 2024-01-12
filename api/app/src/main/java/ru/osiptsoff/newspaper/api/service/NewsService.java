@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
 import ru.osiptsoff.newspaper.api.model.Comment;
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
@@ -190,6 +191,8 @@ public class NewsService {
                 tag.getNews().remove(news);
 
             tagRepository.save(tag);
+        } catch (MissingEntityException e) {
+            throw e;
         } catch (Exception e) {
             log.error("Got exception: ", e);
             throw e;

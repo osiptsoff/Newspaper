@@ -14,12 +14,12 @@ import ru.osiptsoff.newspaper.api.dto.UserDto;
 import ru.osiptsoff.newspaper.api.service.AuthService;
 
 @RestController
-@RequestMapping("auth/")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
 
-    @PostMapping("register/")
+    @PostMapping("/register")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void register(@RequestBody UserDto userDto) {
         authService.register(userDto.getLogin(), userDto.getPassword());

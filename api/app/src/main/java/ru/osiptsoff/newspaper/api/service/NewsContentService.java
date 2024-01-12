@@ -40,12 +40,12 @@ public class NewsContentService {
         }
     }
 
-    public Page<NewsContentBlock> findNthPageOfContent(News news, Integer page) {
-        log.info("Got request for news content; page = " + page + ", news id = " + news.getId());
+    public Page<NewsContentBlock> findNthPageOfContent(Integer newsId, Integer page) {
+        log.info("Got request for news content; page = " + page + ", news id = " + newsId);
 
         try {
             Page<NewsContentBlock> result = newsContentRepository
-                    .findByNewsId(news.getId(), PageRequest.of(page, textBlockPageSize));
+                    .findByNewsId(newsId, PageRequest.of(page, textBlockPageSize));
 
             log.info("Successfully got " + result.getSize() + " blocks");
 

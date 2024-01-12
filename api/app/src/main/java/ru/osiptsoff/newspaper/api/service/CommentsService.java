@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +36,26 @@ public class CommentsService {
             log.info("Successfully saved comment, id = " + result.getId());
 
             return result;
+        } catch(Exception e) {
+            log.error("Got exception: ", e);
+            throw e;
+        }
+    }
+
+    public Comment findCommentById(Integer id) {
+        log.info("Got request for comment with id = " + id);
+
+        try {
+            Optional<Comment> res = commentRepository.findById(id);
+            if(!res.isPresent()) {
+                log.info("No comment with id = " + id + " present");
+                return null;
+            }
+            Comment comment = res.get();
+
+            log.info("Succesfully got comment with id = " + id);
+
+            return comment;
         } catch(Exception e) {
             log.error("Got exception: ", e);
             throw e;

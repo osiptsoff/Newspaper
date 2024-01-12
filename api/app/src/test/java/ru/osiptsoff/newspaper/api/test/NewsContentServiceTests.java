@@ -2,8 +2,6 @@ package ru.osiptsoff.newspaper.api.test;
 
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,14 +53,14 @@ public class NewsContentServiceTests {
             block = env.getNewsContentService().saveNewsContentBlock(block);
         }
 
-        Page<NewsContentBlock> firstPage = env.getNewsContentService().findNthPageOfContent(env.getTestNews(), 0);
+        Page<NewsContentBlock> firstPage = env.getNewsContentService().findNthPageOfContent(env.getTestNews().getId(), 0);
 
         for(NewsContentBlock block : firstPage.getContent())
             System.out.println(block.getText());
 
         Assert.isTrue(!firstPage.isLast(), "There must be more pages");
 
-        Page<NewsContentBlock> secondPage = env.getNewsContentService().findNthPageOfContent(env.getTestNews(), 1);
+        Page<NewsContentBlock> secondPage = env.getNewsContentService().findNthPageOfContent(env.getTestNews().getId(), 1);
 
         for(NewsContentBlock block : secondPage.getContent())
             System.out.println(block.getText());
@@ -72,7 +70,6 @@ public class NewsContentServiceTests {
     }
 
     @Test
-    @Transactional
     public void deleteNewsContentTest() {
         if(env.getNewsContentRepository().countByNews(env.getTestNews()) == 0)
             for(int i = 0; i < blocksPerPage + 1; i++) {

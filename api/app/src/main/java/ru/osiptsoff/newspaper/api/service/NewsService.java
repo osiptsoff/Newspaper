@@ -71,7 +71,7 @@ public class NewsService {
         }
     }
 
-    public NewsServiceFindNewsByIdResult findNewsById(Integer id) {
+    public News findNewsByIdNoFetch(Integer id) {
         log.info("Got request for news with id = " + id);
 
         try {
@@ -83,7 +83,19 @@ public class NewsService {
             }
             log.info("Request for " + id +  ": successfully got news (title, picturepath, tags)");
 
-            News news = res.get();
+            return res.get();
+        } catch (Exception e) {
+            log.error("Got exception: ", e);
+            throw e;
+        }
+           
+    }
+
+    public NewsServiceFindNewsByIdResult findNewsById(Integer id) {
+        try {
+            News news = findNewsByIdNoFetch(id);
+            if(news == null)
+                return null;
 
             Page<Comment> comments = commentRepository
                     .findAllByNewsOrderByPostTimeDesc(news, PageRequest.of(0, commentPageSize));

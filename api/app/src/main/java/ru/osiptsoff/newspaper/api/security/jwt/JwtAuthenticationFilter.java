@@ -16,7 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
-import ru.osiptsoff.newspaper.api.dto.TextMessage;
+import ru.osiptsoff.newspaper.api.dto.TextMessageDto;
 import ru.osiptsoff.newspaper.api.model.auth.UserPrincipal;
 
 class JwtAuthenticationException extends Exception {
@@ -41,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         UserPrincipal userPrincipal = jwtUtility.parseAndValidateAccessToken(token);
         if(userPrincipal == null) {
-            TextMessage textMessage = new TextMessage("invalid access token");
+            TextMessageDto textMessage = new TextMessageDto("invalid access token");
 
             response.setContentType("application/json");
             response.setStatus(HttpStatus.UNAUTHORIZED.value());

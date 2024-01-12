@@ -34,10 +34,26 @@ public class CommentsServiceTests {
 
         comment = env.getCommentService().saveComment(comment);
 
-        Optional<Comment> dbComment = env.getCommentRepository().findById(comment.getId());
+        Comment dbComment = env.getCommentService().findCommentById(comment.getId());
 
-        Assert.isTrue(dbComment.isPresent(), "Must be present");
-        Assert.isTrue(dbComment.get().getText().equals(comment.getText()), "Texts must be equal");
+        Assert.isTrue(dbComment != null, "Must be present");
+        Assert.isTrue(dbComment.getText().equals(comment.getText()), "Texts must be equal");
+    }
+
+    @Test
+    public void getAuthorLoginTest() {
+        Comment comment = new Comment();
+        comment.setText("Another comment");
+        comment.setNews(env.getTestNews());
+        comment.setAuthor(env.getTestUser());
+
+        comment = env.getCommentService().saveComment(comment);
+
+        Assert.isTrue(env
+                        .getCommentRepository()
+                        .getAuthorLogin(comment.getId())
+                        .equals(env.getTestUser().getLogin()),
+                         "Author must be set");
     }
 
     @Test

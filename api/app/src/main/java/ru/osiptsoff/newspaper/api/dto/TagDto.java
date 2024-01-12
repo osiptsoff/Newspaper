@@ -2,9 +2,11 @@ package ru.osiptsoff.newspaper.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class TextMessage {
-    private String message;
+@NoArgsConstructor
+public class TagDto {
+    private String name;
 }

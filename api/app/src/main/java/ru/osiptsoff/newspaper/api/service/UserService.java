@@ -4,6 +4,9 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -222,6 +225,22 @@ public class UserService implements UserDetailsService {
 
     public UserDetails userToDetails(User user) {
         return new UserPrincipal(user);
+    }
+
+    public User getAuthenticatedUser() {
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null)
+            return null;
+
+        String login = authentication.getPrincipal().toString();
+
+        Optional<User> res = userRepository.findByLogin(login);
+        if(!res.isPresent()) {
+            log.error("Tried to determine auhtenticated user; acquired incorrect username: '" + login + "'");
+            throw new BadCredentialsException("Unauthorized");
+        }
+
+        return res.get();
     }
 
 

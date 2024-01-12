@@ -53,6 +53,9 @@ public class AuthService {
     public User register(String login, String password) {
         log.info("Got request for registration");
 
+        if(userRepository.existsByLogin(login))
+            throw new BadCredentialsException("Username already taken");
+
         User user = new User();
         user.setLogin(login);
         user.setPassword(passwordEncoder.encode(password));

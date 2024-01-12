@@ -38,4 +38,10 @@ public class AuthController {
 
         return new TokenDto("access", token);
     }
+
+    @PostMapping("/logout")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void logout(@RequestBody TokenDto tokenDto) {
+        authService.logout(tokenDto.getValue());
+    }
 }

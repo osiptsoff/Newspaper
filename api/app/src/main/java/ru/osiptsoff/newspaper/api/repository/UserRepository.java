@@ -12,6 +12,7 @@ import ru.osiptsoff.newspaper.api.model.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
     Optional<User> findByLogin(String login);
+    Boolean existsByLogin(String login);
 
     @Query(value = "SELECT u FROM User u LEFT JOIN FETCH u.likedNews WHERE u.login = :login")
     Optional<User> findByLoginFetchLikedNews(@Param("login") String login);

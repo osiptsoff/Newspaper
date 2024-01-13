@@ -13,7 +13,7 @@ import ru.osiptsoff.newspaper.api.model.embeddable.NewsContentBlockId;
 
 @Repository
 public interface NewsContentRepository extends PagingAndSortingRepository<NewsContentBlock, NewsContentBlockId> {
-    @Query("SELECT b FROM NewsContentBlock b WHERE b.newsContentBlockId.newsId = :id ORDER BY b.newsContentBlockId.number")
+    @Query("SELECT b FROM NewsContentBlock b WHERE b.newsContentBlockId.newsId = :id ORDER BY b.newsContentBlockId.number ASC")
     Page<NewsContentBlock> findByNewsId(@Param("id") Integer newsId, Pageable pageable);
 
     Long countByNews(News news);

@@ -12,7 +12,7 @@ import ru.osiptsoff.newspaper.api.model.News;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
-    @Query("SELECT c FROM Comment c WHERE c.news.id = :id ORDER BY c.postTime")
+    @Query("SELECT c FROM Comment c WHERE c.news.id = :id ORDER BY c.postTime DESC")
     Page<Comment> findByNewsId(@Param("id") Integer newsId, Pageable pageable);
     Page<Comment> findAllByNewsOrderByPostTimeDesc(News news, Pageable pageable);
 

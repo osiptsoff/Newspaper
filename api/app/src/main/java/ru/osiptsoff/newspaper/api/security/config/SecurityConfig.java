@@ -80,7 +80,7 @@ public class SecurityConfig {
                 //tag
                 .antMatchers("/tag").hasAuthority("admin")
                 //user
-                .antMatchers("/user").hasAnyAuthority("user", "admin")
+                .antMatchers("/user/**").hasAnyAuthority("user", "admin")
                 //auth
                 .antMatchers(HttpMethod.GET, "/auth").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/**").anonymous()

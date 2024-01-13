@@ -26,6 +26,7 @@ import ru.osiptsoff.newspaper.api.dto.FetchedNewsDto;
 import ru.osiptsoff.newspaper.api.dto.IdDto;
 import ru.osiptsoff.newspaper.api.dto.NewsContentBlockDto;
 import ru.osiptsoff.newspaper.api.dto.NewsSignatureDto;
+import ru.osiptsoff.newspaper.api.dto.PageDto;
 import ru.osiptsoff.newspaper.api.dto.PageRequestDto;
 import ru.osiptsoff.newspaper.api.dto.TagAssociationRequestDto;
 import ru.osiptsoff.newspaper.api.model.News;
@@ -85,13 +86,13 @@ public class NewsController {
     }
 
     @GetMapping("/content")
-    public List<NewsContentBlockDto> getNewsContentPage(@Valid @RequestBody PageRequestDto dto) {
-        List<NewsContentBlockDto> result = new LinkedList<>();
+    public PageDto<NewsContentBlockDto> getNewsContentPage(@Valid @RequestBody PageRequestDto dto) {
+        List<NewsContentBlockDto> data = new LinkedList<>();
         Page<NewsContentBlock> page = newsContentService.findNthPageOfContent(dto.getOwnerId(), dto.getPageNumber());
 
-        page.forEach( b -> result.add( NewsContentBlockDto.from(b) ));
+        page.forEach( b -> data.add( NewsContentBlockDto.from(b) ));
 
-        return result;
+        return new PageDto<NewsContentBlockDto>(data, page.isLast());
     }
 
     @PostMapping()
@@ -104,13 +105,14 @@ public class NewsController {
 
         dto.setId(newsSignature.getId());
         dto.setPostTime(newsSignature.getPostTime());
+        dto.setTags(null);
 
         return dto;
     }
 
     @PostMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void saveNewsContent(@RequestBody @Valid List<NewsContentBlockDto> blocks,
+    public void saveNewsContent(@Valid @RequestBody List<NewsContentBlockDto> blocks,
                                 @PathVariable Integer id) {
         News news = newsService.findNewsByIdNoFetch(id);
         if(news == null)

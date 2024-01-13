@@ -2,11 +2,13 @@ package ru.osiptsoff.newspaper.api.controller;
 
 import java.time.ZoneOffset;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,16 +23,19 @@ import ru.osiptsoff.newspaper.api.controller.util.AuthUtil;
 import ru.osiptsoff.newspaper.api.dto.CommentDto;
 import ru.osiptsoff.newspaper.api.dto.PageRequestDto;
 import ru.osiptsoff.newspaper.api.dto.IdDto;
+import ru.osiptsoff.newspaper.api.dto.PageDto;
 import ru.osiptsoff.newspaper.api.model.Comment;
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.User;
 import ru.osiptsoff.newspaper.api.service.CommentsService;
 import ru.osiptsoff.newspaper.api.service.NewsService;
 import ru.osiptsoff.newspaper.api.service.UserService;
+import ru.osiptsoff.newspaper.api.service.exception.MissingEntityException;
 
 @RestController
 @RequestMapping("/comment")
 @RequiredArgsConstructor
+@Validated
 public class CommentsController {
     private final CommentsService commentsService;
     private final UserService userService;
@@ -39,10 +44,11 @@ public class CommentsController {
     private final AuthUtil authUtil;
 
     @PostMapping()
-    public CommentDto saveComment(@RequestBody CommentDto dto) {
-        checkIfEmpty(dto.getText());
-
+    public CommentDto saveComment(@Valid @RequestBody CommentDto dto) {
         News news = newsService.findNewsByIdNoFetch(dto.getNewsId());
+        if(news == null)
+            throw new MissingEntityException();
+
         User user = userService.getAuthenticatedUser();
 
         Comment comment = new Comment();
@@ -61,9 +67,7 @@ public class CommentsController {
     }
 
     @PatchMapping
-    public CommentDto updateComment(@RequestBody CommentDto dto) {
-        checkIfEmpty(dto.getText());
-
+    public CommentDto updateComment(@Valid @RequestBody CommentDto dto) {
         String authorLogin = commentsService.getLoginOfAuthor(dto.getId());
         authUtil.checkIfAuthenticated(authorLogin);
 
@@ -75,24 +79,25 @@ public class CommentsController {
         comment.setPostTime(new Date().toInstant().atOffset(ZoneOffset.UTC));
         commentsService.saveComment(comment);
 
+        dto.setAuthor(authorLogin);
         dto.setPostTime(comment.getPostTime());
 
        return dto;
     }
 
     @GetMapping()
-    public List<CommentDto> getPage(@RequestBody PageRequestDto dto) {
-        List<CommentDto> result = new LinkedList<>();
-        Page<Comment> page = commentsService.findNthPageOfCommentsByNewsId(dto.getOwnerId(), dto.getPageNumber());
+    public PageDto<CommentDto> getPage(@Valid @RequestBody PageRequestDto dto) {
+        Page<Comment> page = commentsService
+            .findNthPageOfCommentsByNewsId(dto.getOwnerId(), dto.getPageNumber());
 
-        page.forEach(c -> result.add( CommentDto.from(c) ));
+        List<CommentDto> data = page.map(c -> CommentDto.from(c) ).toList();
 
-        return result;
+        return new PageDto<CommentDto>(data, page.isLast());
     }
 
     @DeleteMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteComment(@RequestBody IdDto dto) {
+    public void deleteComment(@Valid @RequestBody IdDto dto) {
         String authorLogin = commentsService.getLoginOfAuthor(dto.getId());
         authUtil.checkIfAuthenticated(authorLogin);
 
@@ -101,12 +106,7 @@ public class CommentsController {
 
     @DeleteMapping("/superuser")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCommentNoCheck(@RequestBody IdDto dto) {
+    public void deleteCommentNoCheck(@Valid @RequestBody IdDto dto) {
         commentsService.deleteComment(dto.getId());
-    }
-
-    private void checkIfEmpty(String string) throws IllegalArgumentException {
-        if( string == null || string.trim().isEmpty() )
-            throw new IllegalArgumentException();
     }
 }

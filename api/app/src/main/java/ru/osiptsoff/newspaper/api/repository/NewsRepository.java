@@ -13,7 +13,6 @@ import java.util.List;
 public interface NewsRepository extends JpaRepository<News, Integer> {
      List<News> findAllByOrderByPostTimeDesc();
 
-     //@Query(value = "SELECT size(l) FROM News n LEFT JOIN FETCH n.likers l WHERE n.id = :newsId")
      @Query(value = "SELECT size(n.likers) FROM News n WHERE n.id = :newsId")
      Integer countLikes(@Param("newsId") Integer newsId);
 }

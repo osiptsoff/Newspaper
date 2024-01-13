@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import ru.osiptsoff.newspaper.api.model.Comment;
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.repository.CommentRepository;
+import ru.osiptsoff.newspaper.api.service.exception.MissingEntityException;
 
 @Service
 @Slf4j
@@ -69,7 +70,7 @@ public class CommentsService {
             Page<Comment> result = commentRepository
                     .findByNewsId(newsId, PageRequest.of(page, commentPageSize));
 
-            log.info("Successfully got " + result.getNumberOfElements() + " comments");
+            log.info("Got " + result.getNumberOfElements() + " comments");
 
             return result;
         } catch(Exception e) {
@@ -86,9 +87,15 @@ public class CommentsService {
         log.info("Got request to delete comment with id = " + id);
 
         try {
+            if(!commentRepository.existsById(id))
+                throw new MissingEntityException();
+
             commentRepository.deleteById(id);
 
             log.info("Successfully deleted comment, id = " + id);
+        } catch(MissingEntityException e) {
+            log.info("Unsuccessful delete: entity does not exist");
+            throw e;
         } catch(Exception e) {
             log.error("Got exception: ", e);
             throw e;

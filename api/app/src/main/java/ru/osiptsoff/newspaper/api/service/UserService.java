@@ -76,9 +76,15 @@ public class UserService implements UserDetailsService {
         log.info("Got request to delete user with id = " + userId);
 
         try {
+            if(!userRepository.existsById(userId))
+                throw new MissingEntityException();
+
             userRepository.deleteById(userId);
 
             log.info("Successfully deleted user, id = " + userId);
+        } catch(MissingEntityException e) {
+            log.info("Unsuccessful delete: entity does not exist");
+            throw e;
         } catch(Exception e) {
             log.error("Got exception: ", e);
             throw e;
@@ -176,12 +182,16 @@ public class UserService implements UserDetailsService {
             }
             News news = newsResult.get();
  
-            if(like)
+            if(like && !user.getLikedNews().contains(news)) {
                 user.getLikedNews().add(news);
-            else
+                userRepository.save(user);
+                return;
+            }  
+            if(!like && user.getLikedNews().contains(news)) {
                 user.getLikedNews().remove(news);
-
-            userRepository.save(user);
+                userRepository.save(user);
+                return;
+            }
         } catch (MissingEntityException e) {
             throw e;
         } catch (Exception e) {
@@ -195,12 +205,14 @@ public class UserService implements UserDetailsService {
         try {
             Optional<User> res = userRepository.findByLogin(login);
             if(!res.isPresent()) {
+                log.error("Non-existent user");
                 throw new MissingEntityException("No user with login = '" + login + "' present");
             }
             User user = res.get();
  
             Optional<Tag> tagResult = tagRepository.findByName(tagName);
             if(!tagResult.isPresent()) {
+                log.error("Non-existent tag");
                 throw new MissingEntityException("Tag with name = '" + tagName + "' is not present");
             }
             Tag tag = tagResult.get();
@@ -215,10 +227,9 @@ public class UserService implements UserDetailsService {
             if(association != null) {
                 userTagRepository.save(userTag);
             }
-            else
-                userTagRepository.delete(userTag);
- 
-            userRepository.save(user);
+            else if( userTagRepository.existsById(userTag.getUserTagId()) ) {
+                userTagRepository.deleteById(userTag.getUserTagId());
+            }
         } catch (MissingEntityException e) {
             throw e;
         } catch (Exception e) {

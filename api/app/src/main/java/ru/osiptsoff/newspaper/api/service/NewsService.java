@@ -157,9 +157,15 @@ public class NewsService {
         log.info("Got request to delete news with id = " + newsId);
 
         try {
+            if(!newsRepository.existsById(newsId))
+                throw new MissingEntityException();
+
             newsRepository.deleteById(newsId);
 
             log.info("Successfully deleted news, id = " + newsId);
+        } catch(MissingEntityException e) {
+            log.info("Unsuccessful delete: entity does not exist");
+            throw e;
         } catch(Exception e) {
             log.error("Got exception: ", e);
             throw e;
@@ -185,12 +191,17 @@ public class NewsService {
             }
             News news = newsResult.get();
 
-            if(associate)
+            if(associate && !tag.getNews().contains(news)) {
                 tag.getNews().add(news);
-            else
+                tagRepository.save(tag);
+                return;
+            }
+            if(!associate && tag.getNews().contains(news)) {
                 tag.getNews().remove(news);
+                tagRepository.save(tag);
+                return;
+            }
 
-            tagRepository.save(tag);
         } catch (MissingEntityException e) {
             throw e;
         } catch (Exception e) {

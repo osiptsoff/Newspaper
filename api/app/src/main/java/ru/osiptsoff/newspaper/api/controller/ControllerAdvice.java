@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import io.jsonwebtoken.JwtException;
+import ru.osiptsoff.newspaper.api.service.exception.EntityExistsException;
 import ru.osiptsoff.newspaper.api.service.exception.MissingEntityException;
 import ru.osiptsoff.newspaper.api.service.exception.UnregistredTokenException;
 import ru.osiptsoff.newspaper.api.service.exception.UsernameTakenException;
@@ -50,6 +51,11 @@ public class ControllerAdvice {
     @ExceptionHandler(UnregistredTokenException.class)
     public ResponseEntity<Map<String, Object>> handleUnregistredTokenException() {
         return getEntity(HttpStatus.UNAUTHORIZED, "Token is not registered");
+    }
+
+    @ExceptionHandler(EntityExistsException.class)
+    public ResponseEntity<Map<String, Object>> handleEntityExistsException() {
+        return getEntity(HttpStatus.BAD_REQUEST, "Entity exists already");
     }
 
     private ResponseEntity<Map<String, Object>> getEntity(HttpStatus status, String message) {

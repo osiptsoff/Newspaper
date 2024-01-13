@@ -2,7 +2,11 @@ package ru.osiptsoff.newspaper.api.dto;
 
 import java.time.OffsetDateTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,15 +16,15 @@ import ru.osiptsoff.newspaper.api.model.Comment;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(Include.NON_NULL)
 public class CommentDto {
+    @NotBlank
+    @Size(max=255)
     private String text;
     private Integer newsId;
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
     private Integer id;
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @Size(max=55)
     private String author;
-    @JsonIgnoreProperties(ignoreUnknown = true)
     private OffsetDateTime postTime;
 
     public static CommentDto from(Comment comment) {

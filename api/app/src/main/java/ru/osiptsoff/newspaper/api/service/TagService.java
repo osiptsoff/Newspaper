@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.osiptsoff.newspaper.api.model.Tag;
 import ru.osiptsoff.newspaper.api.repository.TagRepository;
+import ru.osiptsoff.newspaper.api.service.exception.EntityExistsException;
+import ru.osiptsoff.newspaper.api.service.exception.MissingEntityException;
 
 import java.util.Optional;
 
@@ -21,11 +23,18 @@ public class TagService {
         log.info("Got request to save tag");
 
         try {
+            if(tagRepository.existsByName(tag.getName())) {
+                 log.info("Tag already exists");
+                 throw new EntityExistsException();
+            }
+               
             Tag result = tagRepository.save(tag);
 
             log.info("Successfully saved tag, id = " + result.getId());
 
             return result;
+        } catch(EntityExistsException e) {
+            throw e;
         } catch(Exception e) {
             log.error("Got exception: ", e);
             throw e;
@@ -57,9 +66,15 @@ public class TagService {
         log.info("Got request to delete tag with id = " + id);
 
         try {
+            if(!tagRepository.existsById(id))
+                throw new MissingEntityException();
+
             tagRepository.deleteById(id);
 
             log.info("Successfully deleted tag, id = " + id);
+        } catch(MissingEntityException e) {
+            log.info("Unsuccessful delete: entity does not exist");
+            throw e;
         } catch(Exception e) {
             log.error("Got exception: ", e);
             throw e;

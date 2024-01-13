@@ -1,5 +1,7 @@
 package ru.osiptsoff.newspaper.api.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +23,7 @@ public class TagController {
     private final TagService tagService;
 
     @PostMapping()
-    public void saveTag(@RequestBody TagDto tagDto) {
+    public void saveTag(@Valid @RequestBody TagDto tagDto) {
         Tag tag = new Tag();
         tag.setName(tagDto.getName());
 
@@ -29,7 +31,7 @@ public class TagController {
     }
 
     @DeleteMapping()
-    public void deleteTag(@RequestBody TagDto tagDto) {
+    public void deleteTag(@Valid @RequestBody TagDto tagDto) {
         Tag tag = tagService.findTagByName(tagDto.getName());
 
         tagService.deleteTag(tag);

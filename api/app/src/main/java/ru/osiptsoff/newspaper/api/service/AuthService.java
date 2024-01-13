@@ -24,6 +24,8 @@ import ru.osiptsoff.newspaper.api.repository.RoleRepository;
 import ru.osiptsoff.newspaper.api.repository.TokenRepository;
 import ru.osiptsoff.newspaper.api.repository.UserRepository;
 import ru.osiptsoff.newspaper.api.security.jwt.JwtUtility;
+import ru.osiptsoff.newspaper.api.service.exception.UnregistredTokenException;
+import ru.osiptsoff.newspaper.api.service.exception.UsernameTakenException;
 
 @Service
 @Slf4j
@@ -53,7 +55,7 @@ public class AuthService {
         log.info("Got request for registration");
 
         if(userRepository.existsByLogin(login))
-            throw new BadCredentialsException("Username already taken");
+            throw new UsernameTakenException("Username already taken");
 
         User user = new User();
         user.setLogin(login);
@@ -125,7 +127,7 @@ public class AuthService {
             if(!tokenRepository.existsByValue(refreshToken)) {
                 log.info("Got unregistered refresh token");
 
-                throw new BadCredentialsException("Token is not registered");
+                throw new UnregistredTokenException("Token is not registered");
             }
 
             UserDetails userDetails = jwtUtility.parseAndValidateRefreshToken(refreshToken);

@@ -71,27 +71,28 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .authorizeRequests()
                 //news
-                .antMatchers(HttpMethod.GET, "/api/news/**").permitAll()
-                .antMatchers("/api/news/**").hasRole("admin")
+                .antMatchers(HttpMethod.GET, "/news/**").permitAll()
+                .antMatchers("/news/**").hasAuthority("admin")
                 //comments
-                .antMatchers(HttpMethod.GET, "/api/comment").permitAll()
-                .antMatchers("api/comment/superuser").hasRole("admin")
-                .antMatchers("api/comment").hasAnyRole("user", "admin")
+                .antMatchers(HttpMethod.GET, "/comment").permitAll()
+                .antMatchers("/comment/superuser").hasAuthority("admin")
+                .antMatchers("/comment").hasAnyAuthority("user", "admin")
                 //tag
-                .antMatchers("/api/tag").hasRole("admin")
+                .antMatchers("/tag").hasAuthority("admin")
                 //user
-                .antMatchers("/api/user").hasAnyRole("user", "admin")
+                .antMatchers("/user").hasAnyAuthority("user", "admin")
                 //auth
-                .antMatchers(HttpMethod.GET, "/api/auth").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/auth/**").anonymous()
+                .antMatchers(HttpMethod.GET, "/auth").permitAll()
+                .antMatchers(HttpMethod.POST, "/auth/**").anonymous()
                 //default
-                .antMatchers(HttpMethod.GET, "/api/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/**").permitAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
         		.build();
 
     }
+
 }

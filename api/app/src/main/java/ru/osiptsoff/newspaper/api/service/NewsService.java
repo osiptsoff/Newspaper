@@ -17,7 +17,7 @@ import ru.osiptsoff.newspaper.api.repository.NewsContentRepository;
 import ru.osiptsoff.newspaper.api.repository.NewsRepository;
 import ru.osiptsoff.newspaper.api.repository.TagRepository;
 import ru.osiptsoff.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResult;
-import ru.osiptsoff.newspaper.api.service.exceptions.MissingEntityException;
+import ru.osiptsoff.newspaper.api.service.exception.MissingEntityException;
 
 import java.util.List;
 import java.util.Optional;

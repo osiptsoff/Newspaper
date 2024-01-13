@@ -3,7 +3,8 @@ package ru.osiptsoff.newspaper.api.dto;
 import java.time.OffsetDateTime;
 import java.util.Collection;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,8 +15,9 @@ import ru.osiptsoff.newspaper.api.model.Tag;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class NewsSignatureDto {
+    @NotBlank
+    @Size(max=255)
     private String title;
     private Integer id;
     private String picture;

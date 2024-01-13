@@ -6,8 +6,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +30,7 @@ import ru.osiptsoff.newspaper.api.dto.PageRequestDto;
 import ru.osiptsoff.newspaper.api.dto.TagAssociationRequestDto;
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
+import ru.osiptsoff.newspaper.api.model.embeddable.NewsContentBlockId;
 import ru.osiptsoff.newspaper.api.service.NewsContentService;
 import ru.osiptsoff.newspaper.api.service.NewsService;
 import ru.osiptsoff.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResult;
@@ -34,6 +38,7 @@ import ru.osiptsoff.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResul
 @RestController
 @RequestMapping("/news")
 @RequiredArgsConstructor
+@Validated
 public class NewsController {
     private final NewsService newsService;
     private final NewsContentService newsContentService;
@@ -52,7 +57,7 @@ public class NewsController {
     public FetchedNewsDto getNews(@PathVariable Integer id) {
         NewsServiceFindNewsByIdResult fetchedNews = newsService.findNewsById(id);
         if(fetchedNews == null)
-            throw new IllegalArgumentException();
+            throw new NullPointerException();
 
         FetchedNewsDto result = new FetchedNewsDto();
         result.setNewsSignature( NewsSignatureDto.from(fetchedNews.getNews()) );
@@ -80,7 +85,7 @@ public class NewsController {
     }
 
     @GetMapping("/content")
-    public List<NewsContentBlockDto> getNewsContentPage(@RequestBody PageRequestDto dto) {
+    public List<NewsContentBlockDto> getNewsContentPage(@Valid @RequestBody PageRequestDto dto) {
         List<NewsContentBlockDto> result = new LinkedList<>();
         Page<NewsContentBlock> page = newsContentService.findNthPageOfContent(dto.getOwnerId(), dto.getPageNumber());
 
@@ -90,7 +95,7 @@ public class NewsController {
     }
 
     @PostMapping()
-    public NewsSignatureDto saveNewsSignature(@RequestBody NewsSignatureDto dto) {
+    public NewsSignatureDto saveNewsSignature(@Valid @RequestBody NewsSignatureDto dto) {
         News newsSignature = new News();
         newsSignature.setId(dto.getId());
         newsSignature.setTitle(dto.getTitle());
@@ -105,25 +110,31 @@ public class NewsController {
 
     @PostMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void saveNewsContent(@RequestBody List<NewsContentBlockDto> blocks, @PathVariable Integer id) {
+    public void saveNewsContent(@RequestBody @Valid List<NewsContentBlockDto> blocks,
+                                @PathVariable Integer id) {
         News news = newsService.findNewsByIdNoFetch(id);
+        if(news == null)
+            throw new NullPointerException();
         List<NewsContentBlock> result = new LinkedList<>();
 
         blocks.forEach( b -> {
             NewsContentBlock block = new NewsContentBlock();
+            block.setNewsContentBlockId( new NewsContentBlockId() );
+            block.getNewsContentBlockId().setNewsId(news.getId());
+            block.getNewsContentBlockId().setNumber(b.getBlockNumber());
             block.setNews(news);
             block.setText(b.getText());
-            block.getNewsContentBlockId().setNumber(b.getBlockNumber());
 
             result.add(block);
         });
 
-        result.forEach( b -> newsContentService.saveNewsContentBlock(b) );
+        newsContentService.saveMultipleNewsContentBlocks(result);
     }
 
     @PostMapping("/{id}/tag")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void associateWithTag(@RequestBody TagAssociationRequestDto dto, @PathVariable Integer id) {
+    public void associateWithTag(@Valid @RequestBody TagAssociationRequestDto dto,
+                                 @PathVariable Integer id) {
         if(dto.getBelongs())
             newsService.associateWithTag(id, dto.getTag());
         else
@@ -132,7 +143,7 @@ public class NewsController {
 
     @DeleteMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteNews(@RequestBody IdDto idDto) {
+    public void deleteNews(@Valid @RequestBody IdDto idDto) {
         newsService.deleteNews(idDto.getId());
     }
 

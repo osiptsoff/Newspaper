@@ -24,7 +24,7 @@ import ru.osiptsoff.newspaper.api.repository.NewsRepository;
 import ru.osiptsoff.newspaper.api.repository.TagRepository;
 import ru.osiptsoff.newspaper.api.repository.UserRepository;
 import ru.osiptsoff.newspaper.api.repository.UserTagRepository;
-import ru.osiptsoff.newspaper.api.service.exceptions.MissingEntityException;
+import ru.osiptsoff.newspaper.api.service.exception.MissingEntityException;
 
 @Service
 @Slf4j

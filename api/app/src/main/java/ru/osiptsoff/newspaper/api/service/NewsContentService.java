@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +40,12 @@ public class NewsContentService {
             log.error("Got exception: ", e);
             throw e;
         }
+    }
+
+    public List<NewsContentBlock> saveMultipleNewsContentBlocks(List<NewsContentBlock> blocks) {
+        blocks.forEach( b -> b = saveNewsContentBlock(b));
+
+        return blocks;
     }
 
     public Page<NewsContentBlock> findNthPageOfContent(Integer newsId, Integer page) {

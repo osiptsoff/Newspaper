@@ -2,6 +2,8 @@ package ru.osiptsoff.newspaper.api.test;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +15,7 @@ import ru.osiptsoff.newspaper.api.environment.CommentsServiceTestEnvironment;
 import ru.osiptsoff.newspaper.api.model.Comment;
 
 @SpringBootTest
+@Transactional
 public class CommentsServiceTests {
     private final CommentsServiceTestEnvironment env;
 

@@ -2,6 +2,8 @@ package ru.osiptsoff.newspaper.api.test;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +13,7 @@ import ru.osiptsoff.newspaper.api.environment.AuthServiceTestEnvironment;
 import ru.osiptsoff.newspaper.api.model.User;
 
 @SpringBootTest
+@Transactional
 public class AuthServiceTests {
     private final AuthServiceTestEnvironment env;
 

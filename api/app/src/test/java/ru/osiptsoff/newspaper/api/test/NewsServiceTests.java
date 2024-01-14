@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 @SpringBootTest
 public class NewsServiceTests {
     private final NewsServiceTestEnvironment env;
@@ -27,6 +29,7 @@ public class NewsServiceTests {
     }
 
     @Test
+    @Transactional
     public void saveAndDeleteTest() {
         News testNews = new News();
         testNews.setTitle("Test news save");
@@ -50,6 +53,7 @@ public class NewsServiceTests {
 
 
     @Test
+    @Transactional
     public void getAllTest() {
         List<News> newsList = env.getNewsService().findAllNews();
 
@@ -68,6 +72,7 @@ public class NewsServiceTests {
     }
 
     @Test
+    @Transactional
     public void getOneFullyFetchTest() {
         NewsServiceFindNewsByIdResult smallNews = env.getNewsService().findNewsById(env.getSmallNews().getId());
 
@@ -78,6 +83,7 @@ public class NewsServiceTests {
     }
 
     @Test
+    @Transactional
     public void getOnePartiallyFetchTest() {
         NewsServiceFindNewsByIdResult bigNews = env.getNewsService().findNewsById(env.getBigNews().getId());
 

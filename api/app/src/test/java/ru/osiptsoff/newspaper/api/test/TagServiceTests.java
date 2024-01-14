@@ -2,6 +2,8 @@ package ru.osiptsoff.newspaper.api.test;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,6 +14,7 @@ import ru.osiptsoff.newspaper.api.repository.TagRepository;
 import ru.osiptsoff.newspaper.api.service.TagService;
 
 @SpringBootTest
+@Transactional
 public class TagServiceTests {
     private final TagRepository tagRepository;
     private final TagService tagService;

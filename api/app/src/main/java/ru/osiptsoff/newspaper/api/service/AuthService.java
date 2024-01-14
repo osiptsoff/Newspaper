@@ -142,7 +142,7 @@ public class AuthService {
             log.info("Refreshed token");
 
             return accessToken;
-        } catch (BadCredentialsException | JwtException e) {
+        } catch (BadCredentialsException | JwtException | UnregistredTokenException e) {
             throw e;
         } catch(Exception e) {
             log.error("Got exception: ", e);

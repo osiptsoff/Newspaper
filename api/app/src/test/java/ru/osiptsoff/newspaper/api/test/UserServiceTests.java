@@ -1,6 +1,9 @@
 package ru.osiptsoff.newspaper.api.test;
 
+import java.util.HashSet;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +11,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
 import ru.osiptsoff.newspaper.api.environment.UserServiceTestEnvironment;
+import ru.osiptsoff.newspaper.api.model.Tag;
 import ru.osiptsoff.newspaper.api.model.User;
+import ru.osiptsoff.newspaper.api.model.UserTag;
+import ru.osiptsoff.newspaper.api.model.embeddable.UserTagId;
 
 @SpringBootTest
+@Transactional
 public class UserServiceTests {
     private final UserServiceTestEnvironment env;
 
@@ -76,5 +83,49 @@ public class UserServiceTests {
         env.getUserService().undoLikeNews(userLogin, newsId);
         Assert.isTrue(env.getUserService().isNewsLiked(userLogin, newsId) == false, 
                         "Must not be liked");
+    }
+
+    @Test
+    public void fetchWithTagsTest() {
+        User user = new User();
+        user.setLogin("Fetch tags user");
+        user.setPassword("12345");
+        user.setTags(new HashSet<UserTag>());
+
+        Tag likedTag = new Tag();
+        likedTag.setName("He likes me");
+        likedTag = env.getTagRepository().save(likedTag);
+        Tag dislikedTag = new Tag();
+        dislikedTag.setName("He doesn't like me");
+        dislikedTag = env.getTagRepository().save(dislikedTag);
+
+        UserTag likingRelation = new UserTag();
+        likingRelation.setUserTagId(new UserTagId());
+        likingRelation.setLikes(true);
+        likingRelation.setUser(user);
+        likingRelation.setTag(likedTag);
+        UserTag dislikingRelation = new UserTag();
+        dislikingRelation.setUserTagId(new UserTagId());
+        dislikingRelation.setLikes(false);
+        dislikingRelation.setUser(user);
+        dislikingRelation.setTag(dislikedTag);
+
+        user.getTags().add(likingRelation);
+        user.getTags().add(dislikingRelation);
+
+        user = env.getUserRepository().save(user);
+
+        User fetchedUser = env.getUserService().findByLoginFetchTags(user.getLogin());
+
+        Assert.isTrue(fetchedUser.getLikedTags().size() == 1
+                        && fetchedUser.getLikedTags().contains(likedTag),
+                     "Must like tag");
+        Assert.isTrue(fetchedUser.getDislikedTags().size() == 1
+                        && fetchedUser.getDislikedTags().contains(dislikedTag),
+                     "Must like tag");
+
+        env.getTagRepository().delete(likedTag);
+        env.getTagRepository().delete(dislikedTag);
+        env.getUserRepository().delete(user);
     }
 }

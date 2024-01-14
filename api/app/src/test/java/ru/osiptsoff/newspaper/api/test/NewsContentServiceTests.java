@@ -2,6 +2,8 @@ package ru.osiptsoff.newspaper.api.test;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +16,7 @@ import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
 import ru.osiptsoff.newspaper.api.model.embeddable.NewsContentBlockId;
 
 @SpringBootTest
+@Transactional
 public class NewsContentServiceTests {
     private final NewsContentServiceTestEnvironment env;
 

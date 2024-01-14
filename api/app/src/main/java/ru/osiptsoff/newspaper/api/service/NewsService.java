@@ -19,6 +19,7 @@ import ru.osiptsoff.newspaper.api.repository.TagRepository;
 import ru.osiptsoff.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResult;
 import ru.osiptsoff.newspaper.api.service.exception.MissingEntityException;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -184,6 +185,8 @@ public class NewsService {
                 throw new MissingEntityException("Tag with name = '" + tagName + "' is not present");
             }
             Tag tag = tagResult.get();
+            if(tag.getNews() == null)
+                tag.setNews(new HashSet<News>());
 
             Optional<News> newsResult = newsRepository.findById(newsId);
             if(!newsResult.isPresent()) {

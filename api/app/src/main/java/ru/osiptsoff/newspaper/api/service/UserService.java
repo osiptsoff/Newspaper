@@ -1,6 +1,8 @@
 package ru.osiptsoff.newspaper.api.service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -40,6 +42,46 @@ public class UserService implements UserDetailsService {
 
         try {
             Optional<User> res = userRepository.findByLogin(login);
+            if(!res.isPresent()) {
+                log.info("No user with login = '" + login + "' present");
+                return null;
+            }
+            User user = res.get();
+
+            log.info("Request for " + login +  ": successfully got user, id = " + user.getId());
+
+            return user;
+        } catch(Exception e) {
+            log.error("Got exception: ", e);
+            throw e;
+        }
+    }
+
+    public List<News> findPreferredNewsByLogin(String login) {
+        log.info("Got request for preferred news of user with login = " + login);
+
+        try {
+            List<News> result = newsRepository
+                .findAllByUserPreferencesOrderByTimeDesc(login)
+                .stream()
+                .sorted( (i1, i2) -> i2.getLikedTags().compareTo(i1.getLikedTags()) )
+                .map( i -> i.getNews() )
+                .collect( Collectors.toList() );
+
+            log.info("Request for news for user '" + login + "': success");
+
+            return result;
+        } catch(Exception e) {
+            log.error("Got exception: ", e);
+            throw e;
+        }
+    }
+
+    public User findByLoginFetchTags(String login) {
+        log.info("Got request for user with login = " + login + ", fetch tags");
+
+        try {
+            Optional<User> res = userRepository.findByLoginFetchTags(login);
             if(!res.isPresent()) {
                 log.info("No user with login = '" + login + "' present");
                 return null;
@@ -111,7 +153,6 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    @Transactional
     public Boolean isTagLiked(String login, String tag) {
         log.info("Got request for user '" + login + "'s attitude for tag '" + tag + "'");
 

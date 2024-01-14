@@ -1,4 +1,5 @@
 server.servlet.context-path=
+server.port=
 
 spring.datasource.url=
 spring.datasource.username=

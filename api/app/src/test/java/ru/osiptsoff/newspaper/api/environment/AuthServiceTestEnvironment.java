@@ -19,4 +19,6 @@ public class AuthServiceTestEnvironment {
 
     private final String userLogin = "Auth test user";
     private final String userRawPassword = "12345";
+    private final String userName = "Vadim";
+    private final String userLastName = "Akimov";
 }

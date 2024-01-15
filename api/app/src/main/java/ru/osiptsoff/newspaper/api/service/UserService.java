@@ -286,7 +286,7 @@ public class UserService implements UserDetailsService {
     public User getAuthenticatedUser() {
         Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null)
-            return null;
+            throw new BadCredentialsException("Unauthorized");
 
         String login = authentication.getPrincipal().toString();
 

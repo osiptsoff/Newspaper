@@ -51,7 +51,7 @@ public class AuthService {
         defaultUserRole = roleRepository.findByName(defaultUserRoleName).get();
     }
 
-    public User register(String login, String password) {
+    public User register(String login, String password, String name, String lastName) {
         log.info("Got request for registration");
 
         if(userRepository.existsByLogin(login))
@@ -60,6 +60,8 @@ public class AuthService {
         User user = new User();
         user.setLogin(login);
         user.setPassword(passwordEncoder.encode(password));
+        user.setName(name);
+        user.setLastName(lastName);
         user.setRoles(new HashSet<Role>());
         user.getRoles().add(defaultUserRole);
 

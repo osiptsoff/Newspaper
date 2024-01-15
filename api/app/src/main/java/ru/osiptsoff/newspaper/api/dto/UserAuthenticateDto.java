@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class UserAuthenticateDto {
     @NotBlank
     @Size(max = 55)
     private String login;

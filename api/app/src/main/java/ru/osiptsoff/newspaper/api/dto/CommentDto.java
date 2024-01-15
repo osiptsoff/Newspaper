@@ -33,7 +33,9 @@ public class CommentDto {
         commentDto.text = comment.getText();
         commentDto.newsId = comment.getNews().getId();
         commentDto.id = comment.getId();
-        commentDto.author = comment.getAuthor().getLogin();
+        commentDto.author = comment.getAuthor().getName() == null || comment.getAuthor() == null 
+                                ? comment.getAuthor().getLogin()
+                                : comment.getAuthor().getName() + " " + comment.getAuthor().getLastName();
         commentDto.postTime = comment.getPostTime();
 
         return commentDto;

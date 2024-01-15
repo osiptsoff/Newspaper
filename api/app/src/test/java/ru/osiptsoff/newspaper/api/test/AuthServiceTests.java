@@ -26,7 +26,9 @@ public class AuthServiceTests {
     public void authenticationComplexTest() {
         env.getAuthService().register(
             env.getUserLogin(),
-            env.getUserRawPassword()
+            env.getUserRawPassword(),
+            env.getUserName(),
+            env.getUserLastName()
         );
 
         Optional<User> user = env.getUserRepository().findByLogin(env.getUserLogin());

@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import ru.osiptsoff.newspaper.api.dto.TokenDto;
-import ru.osiptsoff.newspaper.api.dto.UserDto;
+import ru.osiptsoff.newspaper.api.dto.UserAuthenticateDto;
+import ru.osiptsoff.newspaper.api.dto.UserRegistrationDto;
 import ru.osiptsoff.newspaper.api.service.AuthService;
 
 @RestController
@@ -25,13 +26,17 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void register(@Valid @RequestBody UserDto userDto) {
-        authService.register(userDto.getLogin(), userDto.getPassword());
+    public void register(@Valid @RequestBody UserRegistrationDto userDto) {
+        authService.register(userDto.getLogin(),
+                userDto.getPassword(),
+                userDto.getName(),
+                userDto.getLastName()
+            );
     }
 
     @PostMapping()
-    public TokenDto authenticate(@Valid @RequestBody UserDto userDto) {
-        String token = authService.authenticate(userDto.getLogin(), userDto.getPassword());
+    public TokenDto authenticate(@Valid @RequestBody UserAuthenticateDto dto) {
+        String token = authService.authenticate(dto.getLogin(), dto.getPassword());
 
         return new TokenDto("refresh", token);
     }

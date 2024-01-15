@@ -41,6 +41,12 @@ public class User {
     @Column(name = "passwhash")
     private String password;
 
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "lastname")
+    private String lastName;
+
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToOne(mappedBy = "owner", cascade = CascadeType.ALL)

@@ -57,13 +57,10 @@ public class CommentsController {
         comment.setPostTime(new Date().toInstant().atOffset(ZoneOffset.UTC));
         comment.setText(dto.getText());
 
-        commentsService.saveComment(comment);
+        comment = commentsService.saveComment(comment);
 
-        dto.setId(comment.getId());
-        dto.setAuthor(user.getLogin());
-        dto.setPostTime(comment.getPostTime());
 
-        return dto;
+        return CommentDto.from(comment);
     }
 
     @PatchMapping
@@ -79,10 +76,7 @@ public class CommentsController {
         comment.setPostTime(new Date().toInstant().atOffset(ZoneOffset.UTC));
         commentsService.saveComment(comment);
 
-        dto.setAuthor(authorLogin);
-        dto.setPostTime(comment.getPostTime());
-
-       return dto;
+       return CommentDto.from(comment);
     }
 
     @GetMapping()

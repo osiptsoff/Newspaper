@@ -3,11 +3,13 @@ package ru.osiptsoff.newspaper.api.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import ru.osiptsoff.newspaper.api.model.Tag;
 import ru.osiptsoff.newspaper.api.repository.TagRepository;
 import ru.osiptsoff.newspaper.api.service.exception.EntityExistsException;
 import ru.osiptsoff.newspaper.api.service.exception.MissingEntityException;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -18,6 +20,21 @@ import javax.transaction.Transactional;
 @Transactional
 public class TagService {
     private final TagRepository tagRepository;
+
+    public List<Tag> findAllTags() {
+        log.info("Got request for all tags");
+
+        try {
+            List<Tag> tags = tagRepository.findAll();
+
+            log.info("Successfully got " + tags.size() + " tags");
+
+            return tags;
+        } catch(Exception e) {
+            log.error("Got exception: ", e);
+            throw e;
+        }
+    }
 
     public Tag saveTag(Tag tag) {
         log.info("Got request to save tag");

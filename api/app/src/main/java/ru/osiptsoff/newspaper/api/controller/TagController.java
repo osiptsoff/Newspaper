@@ -1,9 +1,13 @@
 package ru.osiptsoff.newspaper.api.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +25,15 @@ import ru.osiptsoff.newspaper.api.service.TagService;
 @RequiredArgsConstructor
 public class TagController {
     private final TagService tagService;
+
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public List<TagDto> findAllTags() {
+        return tagService.findAllTags()
+                .stream()
+                .map( t -> TagDto.from(t) )
+                .collect( Collectors.toList() );
+    }
 
     @PostMapping()
     public void saveTag(@Valid @RequestBody TagDto tagDto) {

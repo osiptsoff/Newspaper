@@ -6,10 +6,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.osiptsoff.newspaper.api.model.Tag;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface TagRepository extends CrudRepository<Tag, Integer> {
+    List<Tag> findAll();
     Optional<Tag> findByName(String name);
     Boolean existsByName(String name);
     Long deleteByName(String name);

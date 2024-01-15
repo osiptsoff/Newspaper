@@ -1,5 +1,6 @@
 package ru.osiptsoff.newspaper.api.test;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -23,6 +24,26 @@ public class TagServiceTests {
     public TagServiceTests(TagRepository tagRepository, TagService tagService) {
         this.tagRepository = tagRepository;
         this.tagService = tagService;
+    }
+
+    @Test
+    public void findAllTest() {
+        Tag tag1 = new Tag();
+        Tag tag2 = new Tag();
+
+        tag1.setName("find all tags tag1");
+        tag1 = tagRepository.save(tag1);
+        tag2.setName("find all tags tag2");
+        tag2 = tagRepository.save(tag2);
+
+        List<Tag> tags = tagService.findAllTags();
+
+        Assert.isTrue(tags.size() > 2, "At least 2 tags must be present");
+        Assert.isTrue(tags.contains(tag1), "First tag must be present");
+        Assert.isTrue(tags.contains(tag2), "Second tag must be present");
+
+        tagRepository.delete(tag1);
+        tagRepository.delete(tag2);
     }
 
     @Test

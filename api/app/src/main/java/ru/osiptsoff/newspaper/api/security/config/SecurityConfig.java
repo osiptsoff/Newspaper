@@ -78,6 +78,7 @@ public class SecurityConfig {
                 .antMatchers("/comment/superuser").hasAuthority("admin")
                 .antMatchers("/comment").hasAnyAuthority("user", "admin")
                 //tag
+                .antMatchers(HttpMethod.GET, "/tag").permitAll()
                 .antMatchers("/tag").hasAuthority("admin")
                 //user
                 .antMatchers("/user/**").hasAnyAuthority("user", "admin")

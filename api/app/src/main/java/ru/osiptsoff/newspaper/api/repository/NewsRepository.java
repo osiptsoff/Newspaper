@@ -15,13 +15,13 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
      List<News> findAllByOrderByPostTimeDesc();
 
      @Query(value =
-          "SELECT new ru.osiptsoff.newspaper.api.service.auxiliary.NewsLikedTagsPair( n, SUM(CASE WHEN ntut.likes = true THEN 1 ELSE 0 END) ) FROM News n "
-          + "LEFT JOIN n.tags nt " 
-          + "LEFT JOIN nt.users ntut "
-          + "LEFT JOIN ntut.user ntu "
-          + "WHERE ntut IS NULL OR ntu.login = :login "
+          "SELECT new ru.osiptsoff.newspaper.api.service.auxiliary.NewsLikedTagsPair( n, SUM(CASE WHEN uut.likes = true THEN 1 ELSE 0 END) ) FROM User u "
+          + "LEFT JOIN u.tags uut " 
+          + "LEFT JOIN uut.tag ut "
+          + "JOIN News n ON ( (ut IN elements(n.tags)) OR (ut IS null) ) "
+          + "WHERE u.login = :login "
           + "GROUP BY n "
-          + "HAVING SUM(CASE WHEN ntut.likes = false THEN 1 ELSE 0 END) = 0 "
+          + "HAVING SUM(CASE WHEN uut.likes = false THEN 1 ELSE 0 END) = 0 "
           + "ORDER BY n.postTime DESC ")
      List<NewsLikedTagsPair> findAllByUserPreferencesOrderByTimeDesc(@Param("login") String login);
 

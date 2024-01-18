@@ -10,6 +10,7 @@ logging.level.ru.osiptsoff.newspaper.api.App=
 
 app.config.commentPageSize=
 app.config.textBlockPageSize=
+app.config.newsPageSize=
 
 app.config.uploadDirectory=
 

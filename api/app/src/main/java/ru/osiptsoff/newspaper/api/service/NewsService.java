@@ -20,7 +20,6 @@ import ru.osiptsoff.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResul
 import ru.osiptsoff.newspaper.api.service.exception.MissingEntityException;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -40,14 +39,17 @@ public class NewsService {
     @Value("${app.config.textBlockPageSize}")
     @Setter
     private Integer textBlockPageSize;
+    @Value("${app.config.newsPageSize}")
+    @Setter
+    private Integer newsPageSize;
 
-    public List<News> findAllNews() {
+    public Page<News> findAllNews(Integer page) {
         log.info("Got request for all news");
 
         try {
-            List<News> news = newsRepository.findAllByOrderByPostTimeDesc();
+            Page<News> news = newsRepository.findAllByOrderByPostTimeDesc(PageRequest.of(page, newsPageSize));
 
-            log.info("Successfully got " + news.size() + " news");
+            log.info("Successfully got " + news.getSize() + " news");
 
             return news;
         } catch(Exception e) {

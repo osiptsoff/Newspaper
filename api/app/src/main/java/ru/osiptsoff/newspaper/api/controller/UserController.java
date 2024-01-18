@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,10 +20,13 @@ import ru.osiptsoff.newspaper.api.dto.IdDto;
 import ru.osiptsoff.newspaper.api.dto.LikeNewsDto;
 import ru.osiptsoff.newspaper.api.dto.LikeTagDto;
 import ru.osiptsoff.newspaper.api.dto.NewsSignatureDto;
+import ru.osiptsoff.newspaper.api.dto.PageDto;
+import ru.osiptsoff.newspaper.api.dto.PageRequestDtoNoOwner;
 import ru.osiptsoff.newspaper.api.dto.SingleValueDto;
 import ru.osiptsoff.newspaper.api.dto.TagDto;
 import ru.osiptsoff.newspaper.api.dto.UserInfoDto;
 import ru.osiptsoff.newspaper.api.dto.UserTagListDto;
+import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.User;
 import ru.osiptsoff.newspaper.api.service.UserService;
 
@@ -67,12 +71,15 @@ public class UserController {
     }
 
     @GetMapping("/news")
-    public List<NewsSignatureDto> getNewsByPreferences() {
-        return userService
-                    .findPreferredNewsByLogin(authUtil.getAuthenticatedUserName())
-                    .stream()
-                    .map( n -> NewsSignatureDto.from(n) )
-                    .collect(Collectors.toList());
+    public PageDto<NewsSignatureDto> getNewsByPreferences(@Valid @RequestBody PageRequestDtoNoOwner dto) {
+        Page<News> page = userService.findPreferredNewsByLogin(
+            authUtil.getAuthenticatedUserName(),
+            dto.getPageNumber()
+        );
+
+        List<NewsSignatureDto> resultList = page.map( n -> NewsSignatureDto.from(n) ).toList();
+
+        return new PageDto<NewsSignatureDto>(resultList, page.isLast());
     }
 
     @GetMapping("/news/like")

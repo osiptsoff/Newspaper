@@ -6,6 +6,10 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.Tag;
@@ -26,6 +31,7 @@ import ru.osiptsoff.newspaper.api.repository.NewsRepository;
 import ru.osiptsoff.newspaper.api.repository.TagRepository;
 import ru.osiptsoff.newspaper.api.repository.UserRepository;
 import ru.osiptsoff.newspaper.api.repository.UserTagRepository;
+import ru.osiptsoff.newspaper.api.service.auxiliary.NewsLikedTagsPair;
 import ru.osiptsoff.newspaper.api.service.exception.MissingEntityException;
 
 @Service
@@ -36,6 +42,10 @@ public class UserService implements UserDetailsService {
     private final NewsRepository newsRepository;
     private final TagRepository tagRepository;
     private final UserTagRepository userTagRepository;
+
+    @Value("${app.config.newsPageSize}")
+    @Setter
+    private Integer newsPageSize;
 
     public User findByLogin(String login) {
         log.info("Got request for user with login = " + login);
@@ -57,20 +67,25 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public List<News> findPreferredNewsByLogin(String login) {
+    public Page<News> findPreferredNewsByLogin(String login, Integer pageNumber) {
         log.info("Got request for preferred news of user with login = " + login);
 
         try {
-            List<News> result = newsRepository
-                .findAllByUserPreferencesOrderByTimeDesc(login)
-                .stream()
-                .sorted( (i1, i2) -> i2.getLikedTags().compareTo(i1.getLikedTags()) )
-                .map( i -> i.getNews() )
-                .collect( Collectors.toList() );
+            Page<NewsLikedTagsPair> result = newsRepository
+                .findAllByUserPreferencesOrderByTimeDesc(
+                    login,
+                    PageRequest.of(pageNumber, newsPageSize)
+                );
+
+            List<News> data = result
+                                .stream()
+                                .sorted( (i1, i2) -> i2.getLikedTags().compareTo(i1.getLikedTags()) )
+                                .map( i -> i.getNews() )
+                                .collect(Collectors.toList());
 
             log.info("Request for news for user '" + login + "': success");
-
-            return result;
+            
+            return new PageImpl<News>(data, result.getPageable(), result.getTotalElements());
         } catch(Exception e) {
             log.error("Got exception: ", e);
             throw e;

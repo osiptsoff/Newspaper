@@ -28,6 +28,7 @@ import ru.osiptsoff.newspaper.api.dto.NewsContentBlockDto;
 import ru.osiptsoff.newspaper.api.dto.NewsSignatureDto;
 import ru.osiptsoff.newspaper.api.dto.PageDto;
 import ru.osiptsoff.newspaper.api.dto.PageRequestDto;
+import ru.osiptsoff.newspaper.api.dto.PageRequestDtoNoOwner;
 import ru.osiptsoff.newspaper.api.dto.TagAssociationRequestDto;
 import ru.osiptsoff.newspaper.api.model.News;
 import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
@@ -45,13 +46,12 @@ public class NewsController {
     private final NewsContentService newsContentService;
 
     @GetMapping()
-    public List<NewsSignatureDto> getAllNews() {
-        List<NewsSignatureDto> result = new LinkedList<>();
-        List<News> news = newsService.findAllNews();
+    public PageDto<NewsSignatureDto> getAllNewsPage(@Valid @RequestBody PageRequestDtoNoOwner dto) {
+        Page<News> page = newsService.findAllNews(dto.getPageNumber());
 
-        news.forEach( n -> result.add( NewsSignatureDto.from(n) ));
+        List<NewsSignatureDto> resultList = page.map( n -> NewsSignatureDto.from(n) ).toList();
 
-        return result;
+        return new PageDto<NewsSignatureDto>(resultList, page.isLast());
     }
 
     @GetMapping("/{id}")

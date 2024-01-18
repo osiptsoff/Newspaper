@@ -2,6 +2,7 @@ package ru.osiptsoff.newspaper.api.environment;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,7 @@ public class NewsContentServiceTestEnvironment {
     private News testNews;
 
     @PostConstruct
+    @Transactional
     public void createTestNews() {
         testNews = new News();
         testNews.setTitle("News object to test content");
@@ -32,6 +34,7 @@ public class NewsContentServiceTestEnvironment {
     }
 
     @PreDestroy
+    @Transactional
     public void deleteTestNews() {
         newsRepository.delete(testNews);
     }

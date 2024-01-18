@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -36,6 +37,7 @@ public class NewsServiceTestEnvironment {
     private News bigNews;
 
     @PostConstruct
+    @Transactional
     public void createTestNews() {
         smallNews = new News();
         smallNews.setTitle("Small test news");
@@ -57,6 +59,7 @@ public class NewsServiceTestEnvironment {
     }
 
     @PreDestroy
+    @Transactional
     public void deleteTestNews() {
         newsRepository.delete(smallNews);
         newsRepository.delete(bigNews);

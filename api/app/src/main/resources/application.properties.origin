@@ -11,6 +11,8 @@ logging.level.ru.osiptsoff.newspaper.api.App=
 app.config.commentPageSize=
 app.config.textBlockPageSize=
 
+app.config.uploadDirectory=
+
 app.config.security.accessSecret=
 app.config.security.refreshSecret=
 app.config.security.accessLifespawnSec=

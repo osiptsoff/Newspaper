@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import io.jsonwebtoken.JwtException;
 import ru.osiptsoff.newspaper.api.service.exception.EntityExistsException;
+import ru.osiptsoff.newspaper.api.service.exception.ImageStorageException;
 import ru.osiptsoff.newspaper.api.service.exception.MissingEntityException;
 import ru.osiptsoff.newspaper.api.service.exception.UnregistredTokenException;
 import ru.osiptsoff.newspaper.api.service.exception.UsernameTakenException;
@@ -56,6 +57,11 @@ public class ControllerAdvice {
     @ExceptionHandler(EntityExistsException.class)
     public ResponseEntity<Map<String, Object>> handleEntityExistsException() {
         return getEntity(HttpStatus.BAD_REQUEST, "Entity exists already");
+    }
+
+    @ExceptionHandler(ImageStorageException.class)
+    public ResponseEntity<Map<String, Object>> handleImageStorageException() {
+        return getEntity(HttpStatus.BAD_REQUEST, "Bad image passed");
     }
 
     private ResponseEntity<Map<String, Object>> getEntity(HttpStatus status, String message) {

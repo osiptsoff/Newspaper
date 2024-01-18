@@ -21,8 +21,8 @@ public class CommentDto {
     @NotBlank
     @Size(max=255)
     private String text;
-    private Integer newsId;
-    private Integer id;
+    private Long newsId;
+    private Long id;
     @Size(max=55)
     private String author;
     private OffsetDateTime postTime;

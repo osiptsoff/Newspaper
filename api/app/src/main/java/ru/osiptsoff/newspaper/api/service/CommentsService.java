@@ -43,7 +43,7 @@ public class CommentsService {
         }
     }
 
-    public Comment findCommentById(Integer id) {
+    public Comment findCommentById(Long id) {
         log.info("Got request for comment with id = " + id);
 
         try {
@@ -63,7 +63,7 @@ public class CommentsService {
         }
     }
 
-    public Page<Comment> findNthPageOfCommentsByNewsId(Integer newsId, Integer page) {
+    public Page<Comment> findNthPageOfCommentsByNewsId(Long newsId, Integer page) {
         log.info("Got request for comments; page = " + page + " , news id = " + newsId);
 
         try {
@@ -83,7 +83,7 @@ public class CommentsService {
         return findNthPageOfCommentsByNewsId(news.getId(), page);
     }
 
-    public void deleteComment(Integer id) {
+    public void deleteComment(Long id) {
         log.info("Got request to delete comment with id = " + id);
 
         try {
@@ -106,7 +106,7 @@ public class CommentsService {
         deleteComment(comment.getId());
     }
 
-    public String getLoginOfAuthor(Integer newsId) {
+    public String getLoginOfAuthor(Long newsId) {
         log.info("Got request for login of user who authored comment witd id = " + newsId);
 
         try {

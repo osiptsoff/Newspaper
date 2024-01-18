@@ -114,7 +114,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void deleteUser(Integer userId) {
+    public void deleteUser(Long userId) {
         log.info("Got request to delete user with id = " + userId);
 
         try {
@@ -138,7 +138,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public Boolean isNewsLiked(String login, Integer newsid) {
+    public Boolean isNewsLiked(String login, Long newsid) {
         log.info("Got request for user '" + login + "'s attitude for news with id = " + newsid);
 
         try {
@@ -168,7 +168,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public void likeNews(String login, Integer newsId) {
+    public void likeNews(String login, Long newsId) {
         log.info("Got request to like news with id = " + newsId + " by user '" + login + "'");
 
         likeNews(login, newsId, true);
@@ -176,7 +176,7 @@ public class UserService implements UserDetailsService {
         log.info("Successfully liked news with id = " + newsId + " by user '" + login + "'");
     }
 
-    public void undoLikeNews(String login, Integer newsId) {
+    public void undoLikeNews(String login, Long newsId) {
         log.info("Got request to undo like news with id = " + newsId + " by user '" + login + "'");
 
         likeNews(login, newsId, false);
@@ -209,7 +209,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    private void likeNews(String login, Integer newsId, boolean like) {
+    private void likeNews(String login, Long newsId, boolean like) {
         try {
             Optional<User> res = userRepository.findByLoginFetchLikedNews(login);
             if(!res.isPresent()) {

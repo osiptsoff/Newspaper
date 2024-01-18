@@ -42,7 +42,7 @@ public abstract class ImageService<T extends Image> {
         throw new ImageStorageException("Unsupported media type");
     }
 
-    public T findImage(Integer newsid) {
+    public T findImage(Long newsid) {
         log.info("Got request for image of news with id = " + newsid);
 
         try {
@@ -63,7 +63,7 @@ public abstract class ImageService<T extends Image> {
         }
     }
 
-    public void deleteImage(Integer newsId) {
+    public void deleteImage(Long newsId) {
         log.info("Got request to delete image of news with id = " + newsId);
 
         try {
@@ -82,7 +82,7 @@ public abstract class ImageService<T extends Image> {
         }
     }
 
-    public T saveImage(MultipartFile image, MediaType mediaType, Integer newsId) {
+    public T saveImage(MultipartFile image, MediaType mediaType, Long newsId) {
         log.info("Got request to save image of news with id = " + newsId);
 
         if(!newsRepository.existsById(newsId)) {
@@ -95,5 +95,5 @@ public abstract class ImageService<T extends Image> {
         return performSave(image, mediaType, newsId);
     }
 
-    protected abstract T performSave(MultipartFile image, MediaType mediaType, Integer newsId);
+    protected abstract T performSave(MultipartFile image, MediaType mediaType, Long newsId);
 }

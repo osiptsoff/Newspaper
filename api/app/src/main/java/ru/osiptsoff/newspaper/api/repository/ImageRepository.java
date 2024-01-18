@@ -7,6 +7,6 @@ import org.springframework.data.repository.NoRepositoryBean;
 import ru.osiptsoff.newspaper.api.model.image.Image;
 
 @NoRepositoryBean
-public interface ImageRepository<T extends Image> extends CrudRepository<T, Integer> {
-    T findByNewsId(Integer newsId);
+public interface ImageRepository<T extends Image> extends CrudRepository<T, Long> {
+    T findByNewsId(Long newsId);
 }

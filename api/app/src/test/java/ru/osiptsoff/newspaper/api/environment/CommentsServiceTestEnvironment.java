@@ -37,8 +37,8 @@ public class CommentsServiceTestEnvironment {
         testNews = new News();
         testNews.setTitle("News object to test comments");
         testNews.setContent( Arrays.asList(
-                new NewsContentBlock(new NewsContentBlockId(null, 1), testNews, "First"),
-                new NewsContentBlock(new NewsContentBlockId(null, 2), testNews, "Second")
+                new NewsContentBlock(new NewsContentBlockId(null, 1l), testNews, "First"),
+                new NewsContentBlock(new NewsContentBlockId(null, 2l), testNews, "Second")
         ) );
         testNews = newsRepository.save(testNews);
 

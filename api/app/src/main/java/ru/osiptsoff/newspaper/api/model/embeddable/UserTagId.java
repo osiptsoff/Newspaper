@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserTagId implements Serializable {
     @Column(name = "userid")
-    private Integer userId;
+    private Long userId;
 
     @Column(name = "tagid")
-    private Integer tagId;
+    private Long tagId;
 }

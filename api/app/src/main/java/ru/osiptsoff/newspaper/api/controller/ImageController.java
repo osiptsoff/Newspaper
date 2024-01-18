@@ -1,3 +1,4 @@
+
 package ru.osiptsoff.newspaper.api.controller;
 
 import org.springframework.core.io.Resource;
@@ -29,7 +30,7 @@ public class ImageController {
     private final ImageService<FileSystemImage> imageService;
 
     @GetMapping()
-    public ResponseEntity<Resource> getImage(@PathVariable("id") Integer id) {
+    public ResponseEntity<Resource> getImage(@PathVariable("id") Long id) {
         Image image = imageService.findImage(id);
         return ResponseEntity
             .ok()
@@ -42,7 +43,7 @@ public class ImageController {
     public void postImage(
         @RequestParam("file") MultipartFile file,
         @RequestHeader("Image-Type") String type,
-        @PathVariable("id") Integer id
+        @PathVariable("id") Long id
     ) {
         MediaType mediaType = imageService.resolveMediaType(type);
 
@@ -51,7 +52,7 @@ public class ImageController {
 
     @DeleteMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteImage(@PathVariable("id") Integer id) {
+    public void deleteImage(@PathVariable("id") Long id) {
         imageService.deleteImage(id);
     }
 }

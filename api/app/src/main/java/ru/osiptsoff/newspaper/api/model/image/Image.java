@@ -24,7 +24,7 @@ import ru.osiptsoff.newspaper.api.model.News;
 public abstract class Image {
     @Id
     @Column(name = "newsid")
-    protected Integer newsId;
+    protected Long newsId;
 
     @Column(name = "type")
     protected String type;

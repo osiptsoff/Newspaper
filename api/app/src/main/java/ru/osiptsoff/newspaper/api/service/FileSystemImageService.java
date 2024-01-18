@@ -54,7 +54,7 @@ public class FileSystemImageService extends ImageService<FileSystemImage> {
     }
 
     @Override
-    public void deleteImage(Integer newsId) {
+    public void deleteImage(Long newsId) {
         Image image = imageRepository.findByNewsId(newsId);
 
         super.deleteImage(newsId);
@@ -72,7 +72,7 @@ public class FileSystemImageService extends ImageService<FileSystemImage> {
 
     @Override
     @Transactional
-    protected FileSystemImage performSave(MultipartFile file, MediaType mediaType, Integer newsId) {
+    protected FileSystemImage performSave(MultipartFile file, MediaType mediaType, Long newsId) {
         try {
             if (file.isEmpty()) {
                 log.info("Got empty image to save, aborted");

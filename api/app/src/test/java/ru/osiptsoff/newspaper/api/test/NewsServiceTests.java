@@ -34,8 +34,8 @@ public class NewsServiceTests {
         News testNews = new News();
         testNews.setTitle("Test news save");
         testNews.setContent( Arrays.asList(
-                new NewsContentBlock(new NewsContentBlockId(null, 1), testNews, "First"),
-                new NewsContentBlock(new NewsContentBlockId(null, 2), testNews, "Second")
+                new NewsContentBlock(new NewsContentBlockId(null, 1l), testNews, "First"),
+                new NewsContentBlock(new NewsContentBlockId(null, 2l), testNews, "Second")
         ) );
 
         testNews = env.getNewsService().saveNews(testNews);

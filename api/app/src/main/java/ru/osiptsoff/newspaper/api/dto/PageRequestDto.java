@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PageRequestDto {
     @NotNull
-    private Integer ownerId;
+    private Long ownerId;
     @NotNull
     private Integer pageNumber;
 }

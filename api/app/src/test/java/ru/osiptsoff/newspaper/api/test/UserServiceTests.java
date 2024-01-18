@@ -74,7 +74,7 @@ public class UserServiceTests {
     @Test
     public void newsLikeTest() {
         String userLogin = env.getTestUser().getLogin();
-        Integer newsId = env.getTestNews().getId();
+        Long newsId = env.getTestNews().getId();
 
         env.getUserService().likeNews(userLogin, newsId);
         Assert.isTrue(env.getUserService().isNewsLiked(userLogin, newsId), 

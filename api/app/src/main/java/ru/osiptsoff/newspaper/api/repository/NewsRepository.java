@@ -11,7 +11,7 @@ import ru.osiptsoff.newspaper.api.service.auxiliary.NewsLikedTagsPair;
 import java.util.List;
 
 @Repository
-public interface NewsRepository extends JpaRepository<News, Integer> {
+public interface NewsRepository extends JpaRepository<News, Long> {
      List<News> findAllByOrderByPostTimeDesc();
 
      @Query(value =
@@ -25,5 +25,5 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
      List<NewsLikedTagsPair> findAllByUserPreferencesOrderByTimeDesc(@Param("login") String login);
 
      @Query(value = "SELECT size(n.likers) FROM News n WHERE n.id = :newsId")
-     Integer countLikes(@Param("newsId") Integer newsId);
+     Long countLikes(@Param("newsId") Long newsId);
 }

@@ -14,7 +14,7 @@ public class FetchedNewsDto {
     private List<CommentDto> comments;
     private List<NewsContentBlockDto> content;
 
-    private Integer likesCount;
+    private Long likesCount;
 
     private Boolean isLastCommentsPage;
     private Boolean isLastContentPage;

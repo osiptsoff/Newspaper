@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import ru.osiptsoff.newspaper.api.model.auth.Role;
 
 @Repository
-public interface RoleRepository extends CrudRepository<Role, Integer> {
+public interface RoleRepository extends CrudRepository<Role, Long> {
     Optional<Role> findByName(String name);
     
 }

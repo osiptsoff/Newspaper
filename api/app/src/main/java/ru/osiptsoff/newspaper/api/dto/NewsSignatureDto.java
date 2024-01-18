@@ -23,7 +23,7 @@ public class NewsSignatureDto {
     @NotBlank
     @Size(max=255)
     private String title;
-    private Integer id;
+    private Long id;
     private OffsetDateTime postTime;
     private Collection<TagDto> tags;
 

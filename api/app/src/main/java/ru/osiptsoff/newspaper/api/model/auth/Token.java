@@ -24,7 +24,7 @@ import ru.osiptsoff.newspaper.api.model.User;
 public class Token {
     @Id
     @Column(name = "userid")
-    private Integer userId;
+    private Long userId;
 
     @Column(name = "value")
     private String value;

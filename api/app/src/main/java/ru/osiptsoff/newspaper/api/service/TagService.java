@@ -79,7 +79,7 @@ public class TagService {
         }
     }
 
-    public void deleteTag(Integer id) {
+    public void deleteTag(Long id) {
         log.info("Got request to delete tag with id = " + id);
 
         try {

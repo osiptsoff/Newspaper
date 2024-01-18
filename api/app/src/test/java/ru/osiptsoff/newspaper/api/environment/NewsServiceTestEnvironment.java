@@ -42,8 +42,8 @@ public class NewsServiceTestEnvironment {
         smallNews = new News();
         smallNews.setTitle("Small test news");
         smallNews.setContent( Arrays.asList(
-                new NewsContentBlock(new NewsContentBlockId(null, 1), smallNews, "First"),
-                new NewsContentBlock(new NewsContentBlockId(null, 2), smallNews, "Second")
+                new NewsContentBlock(new NewsContentBlockId(null, 1l), smallNews, "First"),
+                new NewsContentBlock(new NewsContentBlockId(null, 2l), smallNews, "Second")
         ) );
 
         smallNews = newsRepository.save(smallNews);
@@ -51,7 +51,7 @@ public class NewsServiceTestEnvironment {
         bigNews = new News();
         bigNews.setTitle("Big test news");
         List<NewsContentBlock> bigNewsContent = new ArrayList<NewsContentBlock>();
-        for(int i = 0; i < 3 * blocksPerPage; i++)
+        for(long i = 0; i < 3 * blocksPerPage; i++)
             bigNewsContent.add(new NewsContentBlock(new NewsContentBlockId(null, i), bigNews, "Block " + i));
         bigNews.setContent(bigNewsContent);
 

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import ru.osiptsoff.newspaper.api.model.User;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserRepository extends CrudRepository<User, Long> {
     Optional<User> findByLogin(String login);
     Boolean existsByLogin(String login);
 
@@ -24,5 +24,5 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     Boolean userLikesTag(@Param("login") String login, @Param("tag") String tag);
 
     @Query("SELECT CASE WHEN (COUNT(n) > 0) THEN TRUE ELSE FALSE END FROM News n LEFT JOIN n.likers l WHERE n.id = :newsid AND l.login = :login")
-    Boolean userLikesNews(@Param("login") String login, @Param("newsid") Integer newsid);
+    Boolean userLikesNews(@Param("login") String login, @Param("newsid") Long newsid);
 }

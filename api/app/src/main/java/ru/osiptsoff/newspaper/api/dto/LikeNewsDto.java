@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LikeNewsDto {
     @NotNull
-    private Integer newsId;
+    private Long newsId;
     @NotNull
     private Boolean liked;
 }

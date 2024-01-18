@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class NewsContentBlockId implements Serializable {
     @Column(name = "newsid")
-    private Integer newsId;
+    private Long newsId;
 
     @Column(name = "number")
-    private Integer number;
+    private Long number;
 }

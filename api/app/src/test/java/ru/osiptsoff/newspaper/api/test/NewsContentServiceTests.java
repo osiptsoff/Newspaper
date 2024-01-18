@@ -34,7 +34,7 @@ public class NewsContentServiceTests {
     public void saveContentBlockTest() {
         NewsContentBlock block = new NewsContentBlock();
         block.setText("First block");
-        block.setNewsContentBlockId(new NewsContentBlockId(null, 1));
+        block.setNewsContentBlockId(new NewsContentBlockId(null, 1l));
         block.setNews(env.getTestNews());
 
         block = env.getNewsContentService().saveNewsContentBlock(block);
@@ -47,7 +47,7 @@ public class NewsContentServiceTests {
     
     @Test
     public void findPageTest() {
-        for(int i = 0; i < blocksPerPage + 1; i++) {
+        for(long i = 0; i < blocksPerPage + 1; i++) {
             NewsContentBlock block = new NewsContentBlock();
             block.setText("Block" + i);
             block.setNewsContentBlockId(new NewsContentBlockId(null, i + 2));
@@ -75,7 +75,7 @@ public class NewsContentServiceTests {
     @Test
     public void deleteNewsContentTest() {
         if(env.getNewsContentRepository().countByNews(env.getTestNews()) == 0)
-            for(int i = 0; i < blocksPerPage + 1; i++) {
+            for(long i = 0; i < blocksPerPage + 1; i++) {
                 NewsContentBlock block = new NewsContentBlock();
                 block.setText("Block" + i);
                 block.setNewsContentBlockId(new NewsContentBlockId(null, i));

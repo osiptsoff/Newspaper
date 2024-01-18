@@ -55,7 +55,7 @@ public class NewsController {
     }
 
     @GetMapping("/{id}")
-    public FetchedNewsDto getNews(@PathVariable Integer id) {
+    public FetchedNewsDto getNews(@PathVariable Long id) {
         NewsServiceFindNewsByIdResult fetchedNews = newsService.findNewsById(id);
         if(fetchedNews == null)
             throw new NullPointerException();
@@ -113,7 +113,7 @@ public class NewsController {
     @PostMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void saveNewsContent(@Valid @RequestBody List<NewsContentBlockDto> blocks,
-                                @PathVariable Integer id) {
+                                @PathVariable Long id) {
         News news = newsService.findNewsByIdNoFetch(id);
         if(news == null)
             throw new NullPointerException();
@@ -136,7 +136,7 @@ public class NewsController {
     @PostMapping("/{id}/tag")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void associateWithTag(@Valid @RequestBody TagAssociationRequestDto dto,
-                                 @PathVariable Integer id) {
+                                 @PathVariable Long id) {
         if(dto.getBelongs())
             newsService.associateWithTag(id, dto.getTag());
         else
@@ -151,7 +151,7 @@ public class NewsController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteNewsContent(@PathVariable Integer id) {
+    public void deleteNewsContent(@PathVariable Long id) {
         News news = newsService.findNewsByIdNoFetch(id);
 
         newsContentService.deleteAllContentOfNews(news);

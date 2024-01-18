@@ -73,7 +73,7 @@ public class NewsService {
         }
     }
 
-    public News findNewsByIdNoFetch(Integer id) {
+    public News findNewsByIdNoFetch(Long id) {
         log.info("Got request for news with id = " + id);
 
         try {
@@ -93,7 +93,7 @@ public class NewsService {
            
     }
 
-    public NewsServiceFindNewsByIdResult findNewsById(Integer id) {
+    public NewsServiceFindNewsByIdResult findNewsById(Long id) {
         try {
             News news = findNewsByIdNoFetch(id);
             if(news == null)
@@ -122,7 +122,7 @@ public class NewsService {
         }
     }
 
-    public void associateWithTag(Integer newsId, String tagName) {
+    public void associateWithTag(Long newsId, String tagName) {
         log.info("Got request to associate news with id = " + newsId + " with tag named '" + tagName + "'");
 
         changeAssociation(newsId, tagName, true);
@@ -130,7 +130,7 @@ public class NewsService {
         log.info("Associated news with id = " + newsId + " and tag with name = '" + tagName + "'");
     }
 
-    public void deassociateWithTag(Integer newsId, String tagName) {
+    public void deassociateWithTag(Long newsId, String tagName) {
         log.info("Got request to deassociate news with id = " + newsId + " with tag named '" + tagName + "'");
 
         changeAssociation(newsId, tagName, false);
@@ -138,11 +138,11 @@ public class NewsService {
         log.info("Deassociated news with id = " + newsId + " and tag with name = '" + tagName + "'");
     }
 
-    public Integer countLikes(Integer newsId) {
+    public Long countLikes(Long newsId) {
         log.info("Got request to count likes of news with id = " + newsId);
 
         try {
-            Integer likesCount = newsRepository.countLikes(newsId);
+            Long likesCount = newsRepository.countLikes(newsId);
 
             log.info("Counted " + likesCount + " likes of news with id = " + newsId);
 
@@ -154,7 +154,7 @@ public class NewsService {
     }
 
     @Transactional
-    public void deleteNews(Integer newsId) {
+    public void deleteNews(Long newsId) {
         log.info("Got request to delete news with id = " + newsId);
 
         try {
@@ -178,7 +178,7 @@ public class NewsService {
     }
 
     @Transactional
-    private void changeAssociation(Integer newsId, String tagName, boolean associate) {
+    private void changeAssociation(Long newsId, String tagName, boolean associate) {
         try {
            Optional<Tag> tagResult = tagRepository.findByNameFetchNews(tagName);
             if(!tagResult.isPresent()) {

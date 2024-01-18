@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class IdDto {
     @NotNull
-    private Integer id;
+    private Long id;
 }

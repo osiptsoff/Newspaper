@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface TagRepository extends CrudRepository<Tag, Integer> {
+public interface TagRepository extends CrudRepository<Tag, Long> {
     List<Tag> findAll();
     Optional<Tag> findByName(String name);
     Boolean existsByName(String name);

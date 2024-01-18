@@ -48,7 +48,7 @@ public class NewsContentService {
         return blocks;
     }
 
-    public Page<NewsContentBlock> findNthPageOfContent(Integer newsId, Integer page) {
+    public Page<NewsContentBlock> findNthPageOfContent(Long newsId, Integer page) {
         log.info("Got request for news content; page = " + page + ", news id = " + newsId);
 
         try {

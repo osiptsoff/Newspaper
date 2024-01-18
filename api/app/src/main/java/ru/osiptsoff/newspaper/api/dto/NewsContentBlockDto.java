@@ -14,7 +14,7 @@ import ru.osiptsoff.newspaper.api.model.NewsContentBlock;
 @NoArgsConstructor
 public class NewsContentBlockDto {
     @NotNull
-    private Integer blockNumber;
+    private Long blockNumber;
     @NotBlank
     @Size(max=255)
     private String text;

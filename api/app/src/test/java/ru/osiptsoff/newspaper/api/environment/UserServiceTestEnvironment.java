@@ -2,6 +2,7 @@ package ru.osiptsoff.newspaper.api.environment;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,7 @@ public class UserServiceTestEnvironment {
     private News testNews;
 
     @PostConstruct
+    @Transactional
     public void createTestEntities() {
         testUser = new User();
         testUser.setLogin("Test login");
@@ -46,6 +48,7 @@ public class UserServiceTestEnvironment {
     }
 
     @PreDestroy
+    @Transactional
     public void deleteTestEntities() {
         userRepository.delete(testUser);
         tagRepository.delete(testTag);

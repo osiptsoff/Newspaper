@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Component;
 
@@ -31,6 +32,7 @@ public class CommentsServiceTestEnvironment {
     private @Getter User testUser;
 
     @PostConstruct
+    @Transactional
     public void createTestEntities() {
         testNews = new News();
         testNews.setTitle("News object to test comments");
@@ -47,6 +49,7 @@ public class CommentsServiceTestEnvironment {
     }
 
     @PreDestroy
+    @Transactional
     public void deleteTestEntities() {
         newsRepository.delete(testNews);
         userRepository.delete(testUser);

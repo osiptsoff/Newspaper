@@ -24,7 +24,6 @@ public class NewsSignatureDto {
     @Size(max=255)
     private String title;
     private Integer id;
-    private String picture;
     private OffsetDateTime postTime;
     private Collection<TagDto> tags;
 
@@ -33,7 +32,6 @@ public class NewsSignatureDto {
 
         dto.id = news.getId();
         dto.title = news.getTitle();
-        dto.picture = news.getPicturePath();
         dto.postTime = news.getPostTime();
         dto.tags = news
                     .getTags()

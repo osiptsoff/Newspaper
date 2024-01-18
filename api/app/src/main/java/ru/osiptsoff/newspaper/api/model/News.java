@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import ru.osiptsoff.newspaper.api.model.image.FileSystemImage;
+
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.CascadeType;
@@ -16,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.OffsetDateTime;
 import java.util.Collection;
@@ -35,11 +38,17 @@ public class News {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "picturepath")
-    private String picturePath;
-
     @Column(name = "posttime")
     private OffsetDateTime postTime;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToOne(
+        fetch = FetchType.LAZY,
+        mappedBy = "news",
+        cascade = CascadeType.ALL
+    )
+    private FileSystemImage image;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

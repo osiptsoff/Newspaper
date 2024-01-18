@@ -1,0 +1,45 @@
+package ru.osiptsoff.newspaper.api.model.image;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.PreRemove;
+
+import org.springframework.core.io.Resource;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import ru.osiptsoff.newspaper.api.model.News;
+
+@MappedSuperclass
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public abstract class Image {
+    @Id
+    @Column(name = "newsid")
+    protected Integer newsId;
+
+    @Column(name = "type")
+    protected String type;
+
+    @OneToOne
+    @JoinColumn(name = "newsid")
+    @MapsId("newsId")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    protected News news;
+
+    @PreRemove
+    protected void breakAssociation() {
+        this.news.setImage(null);
+    }
+
+    public abstract Resource asResource();
+}

@@ -17,7 +17,16 @@ import ru.spb.nicetu.newspaper.api.model.image.FileSystemImage;
 import ru.spb.nicetu.newspaper.api.repository.FileSystemImageRepository;
 import ru.spb.nicetu.newspaper.api.repository.NewsRepository;
 import ru.spb.nicetu.newspaper.api.service.AbstractImageService;
+import ru.spb.nicetu.newspaper.api.test.FileSystemImageServiceTests;
 
+/**
+ * <p>Environment used in {@code FileSystemImageServiceTests}.</p>
+ *
+ * <p>Contains tested service, repositories to load related resources, testing entities.</p>
+    * @author Nikita Osiptsov
+    * @see {@link FileSystemImageServiceTests}
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 @Getter

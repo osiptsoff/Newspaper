@@ -8,6 +8,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.spb.nicetu.newspaper.api.model.Tag;
 
+/**
+ * <p>Data Transfer Object for {@code Tag}.</p>
+ *
+ * <p>Contains name of tag.</p>
+ * <p>This class also provides static method for generating DTO from {@code Tag} instance</p>
+    * @author Nikita Osiptsov
+    * @see {@link Tag}
+ * @since 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

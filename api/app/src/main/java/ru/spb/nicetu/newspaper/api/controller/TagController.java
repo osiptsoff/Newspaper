@@ -19,6 +19,14 @@ import ru.spb.nicetu.newspaper.api.dto.TagDto;
 import ru.spb.nicetu.newspaper.api.model.Tag;
 import ru.spb.nicetu.newspaper.api.service.TagService;
 
+/**
+ * <p>Controller for '/tag' endpoint.</p>
+ *
+ * <p>Provides API for posting, updating, deletion and reading tags.</p>
+    * @author Nikita Osiptsov
+    * @see {@link TagService}
+ * @since 1.0
+ */
 @RestController
 @RequestMapping("/tag")
 @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -24,6 +24,16 @@ import ru.spb.nicetu.newspaper.api.repository.FileSystemImageRepository;
 import ru.spb.nicetu.newspaper.api.repository.NewsRepository;
 import ru.spb.nicetu.newspaper.api.service.exception.ImageStorageException;
 
+/**
+ * <p>Service which encapsulates business logic for pictures stored in file system.</p>
+ *
+ * <p>Can be used to perform CRUD operations on {@code FileSystemImage}s.</p>
+ * <p>Logs its work and unpredicted exceptions.</p>
+    * @author Nikita Osiptsov
+    * @see {@link AbstractImageService}
+    * @see {@link FileSystemImage}
+ * @since 1.0
+ */
 @Service
 @Slf4j
 public class FileSystemImageService extends AbstractImageService<FileSystemImage> {
@@ -89,6 +99,8 @@ public class FileSystemImageService extends AbstractImageService<FileSystemImage
             image = imageRepository.save(image);
 
             return image;
+        } catch (ImageStorageException e) {
+            throw e;
         } catch (IOException e) {
             log.error("Got exception: ", e);
             throw new RuntimeException("Failed to save file");

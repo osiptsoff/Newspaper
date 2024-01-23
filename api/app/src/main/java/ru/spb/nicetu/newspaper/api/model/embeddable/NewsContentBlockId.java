@@ -9,6 +9,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * <p>Composite database id for {@code NewsContentBlock}.</p>
+ *
+ * <p>Contains id of news owning {@code NewsContentBlock} and number of block.</p>
+    * @author Nikita Osiptsov
+    * @see {@link NewsContentBlock}
+ * @since 1.0
+ */
 @Embeddable
 @Data
 @NoArgsConstructor

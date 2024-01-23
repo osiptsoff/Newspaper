@@ -15,7 +15,16 @@ import ru.spb.nicetu.newspaper.api.model.Tag;
 import ru.spb.nicetu.newspaper.api.model.User;
 import ru.spb.nicetu.newspaper.api.model.UserTag;
 import ru.spb.nicetu.newspaper.api.model.embeddable.UserTagId;
+import ru.spb.nicetu.newspaper.api.service.UserService;
 
+/**
+ * <p>Tests for {@code UserService} features.</p>
+ *
+ * <p>Contains tests for most methods of {@code UserService}.</p>
+    * @author Nikita Osiptsov
+    * @see {@link UserService}
+ * @since 1.0
+ */
 @SpringBootTest
 @Transactional
 public class UserServiceTests {

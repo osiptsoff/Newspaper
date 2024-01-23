@@ -20,7 +20,16 @@ import ru.spb.nicetu.newspaper.api.model.embeddable.NewsContentBlockId;
 import ru.spb.nicetu.newspaper.api.repository.NewsRepository;
 import ru.spb.nicetu.newspaper.api.repository.TagRepository;
 import ru.spb.nicetu.newspaper.api.service.NewsService;
+import ru.spb.nicetu.newspaper.api.test.NewsServiceTests;
 
+/**
+ * <p>Environment used in {@code NewsServiceTests}.</p>
+ *
+ * <p>Contains tested service, repositories to load related resources, testing entities.</p>
+    * @author Nikita Osiptsov
+    * @see {@link NewsServiceTests}
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 @Getter

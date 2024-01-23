@@ -15,6 +15,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.spb.nicetu.newspaper.api.model.News;
 
+/**
+ * <p>Data Transfer Object for {@code News}, contains only general information.</p>
+ *
+ * <p>Contains title of news, its id, post time and tags.</p>
+ * <p>This class also provides static method for generating DTO from {@code News} instance</p>
+    * @author Nikita Osiptsov
+    * @see {@link News}
+ * @since 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

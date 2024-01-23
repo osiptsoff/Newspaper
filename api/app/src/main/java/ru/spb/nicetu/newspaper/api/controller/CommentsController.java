@@ -32,6 +32,14 @@ import ru.spb.nicetu.newspaper.api.service.NewsService;
 import ru.spb.nicetu.newspaper.api.service.UserService;
 import ru.spb.nicetu.newspaper.api.service.exception.MissingEntityException;
 
+/**
+ * <p>Controller for '/comment' endpoint.</p>
+ *
+ * <p>Provides API for posting, updating, deletion and reading comments.</p>
+    * @author Nikita Osiptsov
+    * @see {@link CommentsService}
+ * @since 1.0
+ */
 @RestController
 @RequestMapping("/comment")
 @RequiredArgsConstructor

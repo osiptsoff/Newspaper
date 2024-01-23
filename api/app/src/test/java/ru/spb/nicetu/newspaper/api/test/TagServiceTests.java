@@ -14,6 +14,14 @@ import ru.spb.nicetu.newspaper.api.model.Tag;
 import ru.spb.nicetu.newspaper.api.repository.TagRepository;
 import ru.spb.nicetu.newspaper.api.service.TagService;
 
+/**
+ * <p>Tests for {@code TagService} features.</p>
+ *
+ * <p>Contains tests for all methods of {@code TagService}.</p>
+    * @author Nikita Osiptsov
+    * @see {@link TagService}
+ * @since 1.0
+ */
 @SpringBootTest
 @Transactional
 public class TagServiceTests {

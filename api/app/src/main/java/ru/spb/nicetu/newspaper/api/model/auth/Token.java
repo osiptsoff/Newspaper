@@ -15,6 +15,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.spb.nicetu.newspaper.api.model.User;
 
+/**
+ * <p>Class for refresh token.</p>
+ *
+ * <p>Used for storing and subsequent comparison of refresh tokens</p>
+ * <p>Contains owning {@code User} and token value.</p>
+    * @author Nikita Osiptsov
+    * @see {@link User}
+ * @since 1.0
+ */
 @Entity
 @Table(name = "token", schema = "auth")
 @Setter

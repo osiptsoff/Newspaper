@@ -15,6 +15,16 @@ import ru.spb.nicetu.newspaper.api.repository.NewsRepository;
 import ru.spb.nicetu.newspaper.api.service.exception.ImageStorageException;
 import ru.spb.nicetu.newspaper.api.service.exception.MissingEntityException;
 
+/**
+ * <p>Abstract service which encapsulates common logic for {@code AbstractImage}s.</p>
+ *
+ * <p>Implementations should use find and delete methods of this class.</p>
+ * <p>Logs its work and unpredicted exceptions.</p>
+    * @author Nikita Osiptsov
+    * @see {@link AbstractImage}
+    * @see {@link ImageRepository}
+ * @since 1.0
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -68,6 +78,7 @@ public abstract class AbstractImageService<T extends AbstractImage> {
 
         try {
             if(!imageRepository.existsById(newsId)) {
+                log.info("Unsuccessful delete: entity does not exist");
                 throw new MissingEntityException();
             }
                 
@@ -75,7 +86,6 @@ public abstract class AbstractImageService<T extends AbstractImage> {
 
             log.info("Successfully deleted image of news with id = " + newsId);
         } catch(MissingEntityException e) {
-            log.info("Unsuccessful delete: entity does not exist");
             throw e;
         } catch(Exception e) {
             log.error("Got exception: ", e);

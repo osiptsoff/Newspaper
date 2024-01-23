@@ -19,6 +19,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.Collection;
 
+/**
+ * <p>Represents tag.</p>
+ *
+ * <p>Contains id, name, tagged news and associated users.</p>
+    * @author Nikita Osiptsov
+ * @since 1.0
+ */
 @Entity
 @Table(name = "tag", schema = "subject")
 @Data

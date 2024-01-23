@@ -24,6 +24,13 @@ import javax.persistence.Table;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+/**
+ * <p>Represents user.</p>
+ *
+ * <p>Contains id, login, password, name, lastname, token, associated tags, roles and liked news.</p>
+    * @author Nikita Osiptsov
+ * @since 1.0
+ */
 @Entity
 @Table(name = "user", schema = "auth")
 @Data

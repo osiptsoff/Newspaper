@@ -13,6 +13,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.spb.nicetu.newspaper.api.model.Comment;
 
+/**
+ * <p>Data Transfer Object for {@code Comment}.</p>
+ *
+ * <p>Contains text, id of associated news, id of comment, name of author and post time;
+ * name of author is defined as: login, if database contains no name or lastname of user,
+ * name and lastname otherwise.</p>
+ * <p>This class also provides static method for generating DTO from {@code Comment} instance</p>
+    * @author Nikita Osiptsov
+    * @see {@link Comment}
+ * @since 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

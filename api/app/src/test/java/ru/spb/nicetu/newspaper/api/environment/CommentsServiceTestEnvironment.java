@@ -18,7 +18,16 @@ import ru.spb.nicetu.newspaper.api.repository.CommentRepository;
 import ru.spb.nicetu.newspaper.api.repository.NewsRepository;
 import ru.spb.nicetu.newspaper.api.repository.UserRepository;
 import ru.spb.nicetu.newspaper.api.service.CommentsService;
+import ru.spb.nicetu.newspaper.api.test.CommentsServiceTests;
 
+/**
+ * <p>Environment used in {@code CommentsServiceTests}.</p>
+ *
+ * <p>Contains tested service, repositories to load related resources, testing entities.</p>
+    * @author Nikita Osiptsov
+    * @see {@link CommentsServiceTests}
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 public class CommentsServiceTestEnvironment {

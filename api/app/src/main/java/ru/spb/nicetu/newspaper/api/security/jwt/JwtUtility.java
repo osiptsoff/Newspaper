@@ -19,6 +19,14 @@ import ru.spb.nicetu.newspaper.api.model.User;
 import ru.spb.nicetu.newspaper.api.model.auth.Role;
 import ru.spb.nicetu.newspaper.api.model.auth.UserPrincipal;
 
+/**
+ * <p>Utility class responsible for jwt-tokens.</p>
+ * 
+ * <p>This class generates and validated jwt-tokens (both access and refresh)
+ * using base64 encoded keys provided through application properties.</p>
+    * @author Nikita Osiptsov
+ * @since 1.0
+ */
 @Component
 public class JwtUtility {
     private final SecretKey accessKey;

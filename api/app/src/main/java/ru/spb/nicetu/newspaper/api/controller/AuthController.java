@@ -17,6 +17,14 @@ import ru.spb.nicetu.newspaper.api.dto.UserAuthenticateDto;
 import ru.spb.nicetu.newspaper.api.dto.UserRegistrationDto;
 import ru.spb.nicetu.newspaper.api.service.AuthService;
 
+/**
+ * <p>Controller for '/auth' endpoint.</p>
+ *
+ * <p>Provides API for registration, authentication and logging out.</p>
+    * @author Nikita Osiptsov
+    * @see {@link AuthService}
+ * @since 1.0
+ */
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor

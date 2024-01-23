@@ -4,9 +4,11 @@ server.port=
 spring.datasource.url=
 spring.datasource.username=
 spring.datasource.password=
+spring.servlet.multipart.max-file-size=
+spring.servlet.multipart.max-request-size=
 
 logging.file.path=
-logging.level.ru.osiptsoff.newspaper.api.App=
+logging.level.ru.spb.nicetu.newspaper.api.App=
 
 app.config.commentPageSize=
 app.config.textBlockPageSize=

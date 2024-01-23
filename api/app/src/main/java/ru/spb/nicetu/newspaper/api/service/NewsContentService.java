@@ -16,6 +16,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+/**
+ * <p>Service which encapsulates business logic for news content.</p>
+ *
+ * <p>Can be used to perform CRUD operations on {@code NewsContentBlock}s.</p>
+ * <p>Multiple blocks are returned by pages, size of page can be specified through application properties.</p>
+ * <p>Logs its work and unpredicted exceptions.</p>
+    * @author Nikita Osiptsov
+    * @see {@link NewsContentBlock}
+    * @see {@link NewsContentRepository}
+ * @since 1.0
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

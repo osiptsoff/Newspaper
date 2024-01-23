@@ -37,6 +37,15 @@ import ru.spb.nicetu.newspaper.api.service.NewsContentService;
 import ru.spb.nicetu.newspaper.api.service.NewsService;
 import ru.spb.nicetu.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResult;
 
+/**
+ * <p>Controller for '/news' endpoint.</p>
+ *
+ * <p>Provides API for posting, updating, deletion and reading news and news content.</p>
+    * @author Nikita Osiptsov
+    * @see {@link NewsService}
+    * @see {@link NewsContentService}
+ * @since 1.0
+ */
 @RestController
 @RequestMapping("/news")
 @RequiredArgsConstructor

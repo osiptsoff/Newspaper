@@ -16,6 +16,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
+/**
+ * <p>Represents block of {@code News} content.</p>
+ *
+ * <p>Contains owning news, number of block and text.</p>
+    * @author Nikita Osiptsov
+    * @see {@link News}
+ * @since 1.0
+ */
 @Entity
 @Table(name = "textchunk", schema = "subject")
 @Data

@@ -13,6 +13,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.spb.nicetu.newspaper.api.model.embeddable.UserTagId;
 
+/**
+ * <p>Represents relation between {@code User} and {@code Tag}.</p>
+ *
+ * <p>Contains related {@code User} and {@code Tag} as well as relation {@code Boolean} type:
+ * {@code true} if user likes tag, {@code false} if user dislikes tag.</p>
+    * @author Nikita Osiptsov
+    * @see {@link User}
+    * @see {@link Tag}
+ * @since 1.0
+ */
 @Entity
 @Table(name = "user_tag", schema = "subject")
 @Data

@@ -6,6 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * <p>Generic Data Transfer Object for page.</p>
+ *
+ * <p>Contains list of page content, and {@code Boolean}, signalizing if given page is last.</p>
+    * @author Nikita Osiptsov
+ * @since 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

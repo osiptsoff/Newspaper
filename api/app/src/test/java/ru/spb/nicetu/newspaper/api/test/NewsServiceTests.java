@@ -11,6 +11,7 @@ import ru.spb.nicetu.newspaper.api.model.News;
 import ru.spb.nicetu.newspaper.api.model.NewsContentBlock;
 import ru.spb.nicetu.newspaper.api.model.Tag;
 import ru.spb.nicetu.newspaper.api.model.embeddable.NewsContentBlockId;
+import ru.spb.nicetu.newspaper.api.service.NewsService;
 import ru.spb.nicetu.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResult;
 
 import java.util.Arrays;
@@ -18,6 +19,14 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+/**
+ * <p>Tests for {@code NewsService} features.</p>
+ *
+ * <p>Contains tests for all methods of {@code NewsService}.</p>
+    * @author Nikita Osiptsov
+    * @see {@link NewsService}
+ * @since 1.0
+ */
 @SpringBootTest
 public class NewsServiceTests {
     private final NewsServiceTestEnvironment env;

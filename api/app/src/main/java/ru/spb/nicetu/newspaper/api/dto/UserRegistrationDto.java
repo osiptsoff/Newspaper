@@ -7,6 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * <p>Data Transfer Object for request to register user.</p>
+ *
+ * <p>Contains login and password of user as well as their name and lastname.</p>
+    * @author Nikita Osiptsov
+ * @since 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

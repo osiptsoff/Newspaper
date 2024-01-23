@@ -12,7 +12,16 @@ import ru.spb.nicetu.newspaper.api.model.News;
 import ru.spb.nicetu.newspaper.api.repository.NewsContentRepository;
 import ru.spb.nicetu.newspaper.api.repository.NewsRepository;
 import ru.spb.nicetu.newspaper.api.service.NewsContentService;
+import ru.spb.nicetu.newspaper.api.test.NewsContentServiceTests;
 
+/**
+ * <p>Environment used in {@code NewsContentServiceTests}.</p>
+ *
+ * <p>Contains tested service, repositories to load related resources, testing entities.</p>
+    * @author Nikita Osiptsov
+    * @see {@link NewsContentServiceTests}
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 @Getter

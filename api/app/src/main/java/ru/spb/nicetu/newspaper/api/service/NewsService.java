@@ -24,6 +24,20 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+/**
+ * <p>Service which encapsulates business logic for news.</p>
+ *
+ * <p>Can be used to perform CRUD operations on {@code News}s as well as associate {@code News} with {@code Tag}s.</p>
+ * <p>Multiple news are returned by pages, size of page can be specified through application properties.</p>
+ * <p>Logs its work and unpredicted exceptions.</p>
+    * @author Nikita Osiptsov
+    * @see {@link News}
+    * @see {@link Tag}
+    * @see {@link Comment}
+    * @see {@link NewsRepository}
+    * @see {@link TagRepository}
+ * @since 1.0
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

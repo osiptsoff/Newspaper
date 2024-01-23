@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import ru.spb.nicetu.newspaper.api.model.User;
 
+/**
+ * <p>{@code User} repository.</p>
+    * @author Nikita Osiptsov
+    * @see {@link User}
+ * @since 1.0
+ */
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
     Optional<User> findByLogin(String login);

@@ -27,6 +27,19 @@ import ru.spb.nicetu.newspaper.api.security.jwt.JwtUtility;
 import ru.spb.nicetu.newspaper.api.service.exception.UnregistredTokenException;
 import ru.spb.nicetu.newspaper.api.service.exception.UsernameTakenException;
 
+/**
+ * <p>Service which encapsulates business logic for registration and authentication.</p>
+ *
+ * <p>Can be used to register users, authenticate users, refreshing access token and logout.</p>
+ * <p>Logs its work and unpredicted exceptions.</p>
+    * @author Nikita Osiptsov
+    * @see {@link UserRepository}
+    * @see {@link TokenRepository}
+    * @see {@link RoleRepository}
+    * @see {@link UserService}
+    * @see {@link JwtUtility}
+ * @since 1.0
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

@@ -11,13 +11,22 @@ import org.springframework.core.io.Resource;
 import io.jsonwebtoken.lang.Assert;
 import ru.spb.nicetu.newspaper.api.environment.FileSystemImageServiceTestEnvironment;
 import ru.spb.nicetu.newspaper.api.model.image.AbstractImage;
+import ru.spb.nicetu.newspaper.api.service.FileSystemImageService;
 
+/**
+ * <p>Tests for {@code FileSystemImageService} features.</p>
+ *
+ * <p>Contains tests for all methods of {@code FileSystemImageService}.</p>
+    * @author Nikita Osiptsov
+    * @see {@link FileSystemImageService}
+ * @since 1.0
+ */
 @SpringBootTest
-public class FileSystemImageServiceTest {
+public class FileSystemImageServiceTests {
     private final FileSystemImageServiceTestEnvironment env;
 
     @Autowired
-    public FileSystemImageServiceTest(FileSystemImageServiceTestEnvironment env) {
+    public FileSystemImageServiceTests(FileSystemImageServiceTestEnvironment env) {
         this.env = env;
     }
 

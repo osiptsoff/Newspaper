@@ -6,6 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * <p>Data Transfer Object for Token.</p>
+ *
+ * <p>Contains type of token (access or refresh) and its value.</p>
+    * @author Nikita Osiptsov
+    * @see {@link Comment}
+ * @since 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -11,6 +11,13 @@ import org.springframework.security.core.GrantedAuthority;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * <p>Class for user's role.</p>
+ *
+ * <p>Contains id and name of role.</p>
+    * @author Nikita Osiptsov
+ * @since 1.0
+ */
 @Entity
 @Table(name = "role", schema = "auth")
 @Data

@@ -22,6 +22,11 @@ import lombok.Setter;
 import ru.spb.nicetu.newspaper.api.security.jwt.JwtAuthenticationFilter;
 import ru.spb.nicetu.newspaper.api.service.UserService;
 
+/**
+ * <p>Spring Security configuration class.</p>
+    * @author Nikita Osiptsov
+ * @since 1.0
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor

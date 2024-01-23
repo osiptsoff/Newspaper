@@ -17,6 +17,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+/**
+ * <p>Service which encapsulates business logic for comments.</p>
+ *
+ * <p>Can be used to perform CRUD operations on {@code Comment}s.</p>
+ * <p>Multiple comments are returned by pages, size of page can be specified through application properties.</p>
+ * <p>Logs its work and unpredicted exceptions.</p>
+    * @author Nikita Osiptsov
+    * @see {@link Comment}
+    * @see {@link CommentRepository}
+ * @since 1.0
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

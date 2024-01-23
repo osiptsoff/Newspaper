@@ -11,6 +11,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.spb.nicetu.newspaper.api.model.User;
 
+/**
+ * <p>Data Transfer Object for {@code User}.</p>
+ *
+ * <p>Contains information about user: login, name, last name and roles.</p>
+ * <p>This class also provides static method for generating DTO from {@code User} instance</p>
+    * @author Nikita Osiptsov
+    * @see {@link User}
+ * @since 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

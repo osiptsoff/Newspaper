@@ -8,7 +8,16 @@ import javax.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.spb.nicetu.newspaper.api.model.UserTag;
 
+/**
+ * <p>Composite database id for {@code UserTag}.</p>
+ *
+ * <p>Contains ids of related {@code User} and {@code Tag}.</p>
+    * @author Nikita Osiptsov
+    * @see {@link UserTag}
+ * @since 1.0
+ */
 @Embeddable
 @Data
 @NoArgsConstructor

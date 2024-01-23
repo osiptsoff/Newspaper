@@ -14,6 +14,16 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+/**
+ * <p>Service which encapsulates business logic for tags.</p>
+ *
+ * <p>Can be used to save, delete and get {@code Tag}s.</p>
+ * <p>Logs its work and unpredicted exceptions.</p>
+    * @author Nikita Osiptsov
+    * @see {@link Tag}
+    * @see {@link TagRepository}
+ * @since 1.0
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor

@@ -6,6 +6,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * <p>Application's main class</p>
+ * 
+	* @author Nikita Osiptsov
+ * @since 1.0
+ */
 @SpringBootApplication
 @Slf4j
 public class App {

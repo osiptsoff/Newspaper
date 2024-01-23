@@ -10,6 +10,12 @@ import ru.spb.nicetu.newspaper.api.model.Tag;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * <p>{@code Tag} repository.</p>
+    * @author Nikita Osiptsov
+    * @see {@link Tag}
+ * @since 1.0
+ */
 @Repository
 public interface TagRepository extends CrudRepository<Tag, Long> {
     List<Tag> findAll();
@@ -17,7 +23,7 @@ public interface TagRepository extends CrudRepository<Tag, Long> {
     Boolean existsByName(String name);
     Long deleteByName(String name);
 
-    @Query(value = "SELECT t FROM Tag t LEFT JOIN FETCH t.news WHERE t.name = :name")
+    @Query("SELECT t FROM Tag t LEFT JOIN FETCH t.news WHERE t.name = :name")
     Optional<Tag> findByNameFetchNews(@Param("name") String name);
 
 }

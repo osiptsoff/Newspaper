@@ -11,7 +11,16 @@ import org.springframework.util.Assert;
 
 import ru.spb.nicetu.newspaper.api.environment.AuthServiceTestEnvironment;
 import ru.spb.nicetu.newspaper.api.model.User;
+import ru.spb.nicetu.newspaper.api.service.AuthService;
 
+/**
+ * <p>Tests for {@code AuthService} features.</p>
+ *
+ * <p>Contains tests for all methods of {@code AuthService}.</p>
+    * @author Nikita Osiptsov
+    * @see {@link AuthService}
+ * @since 1.0
+ */
 @SpringBootTest
 @Transactional
 public class AuthServiceTests {

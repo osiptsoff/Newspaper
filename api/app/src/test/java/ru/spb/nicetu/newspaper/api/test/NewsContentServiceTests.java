@@ -11,10 +11,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.util.Assert;
 
+
 import ru.spb.nicetu.newspaper.api.environment.NewsContentServiceTestEnvironment;
 import ru.spb.nicetu.newspaper.api.model.NewsContentBlock;
 import ru.spb.nicetu.newspaper.api.model.embeddable.NewsContentBlockId;
+import ru.spb.nicetu.newspaper.api.service.NewsContentService;
 
+/**
+ * <p>Tests for {@code NewsContentService} features.</p>
+ *
+ * <p>Contains tests for all methods of {@code NewsContentService}.</p>
+    * @author Nikita Osiptsov
+    * @see {@link NewsContentService}
+ * @since 1.0
+ */
 @SpringBootTest
 @Transactional
 public class NewsContentServiceTests {

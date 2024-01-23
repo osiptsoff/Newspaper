@@ -34,6 +34,24 @@ import ru.spb.nicetu.newspaper.api.repository.UserTagRepository;
 import ru.spb.nicetu.newspaper.api.service.auxiliary.NewsLikedTagsPair;
 import ru.spb.nicetu.newspaper.api.service.exception.MissingEntityException;
 
+/**
+ * <p>Service which encapsulates business logic for users.</p>
+ *
+ * <p>Can be used to perform CRUD operations on {@code User}s; 
+ * to associate {@code User} with {@code Tag}s and {@code News} and check those assotiations;
+ * to get news considering user's preferences.</p>
+ * <p>Logs its work and unpredicted exceptions.</p>
+    * @author Nikita Osiptsov
+    * @see {@link User}
+    * @see {@link News}
+    * @see {@link Tag}
+    * @see {@link UserTag}
+    * @see {@link UserRepository}
+    * @see {@link NewsRepository}
+    * @see {@link TagRepository}
+    * @see {@link UserTagRepository}
+ * @since 1.0
+ */
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -302,12 +320,10 @@ public class UserService implements UserDetailsService {
             }
             Tag tag = tagResult.get();
 
-            UserTag userTag = new UserTag(
-                new UserTagId(user.getId(), tag.getId()),
+            UserTag userTag = new UserTag(new UserTagId(user.getId(), tag.getId()),
                 user,
                 tag,
-                association
-            );
+                association);
  
             if(association != null) {
                 userTagRepository.save(userTag);

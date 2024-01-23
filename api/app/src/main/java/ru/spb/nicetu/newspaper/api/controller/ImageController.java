@@ -21,6 +21,14 @@ import ru.spb.nicetu.newspaper.api.model.image.FileSystemImage;
 import ru.spb.nicetu.newspaper.api.model.image.AbstractImage;
 import ru.spb.nicetu.newspaper.api.service.AbstractImageService;
 
+/**
+ * <p>Controller for '/news/{id}/image' endpoint.</p>
+ *
+ * <p>Provides API for posting, updating, deletion and reading picture associated with news with given id.</p>
+    * @author Nikita Osiptsov
+    * @see {@link ImageService}
+ * @since 1.0
+ */
 @RestController
 @RequestMapping("news/{id}/image")
 @RequiredArgsConstructor

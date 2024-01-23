@@ -6,6 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * <p>Data Transfer Object for id.</p>
+ *
+ * <p>Contains only one {@code Integer} value: id.</p>
+    * @author Nikita Osiptsov
+ * @since 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

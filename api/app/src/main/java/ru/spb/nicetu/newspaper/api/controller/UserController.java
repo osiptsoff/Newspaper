@@ -30,6 +30,19 @@ import ru.spb.nicetu.newspaper.api.model.News;
 import ru.spb.nicetu.newspaper.api.model.User;
 import ru.spb.nicetu.newspaper.api.service.UserService;
 
+/**
+ * <p>Controller for '/user' endpoint.</p>
+ *
+ * <p>Provides API for: <ol>
+ *      <li>getting user information (user's attitude toward tag or news, user's name and lastname),</li>
+ *      <li>changing some of this information (liking news, marking tags as liked or disliked),</li>
+ *      <li>getting news considering user's preferences.</li></ol></p>
+ * <p>All paths of this endpoint have additional protection: user can retrieve information of his own only.</p>
+    * @author Nikita Osiptsov
+    * @see {@link UserService}
+    * @see {@link AuthUtil}
+ * @since 1.0
+ */
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor

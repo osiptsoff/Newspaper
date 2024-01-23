@@ -23,6 +23,13 @@ import javax.persistence.Table;
 import java.time.OffsetDateTime;
 import java.util.Collection;
 
+/**
+ * <p>Represents news.</p>
+ *
+ * <p>Contains id, title, post time, image content, comments and liked users.</p>
+    * @author Nikita Osiptsov
+ * @since 1.0
+ */
 @Entity
 @DynamicInsert
 @Table(name = "news", schema = "subject")

@@ -16,6 +16,14 @@ import ru.spb.nicetu.newspaper.api.repository.TagRepository;
 import ru.spb.nicetu.newspaper.api.repository.UserRepository;
 import ru.spb.nicetu.newspaper.api.service.UserService;
 
+/**
+ * <p>Environment used in {@code UserServiceTestEnvironment}.</p>
+ *
+ * <p>Contains tested service, repositories to load related resources, testing entities.</p>
+    * @author Nikita Osiptsov
+    * @see {@link UserServiceTestEnvironment}
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 @Getter

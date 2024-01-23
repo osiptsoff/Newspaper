@@ -8,6 +8,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.AllArgsConstructor;
 import ru.spb.nicetu.newspaper.api.model.User;
 
+/**
+ * <p>Spring Security compatible adapter for {@code User}.</p>
+ *
+ * <p>Used to separate {@code User} logic and Spring Security {@code UserDetails} implementation.</p>
+ * <p>Contains associated {@code User}, implements {@code UserDetails} methods.</p>
+    * @author Nikita Osiptsov
+    * @see {@link User}
+    * @see {@link UserDetails}
+ * @since 1.0
+ */
 @AllArgsConstructor
 public class UserPrincipal implements UserDetails {
     private User user;

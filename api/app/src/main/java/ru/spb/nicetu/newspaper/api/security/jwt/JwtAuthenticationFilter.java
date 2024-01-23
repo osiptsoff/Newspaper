@@ -19,6 +19,13 @@ import lombok.RequiredArgsConstructor;
 import ru.spb.nicetu.newspaper.api.dto.TextMessageDto;
 import ru.spb.nicetu.newspaper.api.model.auth.UserPrincipal;
 
+/**
+ * <p>Filter in filter chain responsible for jwt-based authorization.</p>
+ * 
+ * <p>Checks if request has jwt access token in header and if it has, performs validation.</p>
+    * @author Nikita Osiptsov
+ * @since 1.0
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {

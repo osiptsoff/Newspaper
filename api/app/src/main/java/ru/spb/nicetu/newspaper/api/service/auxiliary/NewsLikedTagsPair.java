@@ -5,6 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.spb.nicetu.newspaper.api.model.News;
 
+/**
+ * <p>Pair of {@code News} and number of tags of this news liked by user.</p>
+    * @author Nikita Osiptsov
+    * @see {@link News}
+ * @since 1.0
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

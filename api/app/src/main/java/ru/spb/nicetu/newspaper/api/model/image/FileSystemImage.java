@@ -15,6 +15,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * <p>{@code AbstractImage} implementation using file system to store picture content.</p>
+ *
+ * <p>Contains relative file system path of stored image.</p>
+    * @author Nikita Osiptsov
+    * @see {@link AbstractImage}
+ * @since 1.0
+ */
 @Entity
 @Table(name = "image", schema = "subject")
 @Data

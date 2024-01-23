@@ -16,6 +16,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.OffsetDateTime;
 
+/**
+ * <p>Represents comment.</p>
+ *
+ * <p>Contains id, text, post time, author and owning {@code News}.</p>
+    * @author Nikita Osiptsov
+    * @see {@link News}
+ * @since 1.0
+ */
 @Entity
 @DynamicInsert
 @Table(name = "comment", schema = "subject")

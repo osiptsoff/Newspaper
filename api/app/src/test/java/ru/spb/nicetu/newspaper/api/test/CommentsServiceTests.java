@@ -13,7 +13,16 @@ import org.springframework.util.Assert;
 
 import ru.spb.nicetu.newspaper.api.environment.CommentsServiceTestEnvironment;
 import ru.spb.nicetu.newspaper.api.model.Comment;
+import ru.spb.nicetu.newspaper.api.service.CommentsService;
 
+/**
+ * <p>Tests for {@code CommentsService} features.</p>
+ *
+ * <p>Contains tests for all methods of {@code CommentsService}.</p>
+    * @author Nikita Osiptsov
+    * @see {@link CommentsService}
+ * @since 1.0
+ */
 @SpringBootTest
 @Transactional
 public class CommentsServiceTests {

@@ -11,6 +11,12 @@ import ru.spb.nicetu.newspaper.api.model.News;
 import ru.spb.nicetu.newspaper.api.model.NewsContentBlock;
 import ru.spb.nicetu.newspaper.api.model.embeddable.NewsContentBlockId;
 
+/**
+ * <p>{@code NewsContentBlock} repository.</p>
+    * @author Nikita Osiptsov
+    * @see {@link NewsContentBlock}
+ * @since 1.0
+ */
 @Repository
 public interface NewsContentRepository extends PagingAndSortingRepository<NewsContentBlock, NewsContentBlockId> {
     @Query("SELECT b FROM NewsContentBlock b "

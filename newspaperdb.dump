@@ -1,0 +1,730 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 15.5 (Ubuntu 15.5-0ubuntu0.23.10.1)
+-- Dumped by pg_dump version 15.5 (Ubuntu 15.5-0ubuntu0.23.10.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: auth; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA auth;
+
+
+ALTER SCHEMA auth OWNER TO postgres;
+
+--
+-- Name: subject; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA subject;
+
+
+ALTER SCHEMA subject OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: role; Type: TABLE; Schema: auth; Owner: postgres
+--
+
+CREATE TABLE auth.role (
+    roleid bigint NOT NULL,
+    name character varying(15) NOT NULL
+);
+
+
+ALTER TABLE auth.role OWNER TO postgres;
+
+--
+-- Name: role_roleid_seq; Type: SEQUENCE; Schema: auth; Owner: postgres
+--
+
+CREATE SEQUENCE auth.role_roleid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE auth.role_roleid_seq OWNER TO postgres;
+
+--
+-- Name: role_roleid_seq; Type: SEQUENCE OWNED BY; Schema: auth; Owner: postgres
+--
+
+ALTER SEQUENCE auth.role_roleid_seq OWNED BY auth.role.roleid;
+
+
+--
+-- Name: token; Type: TABLE; Schema: auth; Owner: postgres
+--
+
+CREATE TABLE auth.token (
+    userid integer NOT NULL,
+    value character varying(2048) NOT NULL
+);
+
+
+ALTER TABLE auth.token OWNER TO postgres;
+
+--
+-- Name: user; Type: TABLE; Schema: auth; Owner: postgres
+--
+
+CREATE TABLE auth."user" (
+    userid bigint NOT NULL,
+    login character varying(55) NOT NULL,
+    passwhash character varying(255) NOT NULL,
+    name character varying(55),
+    lastname character varying(55)
+);
+
+
+ALTER TABLE auth."user" OWNER TO postgres;
+
+--
+-- Name: user_role; Type: TABLE; Schema: auth; Owner: postgres
+--
+
+CREATE TABLE auth.user_role (
+    userid integer NOT NULL,
+    roleid integer NOT NULL
+);
+
+
+ALTER TABLE auth.user_role OWNER TO postgres;
+
+--
+-- Name: user_userid_seq; Type: SEQUENCE; Schema: auth; Owner: postgres
+--
+
+CREATE SEQUENCE auth.user_userid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE auth.user_userid_seq OWNER TO postgres;
+
+--
+-- Name: user_userid_seq; Type: SEQUENCE OWNED BY; Schema: auth; Owner: postgres
+--
+
+ALTER SEQUENCE auth.user_userid_seq OWNED BY auth."user".userid;
+
+
+--
+-- Name: comment; Type: TABLE; Schema: subject; Owner: postgres
+--
+
+CREATE TABLE subject.comment (
+    commentid bigint NOT NULL,
+    text character varying(1000) NOT NULL,
+    posttime timestamp with time zone DEFAULT now() NOT NULL,
+    userid integer,
+    newsid integer NOT NULL
+);
+
+
+ALTER TABLE subject.comment OWNER TO postgres;
+
+--
+-- Name: comment_commentid_seq; Type: SEQUENCE; Schema: subject; Owner: postgres
+--
+
+CREATE SEQUENCE subject.comment_commentid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE subject.comment_commentid_seq OWNER TO postgres;
+
+--
+-- Name: comment_commentid_seq; Type: SEQUENCE OWNED BY; Schema: subject; Owner: postgres
+--
+
+ALTER SEQUENCE subject.comment_commentid_seq OWNED BY subject.comment.commentid;
+
+
+--
+-- Name: image; Type: TABLE; Schema: subject; Owner: postgres
+--
+
+CREATE TABLE subject.image (
+    newsid bigint NOT NULL,
+    type character varying(25) NOT NULL,
+    path character varying(255)
+);
+
+
+ALTER TABLE subject.image OWNER TO postgres;
+
+--
+-- Name: image_newsid_seq; Type: SEQUENCE; Schema: subject; Owner: postgres
+--
+
+CREATE SEQUENCE subject.image_newsid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE subject.image_newsid_seq OWNER TO postgres;
+
+--
+-- Name: image_newsid_seq; Type: SEQUENCE OWNED BY; Schema: subject; Owner: postgres
+--
+
+ALTER SEQUENCE subject.image_newsid_seq OWNED BY subject.image.newsid;
+
+
+--
+-- Name: news; Type: TABLE; Schema: subject; Owner: postgres
+--
+
+CREATE TABLE subject.news (
+    newsid bigint NOT NULL,
+    title character varying(255) NOT NULL,
+    posttime timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE subject.news OWNER TO postgres;
+
+--
+-- Name: news_newsid_seq; Type: SEQUENCE; Schema: subject; Owner: postgres
+--
+
+CREATE SEQUENCE subject.news_newsid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE subject.news_newsid_seq OWNER TO postgres;
+
+--
+-- Name: news_newsid_seq; Type: SEQUENCE OWNED BY; Schema: subject; Owner: postgres
+--
+
+ALTER SEQUENCE subject.news_newsid_seq OWNED BY subject.news.newsid;
+
+
+--
+-- Name: news_tag; Type: TABLE; Schema: subject; Owner: postgres
+--
+
+CREATE TABLE subject.news_tag (
+    newsid integer NOT NULL,
+    tagid integer NOT NULL
+);
+
+
+ALTER TABLE subject.news_tag OWNER TO postgres;
+
+--
+-- Name: tag; Type: TABLE; Schema: subject; Owner: postgres
+--
+
+CREATE TABLE subject.tag (
+    tagid bigint NOT NULL,
+    name character varying(25) NOT NULL
+);
+
+
+ALTER TABLE subject.tag OWNER TO postgres;
+
+--
+-- Name: tag_tagid_seq; Type: SEQUENCE; Schema: subject; Owner: postgres
+--
+
+CREATE SEQUENCE subject.tag_tagid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE subject.tag_tagid_seq OWNER TO postgres;
+
+--
+-- Name: tag_tagid_seq; Type: SEQUENCE OWNED BY; Schema: subject; Owner: postgres
+--
+
+ALTER SEQUENCE subject.tag_tagid_seq OWNED BY subject.tag.tagid;
+
+
+--
+-- Name: textchunk; Type: TABLE; Schema: subject; Owner: postgres
+--
+
+CREATE TABLE subject.textchunk (
+    text character varying(255) NOT NULL,
+    number integer NOT NULL,
+    newsid integer NOT NULL
+);
+
+
+ALTER TABLE subject.textchunk OWNER TO postgres;
+
+--
+-- Name: user_liked_news; Type: TABLE; Schema: subject; Owner: postgres
+--
+
+CREATE TABLE subject.user_liked_news (
+    userid integer NOT NULL,
+    newsid integer NOT NULL
+);
+
+
+ALTER TABLE subject.user_liked_news OWNER TO postgres;
+
+--
+-- Name: user_tag; Type: TABLE; Schema: subject; Owner: postgres
+--
+
+CREATE TABLE subject.user_tag (
+    userid integer NOT NULL,
+    tagid integer NOT NULL,
+    likes boolean NOT NULL
+);
+
+
+ALTER TABLE subject.user_tag OWNER TO postgres;
+
+--
+-- Name: role roleid; Type: DEFAULT; Schema: auth; Owner: postgres
+--
+
+ALTER TABLE ONLY auth.role ALTER COLUMN roleid SET DEFAULT nextval('auth.role_roleid_seq'::regclass);
+
+
+--
+-- Name: user userid; Type: DEFAULT; Schema: auth; Owner: postgres
+--
+
+ALTER TABLE ONLY auth."user" ALTER COLUMN userid SET DEFAULT nextval('auth.user_userid_seq'::regclass);
+
+
+--
+-- Name: comment commentid; Type: DEFAULT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.comment ALTER COLUMN commentid SET DEFAULT nextval('subject.comment_commentid_seq'::regclass);
+
+
+--
+-- Name: image newsid; Type: DEFAULT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.image ALTER COLUMN newsid SET DEFAULT nextval('subject.image_newsid_seq'::regclass);
+
+
+--
+-- Name: news newsid; Type: DEFAULT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.news ALTER COLUMN newsid SET DEFAULT nextval('subject.news_newsid_seq'::regclass);
+
+
+--
+-- Name: tag tagid; Type: DEFAULT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.tag ALTER COLUMN tagid SET DEFAULT nextval('subject.tag_tagid_seq'::regclass);
+
+
+--
+-- Name: role role_name_key; Type: CONSTRAINT; Schema: auth; Owner: postgres
+--
+
+ALTER TABLE ONLY auth.role
+    ADD CONSTRAINT role_name_key UNIQUE (name);
+
+
+--
+-- Name: role role_pkey; Type: CONSTRAINT; Schema: auth; Owner: postgres
+--
+
+ALTER TABLE ONLY auth.role
+    ADD CONSTRAINT role_pkey PRIMARY KEY (roleid);
+
+
+--
+-- Name: token token_pkey; Type: CONSTRAINT; Schema: auth; Owner: postgres
+--
+
+ALTER TABLE ONLY auth.token
+    ADD CONSTRAINT token_pkey PRIMARY KEY (userid);
+
+
+--
+-- Name: user user_login_key; Type: CONSTRAINT; Schema: auth; Owner: postgres
+--
+
+ALTER TABLE ONLY auth."user"
+    ADD CONSTRAINT user_login_key UNIQUE (login);
+
+
+--
+-- Name: user user_pkey; Type: CONSTRAINT; Schema: auth; Owner: postgres
+--
+
+ALTER TABLE ONLY auth."user"
+    ADD CONSTRAINT user_pkey PRIMARY KEY (userid);
+
+
+--
+-- Name: user_role user_role_pkey; Type: CONSTRAINT; Schema: auth; Owner: postgres
+--
+
+ALTER TABLE ONLY auth.user_role
+    ADD CONSTRAINT user_role_pkey PRIMARY KEY (userid, roleid);
+
+
+--
+-- Name: comment comment_pkey; Type: CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.comment
+    ADD CONSTRAINT comment_pkey PRIMARY KEY (commentid);
+
+
+--
+-- Name: image image_pkey; Type: CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.image
+    ADD CONSTRAINT image_pkey PRIMARY KEY (newsid);
+
+
+--
+-- Name: news news_pkey; Type: CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.news
+    ADD CONSTRAINT news_pkey PRIMARY KEY (newsid);
+
+
+--
+-- Name: news_tag news_tag_pkey; Type: CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.news_tag
+    ADD CONSTRAINT news_tag_pkey PRIMARY KEY (newsid, tagid);
+
+
+--
+-- Name: tag tag_name_key; Type: CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.tag
+    ADD CONSTRAINT tag_name_key UNIQUE (name);
+
+
+--
+-- Name: tag tag_pkey; Type: CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.tag
+    ADD CONSTRAINT tag_pkey PRIMARY KEY (tagid);
+
+
+--
+-- Name: textchunk textchunk_pkey; Type: CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.textchunk
+    ADD CONSTRAINT textchunk_pkey PRIMARY KEY (number, newsid);
+
+
+--
+-- Name: user_liked_news user_liked_news_pkey; Type: CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.user_liked_news
+    ADD CONSTRAINT user_liked_news_pkey PRIMARY KEY (userid, newsid);
+
+
+--
+-- Name: user_tag user_tag_pkey; Type: CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.user_tag
+    ADD CONSTRAINT user_tag_pkey PRIMARY KEY (userid, tagid);
+
+
+--
+-- Name: token token_userid_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: postgres
+--
+
+ALTER TABLE ONLY auth.token
+    ADD CONSTRAINT token_userid_fkey FOREIGN KEY (userid) REFERENCES auth."user"(userid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_role user_role_roleid_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: postgres
+--
+
+ALTER TABLE ONLY auth.user_role
+    ADD CONSTRAINT user_role_roleid_fkey FOREIGN KEY (roleid) REFERENCES auth.role(roleid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_role user_role_userid_fkey; Type: FK CONSTRAINT; Schema: auth; Owner: postgres
+--
+
+ALTER TABLE ONLY auth.user_role
+    ADD CONSTRAINT user_role_userid_fkey FOREIGN KEY (userid) REFERENCES auth."user"(userid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: comment comment_newsid_fkey; Type: FK CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.comment
+    ADD CONSTRAINT comment_newsid_fkey FOREIGN KEY (newsid) REFERENCES subject.news(newsid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: comment comment_userid_fkey; Type: FK CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.comment
+    ADD CONSTRAINT comment_userid_fkey FOREIGN KEY (userid) REFERENCES auth."user"(userid) ON UPDATE CASCADE ON DELETE SET NULL;
+
+
+--
+-- Name: image image_newsid_fkey; Type: FK CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.image
+    ADD CONSTRAINT image_newsid_fkey FOREIGN KEY (newsid) REFERENCES subject.news(newsid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: news_tag news_tag_newsid_fkey; Type: FK CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.news_tag
+    ADD CONSTRAINT news_tag_newsid_fkey FOREIGN KEY (newsid) REFERENCES subject.news(newsid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: news_tag news_tag_tagid_fkey; Type: FK CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.news_tag
+    ADD CONSTRAINT news_tag_tagid_fkey FOREIGN KEY (tagid) REFERENCES subject.tag(tagid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: textchunk textchunk_newsid_fkey; Type: FK CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.textchunk
+    ADD CONSTRAINT textchunk_newsid_fkey FOREIGN KEY (newsid) REFERENCES subject.news(newsid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_liked_news user_liked_news_newsid_fkey; Type: FK CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.user_liked_news
+    ADD CONSTRAINT user_liked_news_newsid_fkey FOREIGN KEY (newsid) REFERENCES subject.news(newsid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_liked_news user_liked_news_userid_fkey; Type: FK CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.user_liked_news
+    ADD CONSTRAINT user_liked_news_userid_fkey FOREIGN KEY (userid) REFERENCES auth."user"(userid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_tag user_tag_tagid_fkey; Type: FK CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.user_tag
+    ADD CONSTRAINT user_tag_tagid_fkey FOREIGN KEY (tagid) REFERENCES subject.tag(tagid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_tag user_tag_userid_fkey; Type: FK CONSTRAINT; Schema: subject; Owner: postgres
+--
+
+ALTER TABLE ONLY subject.user_tag
+    ADD CONSTRAINT user_tag_userid_fkey FOREIGN KEY (userid) REFERENCES auth."user"(userid) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: SCHEMA auth; Type: ACL; Schema: -; Owner: postgres
+--
+
+GRANT USAGE ON SCHEMA auth TO newspaperapp;
+
+
+--
+-- Name: SCHEMA subject; Type: ACL; Schema: -; Owner: postgres
+--
+
+GRANT USAGE ON SCHEMA subject TO newspaperapp;
+
+
+--
+-- Name: TABLE role; Type: ACL; Schema: auth; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE auth.role TO newspaperapp;
+
+
+--
+-- Name: SEQUENCE role_roleid_seq; Type: ACL; Schema: auth; Owner: postgres
+--
+
+GRANT USAGE ON SEQUENCE auth.role_roleid_seq TO newspaperapp;
+
+
+--
+-- Name: TABLE token; Type: ACL; Schema: auth; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE auth.token TO newspaperapp;
+
+
+--
+-- Name: TABLE "user"; Type: ACL; Schema: auth; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE auth."user" TO newspaperapp;
+
+
+--
+-- Name: TABLE user_role; Type: ACL; Schema: auth; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE auth.user_role TO newspaperapp;
+
+
+--
+-- Name: SEQUENCE user_userid_seq; Type: ACL; Schema: auth; Owner: postgres
+--
+
+GRANT USAGE ON SEQUENCE auth.user_userid_seq TO newspaperapp;
+
+
+--
+-- Name: TABLE comment; Type: ACL; Schema: subject; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE subject.comment TO newspaperapp;
+
+
+--
+-- Name: SEQUENCE comment_commentid_seq; Type: ACL; Schema: subject; Owner: postgres
+--
+
+GRANT USAGE ON SEQUENCE subject.comment_commentid_seq TO newspaperapp;
+
+
+--
+-- Name: TABLE image; Type: ACL; Schema: subject; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE subject.image TO newspaperapp;
+
+
+--
+-- Name: TABLE news; Type: ACL; Schema: subject; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE subject.news TO newspaperapp;
+
+
+--
+-- Name: SEQUENCE news_newsid_seq; Type: ACL; Schema: subject; Owner: postgres
+--
+
+GRANT USAGE ON SEQUENCE subject.news_newsid_seq TO newspaperapp;
+
+
+--
+-- Name: TABLE news_tag; Type: ACL; Schema: subject; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE subject.news_tag TO newspaperapp;
+
+
+--
+-- Name: TABLE tag; Type: ACL; Schema: subject; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE subject.tag TO newspaperapp;
+
+
+--
+-- Name: SEQUENCE tag_tagid_seq; Type: ACL; Schema: subject; Owner: postgres
+--
+
+GRANT USAGE ON SEQUENCE subject.tag_tagid_seq TO newspaperapp;
+
+
+--
+-- Name: TABLE textchunk; Type: ACL; Schema: subject; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE subject.textchunk TO newspaperapp;
+
+
+--
+-- Name: TABLE user_liked_news; Type: ACL; Schema: subject; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE subject.user_liked_news TO newspaperapp;
+
+
+--
+-- Name: TABLE user_tag; Type: ACL; Schema: subject; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE subject.user_tag TO newspaperapp;
+
+-- Data for Name: role; Type: TABLE DATA; Schema: auth; Owner: postgres
+--
+
+COPY auth.role (roleid, name) FROM stdin;
+1	user
+2	admin
+\.
+
+--
+-- PostgreSQL database dump complete
+--
+

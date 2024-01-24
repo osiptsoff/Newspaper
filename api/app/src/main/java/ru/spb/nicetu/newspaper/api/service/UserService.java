@@ -99,7 +99,7 @@ public class UserService implements UserDetailsService {
                 .map(i -> i.getNews())
                 .collect(Collectors.toList());
 
-            log.info("Request for news for user '" + login + "': success");
+            log.info("Request for news for user '" + login + "': success, got " + result.getNumberOfElements() + " news");
             
             return new PageImpl<News>(data, result.getPageable(), result.getTotalElements());
         } catch(Exception e) {

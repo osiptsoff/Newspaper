@@ -63,7 +63,7 @@ public class NewsService {
         try {
             Page<News> news = newsRepository.findAllByOrderByPostTimeDesc(PageRequest.of(page, newsPageSize));
 
-            log.info("Successfully got " + news.getSize() + " news");
+            log.info("Successfully got " + news.getNumberOfElements() + " news");
 
             return news;
         } catch(Exception e) {

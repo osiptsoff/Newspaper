@@ -66,7 +66,7 @@ public class NewsContentService {
             Page<NewsContentBlock> result = newsContentRepository
                 .findByNewsId(newsId, PageRequest.of(page, textBlockPageSize));
 
-            log.info("Successfully got " + result.getSize() + " blocks");
+            log.info("Successfully got " + result.getNumberOfElements() + " blocks");
 
             return result;
         } catch(Exception e) {

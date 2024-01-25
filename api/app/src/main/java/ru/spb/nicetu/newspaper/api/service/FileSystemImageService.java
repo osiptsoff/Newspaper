@@ -62,6 +62,7 @@ public class FileSystemImageService extends AbstractImageService<FileSystemImage
     }
 
     @Override
+    @Transactional
     public void deleteImage(Long newsId) {
         AbstractImage image = imageRepository.findByNewsId(newsId);
 

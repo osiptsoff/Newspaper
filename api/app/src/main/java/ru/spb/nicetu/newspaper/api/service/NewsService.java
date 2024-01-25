@@ -41,6 +41,7 @@ import javax.transaction.Transactional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class NewsService {
     private final NewsRepository newsRepository;
     private final CommentRepository commentRepository;
@@ -73,7 +74,6 @@ public class NewsService {
 
     }
 
-    @Transactional
     public News saveNews(News news) {
         log.info("Got request to save news");
 
@@ -170,7 +170,6 @@ public class NewsService {
         }
     }
 
-    @Transactional
     public void deleteNews(Long newsId) {
         log.info("Got request to delete news with id = " + newsId);
 
@@ -195,7 +194,6 @@ public class NewsService {
         deleteNews(news.getId());
     }
 
-    @Transactional
     private void changeAssociation(Long newsId, String tagName, boolean associate) {
         try {
            Optional<Tag> tagResult = tagRepository.findByNameFetchNews(tagName);

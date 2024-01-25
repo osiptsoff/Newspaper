@@ -55,6 +55,7 @@ import ru.spb.nicetu.newspaper.api.service.exception.MissingEntityException;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final NewsRepository newsRepository;
@@ -128,7 +129,6 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    @Transactional
     public User saveUser(User user) {
         log.info("Got request to save user '" + user.getLogin() + "'");
 
@@ -144,7 +144,6 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    @Transactional
     public void deleteUser(Long userId) {
         log.info("Got request to delete user with id = " + userId);
 
@@ -168,7 +167,6 @@ public class UserService implements UserDetailsService {
         deleteUser(user.getId());
     }
 
-    @Transactional
     public Boolean isNewsLiked(String login, Long newsid) {
         log.info("Got request for user '" + login + "'s attitude for news with id = " + newsid);
 
@@ -270,7 +268,6 @@ public class UserService implements UserDetailsService {
         return userToDetails(user);
     }  
 
-    @Transactional
     private void likeNews(String login, Long newsId, boolean like) {
         try {
             Optional<User> res = userRepository.findByLoginFetchLikedNews(login);
@@ -303,7 +300,6 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    @Transactional
     private void associateWithTag(String login, String tagName, Boolean association) {
         try {
             Optional<User> res = userRepository.findByLogin(login);

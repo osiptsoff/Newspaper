@@ -12,18 +12,18 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import ru.spb.nicetu.newspaper.api.controller.util.AuthUtil;
 import ru.spb.nicetu.newspaper.api.dto.CommentDto;
-import ru.spb.nicetu.newspaper.api.dto.IdDto;
 import ru.spb.nicetu.newspaper.api.dto.PageDto;
-import ru.spb.nicetu.newspaper.api.dto.PageRequestDto;
 import ru.spb.nicetu.newspaper.api.model.Comment;
 import ru.spb.nicetu.newspaper.api.model.News;
 import ru.spb.nicetu.newspaper.api.model.User;
@@ -90,27 +90,27 @@ public class CommentsController {
     }
 
     @GetMapping()
-    public PageDto<CommentDto> getPage(@Valid @RequestBody PageRequestDto dto) {
+    public PageDto<CommentDto> getPage(@RequestParam Long newsId, @RequestParam Integer pageNumber) {
         Page<Comment> page = commentsService
-            .findNthPageOfCommentsByNewsId(dto.getOwnerId(), dto.getPageNumber());
+            .findNthPageOfCommentsByNewsId(newsId, pageNumber);
 
         List<CommentDto> data = page.map(c -> CommentDto.from(c) ).toList();
 
         return new PageDto<CommentDto>(data, page.isLast());
     }
 
-    @DeleteMapping()
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteComment(@Valid @RequestBody IdDto dto) {
-        String authorLogin = commentsService.getLoginOfAuthor(dto.getId());
+    public void deleteComment(@PathVariable("id") Long commentId) {
+        String authorLogin = commentsService.getLoginOfAuthor(commentId);
         authUtil.checkIfAuthenticated(authorLogin);
 
-        commentsService.deleteComment(dto.getId());
+        commentsService.deleteComment(commentId);
     }
 
-    @DeleteMapping("/superuser")
+    @DeleteMapping("/{id}/superuser")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCommentNoCheck(@Valid @RequestBody IdDto dto) {
-        commentsService.deleteComment(dto.getId());
+    public void deleteCommentNoCheck(@PathVariable("id") Long commentId) {
+        commentsService.deleteComment(commentId);
     }
 }

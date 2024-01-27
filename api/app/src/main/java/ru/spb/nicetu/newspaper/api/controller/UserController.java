@@ -11,17 +11,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import ru.spb.nicetu.newspaper.api.controller.util.AuthUtil;
-import ru.spb.nicetu.newspaper.api.dto.IdDto;
 import ru.spb.nicetu.newspaper.api.dto.LikeNewsDto;
 import ru.spb.nicetu.newspaper.api.dto.LikeTagDto;
 import ru.spb.nicetu.newspaper.api.dto.NewsSignatureDto;
 import ru.spb.nicetu.newspaper.api.dto.PageDto;
-import ru.spb.nicetu.newspaper.api.dto.PageRequestDtoNoOwner;
 import ru.spb.nicetu.newspaper.api.dto.SingleValueDto;
 import ru.spb.nicetu.newspaper.api.dto.TagDto;
 import ru.spb.nicetu.newspaper.api.dto.UserInfoDto;
@@ -76,18 +75,18 @@ public class UserController {
     }
 
     @GetMapping("/tag/like")
-    public SingleValueDto<Boolean> userLikedTag(@Valid @RequestBody TagDto dto) {
+    public SingleValueDto<Boolean> userLikedTag(@RequestParam String name) {
         SingleValueDto<Boolean> result = new SingleValueDto<>();
-        result.setValue(userService.isTagLiked(authUtil.getAuthenticatedUserName(), dto.getName()));
+        result.setValue(userService.isTagLiked(authUtil.getAuthenticatedUserName(), name));
 
         return result;
     }
 
     @GetMapping("/news")
-    public PageDto<NewsSignatureDto> getNewsByPreferences(@Valid @RequestBody PageRequestDtoNoOwner dto) {
+    public PageDto<NewsSignatureDto> getNewsByPreferences(@RequestParam Integer pageNumber) {
         Page<News> page = userService.findPreferredNewsByLogin(
             authUtil.getAuthenticatedUserName(),
-            dto.getPageNumber()
+            pageNumber
         );
 
         List<NewsSignatureDto> resultList = page.map(n -> NewsSignatureDto.from(n)).toList();
@@ -96,9 +95,9 @@ public class UserController {
     }
 
     @GetMapping("/news/like")
-    public SingleValueDto<Boolean> userLikedNews(@Valid @RequestBody IdDto dto) {
+    public SingleValueDto<Boolean> userLikedNews(@RequestParam Long newsId) {
         SingleValueDto<Boolean> result = new SingleValueDto<>();
-        result.setValue(userService.isNewsLiked(authUtil.getAuthenticatedUserName(), dto.getId()));
+        result.setValue(userService.isNewsLiked(authUtil.getAuthenticatedUserName(), newsId));
 
         return result;
     }

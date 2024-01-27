@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,8 +53,8 @@ public class TagController {
     }
 
     @DeleteMapping()
-    public void deleteTag(@Valid @RequestBody TagDto tagDto) {
-        Tag tag = tagService.findTagByName(tagDto.getName());
+    public void deleteTag(@RequestParam String name) {
+        Tag tag = tagService.findTagByName(name);
 
         tagService.deleteTag(tag);
     }

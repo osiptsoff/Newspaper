@@ -17,18 +17,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import ru.spb.nicetu.newspaper.api.dto.CommentDto;
 import ru.spb.nicetu.newspaper.api.dto.FetchedNewsDto;
-import ru.spb.nicetu.newspaper.api.dto.IdDto;
 import ru.spb.nicetu.newspaper.api.dto.NewsContentBlockDto;
 import ru.spb.nicetu.newspaper.api.dto.NewsSignatureDto;
 import ru.spb.nicetu.newspaper.api.dto.PageDto;
-import ru.spb.nicetu.newspaper.api.dto.PageRequestDto;
-import ru.spb.nicetu.newspaper.api.dto.PageRequestDtoNoOwner;
 import ru.spb.nicetu.newspaper.api.dto.TagAssociationRequestDto;
 import ru.spb.nicetu.newspaper.api.model.News;
 import ru.spb.nicetu.newspaper.api.model.NewsContentBlock;
@@ -55,8 +53,8 @@ public class NewsController {
     private final NewsContentService newsContentService;
 
     @GetMapping()
-    public PageDto<NewsSignatureDto> getAllNewsPage(@Valid @RequestBody PageRequestDtoNoOwner dto) {
-        Page<News> page = newsService.findAllNews(dto.getPageNumber());
+    public PageDto<NewsSignatureDto> getAllNewsPage(@RequestParam Integer pageNumber) {
+        Page<News> page = newsService.findAllNews(pageNumber);
 
         List<NewsSignatureDto> resultList = page.map(n -> NewsSignatureDto.from(n)).toList();
 
@@ -93,10 +91,11 @@ public class NewsController {
         return result;
     }
 
-    @GetMapping("/content")
-    public PageDto<NewsContentBlockDto> getNewsContentPage(@Valid @RequestBody PageRequestDto dto) {
+    @GetMapping("{id}/content")
+    public PageDto<NewsContentBlockDto> getNewsContentPage(@PathVariable("id") Long newsId,
+            @RequestParam Integer pageNumber) {
         List<NewsContentBlockDto> data = new LinkedList<>();
-        Page<NewsContentBlock> page = newsContentService.findNthPageOfContent(dto.getOwnerId(), dto.getPageNumber());
+        Page<NewsContentBlock> page = newsContentService.findNthPageOfContent(newsId, pageNumber);
 
         page.forEach(b -> data.add(NewsContentBlockDto.from(b)));
 
@@ -118,7 +117,7 @@ public class NewsController {
         return dto;
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/content")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void saveNewsContent(@Valid @RequestBody List<NewsContentBlockDto> blocks,
             @PathVariable Long id) {
@@ -153,13 +152,13 @@ public class NewsController {
         }
     }
 
-    @DeleteMapping()
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteNews(@Valid @RequestBody IdDto idDto) {
-        newsService.deleteNews(idDto.getId());
+    public void deleteNews(@PathVariable("id") Long newsId) {
+        newsService.deleteNews(newsId);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/content")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteNewsContent(@PathVariable Long id) {
         News news = newsService.findNewsByIdNoFetch(id);

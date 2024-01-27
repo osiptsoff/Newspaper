@@ -31,10 +31,10 @@
                 >фамилия</label
               >
               <input
-                v-model="lastname"
+                v-model="lastName"
                 type="text"
-                name="lastname"
-                id="lastname"
+                name="lastName"
+                id="lastName"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                 placeholder="Иванов"
                 required=""
@@ -117,7 +117,7 @@ let passwordNotConfirmed = ref(false);
 
 let errorMsg = ref("");
 let name = ref("");
-let lastname = ref("");
+let lastName = ref("");
 let login = ref("");
 let password = ref("");
 
@@ -129,7 +129,7 @@ const sendData = async () => {
   errorMsg.value = "";
     const newUser: User = {
      name: name.value,
-      lastname: lastname.value,
+      lastName: lastName.value,
       login: login.value,
       password: password.value,
     };

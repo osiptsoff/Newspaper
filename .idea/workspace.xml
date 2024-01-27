@@ -21,12 +21,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Poolinaa"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Poolinaa&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -65,7 +65,7 @@
     "git-widget-placeholder": "client",
     "javascript.nodejs.core.library.configured.version": "18.17.1",
     "javascript.nodejs.core.library.typings.version": "18.17.1",
-    "last_opened_file_path": "/Users/polinakhrapova/Newspaper/frontend/src/views",
+    "last_opened_file_path": "/Users/polinakhrapova/Newspaper",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -115,6 +115,7 @@
       <workItem from="1706258154321" duration="1601000" />
       <workItem from="1706261599148" duration="2052000" />
       <workItem from="1706263690110" duration="9097000" />
+      <workItem from="1706276752287" duration="254000" />
     </task>
     <task id="LOCAL-00001" summary="cd">
       <option name="closed" value="true" />

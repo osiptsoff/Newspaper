@@ -1,5 +1,6 @@
 <template>
   <div class="">
+    <Header class="w-screen"></Header>
   <div class="h-screen flex flex-col justify-center items-center">
     <div class="tabs">
       <a
@@ -25,6 +26,7 @@
 import { ref } from "vue";
 import Login from "../components/Login.vue";
 import Registration from "../components/Registration.vue";
+import Header from "@/components/Header.vue";
 
 const active = ref(true);
 

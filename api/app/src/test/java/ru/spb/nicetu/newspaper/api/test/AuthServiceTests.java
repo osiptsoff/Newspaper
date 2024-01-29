@@ -49,9 +49,14 @@ public class AuthServiceTests {
         String refreshToken = env.getAuthService().authenticate(env.getUserLogin(), env.getUserRawPassword());
 
         Assert.notNull(refreshToken, "Refresh token must not be null");
-        Assert.isTrue(env.getTokenRepository().findByValue(refreshToken).isPresent(), 
-            "Refresh token must be persistent");
 
+        if(env.getTokensPersistent()) {
+            Assert.isTrue(env.getTokenRepository().findByValue(refreshToken).isPresent(), 
+                "Refresh token must be persistent");
+        } else {
+            Assert.isTrue(!env.getTokenRepository().findByValue(refreshToken).isPresent(), 
+                "Refresh token must not be persistent");
+        }
 
         String accessToken = env.getAuthService().refresh(refreshToken);
 

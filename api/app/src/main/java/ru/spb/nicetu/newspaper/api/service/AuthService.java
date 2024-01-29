@@ -43,7 +43,6 @@ import ru.spb.nicetu.newspaper.api.service.exception.UsernameTakenException;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Transactional
 public class AuthService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
@@ -57,6 +56,10 @@ public class AuthService {
     @Setter
     @Value("${app.config.security.defaultUserRole}")
     private String defaultUserRoleName;
+    @Setter
+    @Value("${app.config.security.persistToken}")
+    private Boolean tokensPersistent;
+
     private Role defaultUserRole;
 
     @PostConstruct
@@ -64,6 +67,7 @@ public class AuthService {
         defaultUserRole = roleRepository.findByName(defaultUserRoleName).get();
     }
 
+    @Transactional
     public User register(String login, String password, String name, String lastName) {
         log.info("Got request for registration");
 
@@ -82,6 +86,7 @@ public class AuthService {
         return userRepository.save(user);
     }
 
+    @Transactional
     public String authenticate(String login, String password) {
         log.info("Got request for authentication");
 
@@ -104,10 +109,11 @@ public class AuthService {
 
             String token = jwtUtility.generateRefreshToken(userService.userToDetails(user));
             
-            Token dbToken = new Token(user.getId(), token, user);
-
-            user.setToken(dbToken);
-            userRepository.save(user);
+            if(tokensPersistent) {
+                Token dbToken = new Token(user.getId(), token, user);
+                user.setToken(dbToken);
+                userRepository.save(user);
+            }
 
             log.info("Completed authentication");
 
@@ -124,6 +130,11 @@ public class AuthService {
         log.info("Got request to log out");
 
         try {
+            if(!tokensPersistent) {
+                log.info("Application does not persist tokens, no way to log out");
+                return;
+            }
+
             if(tokenRepository.deleteByValue(refreshToken) > 0) {
                 SecurityContextHolder.getContext().setAuthentication(null);
                 log.info("Logged out");
@@ -140,7 +151,7 @@ public class AuthService {
         log.info("Got request to get access token");
 
         try {
-            if(!tokenRepository.existsByValue(refreshToken)) {
+            if(tokensPersistent && !tokenRepository.existsByValue(refreshToken)) {
                 log.info("Got unregistered refresh token");
 
                 throw new UnregistredTokenException("Token is not registered");
@@ -148,9 +159,9 @@ public class AuthService {
 
             UserDetails userDetails = jwtUtility.parseAndValidateRefreshToken(refreshToken);
             if(userDetails == null) {
-                log.info("Refresh token expired");
+                log.info("Refresh token is invalid or expired");
 
-                throw new JwtException("Token expired");
+                throw new JwtException("Token is invalid or expired");
             }
 
             String accessToken = jwtUtility.generateAccessToken(userDetails);

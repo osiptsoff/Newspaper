@@ -22,3 +22,4 @@ app.config.security.accessLifespawnSec=
 app.config.security.refreshLifespawnSec=
 app.config.security.defaultUserRole=
 app.config.security.clientUrl=
+app.config.security.persistToken=

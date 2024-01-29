@@ -28,7 +28,6 @@ import ru.spb.nicetu.newspaper.api.service.exception.MissingEntityException;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Transactional
 public abstract class AbstractImageService<T extends AbstractImage> {
     protected final ImageRepository<T> imageRepository;
     private final NewsRepository newsRepository;
@@ -52,6 +51,7 @@ public abstract class AbstractImageService<T extends AbstractImage> {
         throw new ImageStorageException("Unsupported media type");
     }
 
+    @Transactional
     public T findImage(Long newsid) {
         log.info("Got request for image of news with id = " + newsid);
 
@@ -73,6 +73,7 @@ public abstract class AbstractImageService<T extends AbstractImage> {
         }
     }
 
+    @Transactional
     public void deleteImage(Long newsId) {
         log.info("Got request to delete image of news with id = " + newsId);
 
@@ -93,6 +94,7 @@ public abstract class AbstractImageService<T extends AbstractImage> {
         }
     }
 
+    @Transactional
     public T saveImage(MultipartFile image, MediaType mediaType, Long newsId) {
         log.info("Got request to save image of news with id = " + newsId);
 

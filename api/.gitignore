@@ -4,5 +4,7 @@
 
 bin
 build
+log
+images
 
 application.properties

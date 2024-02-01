@@ -1,8 +1,8 @@
 <template>
-  <div class="">
+  <div class="h-screen">
     <Header class="w-screen"></Header>
-  <div class="h-screen flex flex-col justify-center items-center">
-    <div class="tabs">
+  <div class="h-full flex flex-col justify-center items-center">
+    <div class="tabs-lifted">
       <a
         class="tab tab-lg tab-lifted font-semibold"
         @click="active = !active"
@@ -20,12 +20,13 @@
     <Registration @userCreare="handleRegistration" v-if="!active" />
   </div>
   </div>
+
 </template>
 
 <script setup lang='ts'>
 import { ref } from "vue";
-import Login from "../components/Login.vue";
-import Registration from "../components/Registration.vue";
+import Login from "../components/Loginu.vue";
+import Registration from "@/components/Registration.vue";
 import Header from "@/components/Header.vue";
 
 const active = ref(true);
@@ -36,4 +37,6 @@ const handleRegistration = (isCreate: boolean) => {
 const handleLogin = (isCreate: boolean) => {
   active.value = false;
 };
+
+
 </script>

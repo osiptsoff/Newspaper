@@ -63,11 +63,13 @@
 
 <script setup lang='ts'>
 import { ref, getCurrentInstance } from "vue";
-import {loginUser, User} from "@/hooks/useUser";
+import { loginUser } from "@/hooks/useUser";
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const instance = getCurrentInstance();
 
- const isHovered = ref(false);
+const isHovered = ref(false);
 let login = ref("");
 let password = ref("");
 
@@ -76,10 +78,16 @@ const isSign = () => {
 };
 
 const sendData = async () => {
-  const loginUser = {
-   login: login.value,
+  const userCredentials = {
+    login: login.value,
     password: password.value,
   };
+  try {
+    await loginUser(userCredentials); // Вызываем функцию loginUser
+    router.push('/info'); // Перенаправляем пользователя на страницу личного кабинета
+  } catch (error) {
+    console.error(error);
+  }
 };
 </script>
 

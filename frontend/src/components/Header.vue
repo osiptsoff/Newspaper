@@ -1,5 +1,7 @@
-<script setup lang="ts">
-import router from "@/router";
+<script setup lang="ts">;
+const ifSing = () => {
+
+}
 </script>
 
 <template>
@@ -8,7 +10,7 @@ import router from "@/router";
       <img class="w-8 h-8" src="/public/favicon.ico" alt="-">
       <h1 class="text-2xl font-bold ml-1">News</h1>
     </div>
-    <div><img src="/img.png" class="w-8 h-8 mr-0 ml-auto" alt=" " @click="$router.push('/login')"></div>
+    <div><img src="/img.png" class="w-8 h-8 mr-0 ml-auto" alt=" " @click="ifSing"></div>
   </div>
 </template>
 

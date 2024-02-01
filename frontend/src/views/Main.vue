@@ -10,6 +10,7 @@
       <p>© 2024 Newspaper</p>
     </footer>
   </div>
+
 </template>
 
 <script setup lang="ts">

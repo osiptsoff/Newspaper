@@ -134,18 +134,7 @@ const sendData = async () => {
       password: password.value,
     };
     const result = await createUser(newUser);
-    // if (result.status) {
-    //   toast.success("Регистрация прошла успешно! Войтите в аккаунт.", {
-    //     autoClose: 3000,
-    //   });
-    //   setTimeout(() => {
-    //     isSign();
-    //   }, 1000);
-    // } else {
-    //   toast.error(result.response.data.message, {
-    //     autoClose: 3000,
-    //   });
-    // }
+
 };
 </script>
 

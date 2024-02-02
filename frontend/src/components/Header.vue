@@ -1,19 +1,51 @@
-<script setup lang="ts">;
-const ifSing = () => {
+<script setup lang="ts">
+import router from "@/router";
+import { ref } from "vue";
+import { useUserStore } from "@/stores/userStore";
 
+const userStore = useUserStore();
+const active = ref('user');
+const showDropdown = ref(false);
+
+const logout = () => {
+  userStore.deleteUserData();
+  localStorage.removeItem('jwt');
+  localStorage.removeItem('user');
 }
+
+const toggleDropdown = () => {
+  showDropdown.value = !showDropdown.value;
+}
+
+const goToAccountOrLogin = () => {
+  if (userStore.user.name) {
+    // Navigate to personal account page
+    router.push('/account');
+  } else {
+    // Navigate to login page
+    router.push('/login');
+  }
+}
+
 </script>
 
 <template>
-  <div class="inline-flex bg-purple-800 text-white space-x-3 p-1 justify-between">
+  <div class="inline-flex bg-purple-800 text-white space-x-3 p-1 justify-between max-h-10">
     <div class="inline-flex" @click="$router.push('/')" >
       <img class="w-8 h-8" src="/public/favicon.ico" alt="-">
       <h1 class="text-2xl font-bold ml-1">News</h1>
     </div>
-    <div><img src="/img.png" class="w-8 h-8 mr-0 ml-auto" alt=" " @click="ifSing"></div>
+    <div @click="toggleDropdown" class="">
+      <img class="w-8 h-8 mr-0 ml-auto" src="/img.png">
+      <div v-if="showDropdown" class="card h-full w-full bg-base-100 shadow-xl">
+        <div class="card-body bg-gray-200">
+          <div class="flex mb-6 justify-center" v-if="active === 'user' "></div>
+          <h2 class="block text-2xl font-bold">{{userStore.user.name}}</h2>
+          <hr>
+          <button class="w-full text-start text-md py-2 px-3 border-y hover:bg-gray-700 rounded-none" :class="{ 'bg-gray-800 font-semibold': active === 'user' }" @click="goToAccountOrLogin">Личный кабинет</button>
+          <button @click="logout()" class="w-full text-start -mt-2 text-md py-2 px-3 border-y hover:bg-gray-700 rounded-none">Выйти</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
-
-<style scoped>
-
-</style>

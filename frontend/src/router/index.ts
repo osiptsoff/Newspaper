@@ -4,6 +4,8 @@ import Main from '../views/Main.vue'
 import Loginuser from "@/views/Loginuser.vue";
 import UserInf from "@/components/UserInf.vue";
 import {useUserStore} from "@/stores/userStore";
+import NewPost from "@/components/NewPost.vue";
+
 
 
 const router = createRouter({
@@ -20,9 +22,10 @@ const router = createRouter({
     {
       path: '/info',
       component: UserInf,
-      meta: {
-        requiresAuth: true
-      }
+    },
+    {
+      path : '/newpost',
+      component: NewPost,
     }
     ]
 })

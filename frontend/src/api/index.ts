@@ -7,3 +7,20 @@ export const $host = axios.create({
         'Content-Type': 'application/json'
     }
 })
+
+import { refreshToken } from '@/hooks/useUser';
+import router from "@/router";
+
+axios.interceptors.response.use(
+    response => response,
+    async error => {
+        const originalRequest = error.config;
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            const accessToken = await refreshToken();
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
+            return axios(originalRequest);
+        }
+        return Promise.reject(error);
+    }
+);

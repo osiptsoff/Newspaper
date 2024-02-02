@@ -1,5 +1,4 @@
 import { $host } from "@/api";
-import { useTagStore } from "@/stores/article";
 
 interface Tag {
     name: string;

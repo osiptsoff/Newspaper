@@ -14,7 +14,7 @@ export interface Post {
 
 const token = localStorage.getItem("access");
 
-export const postNews = async (title) => {
+export const postNews = async (title: string) => {
     try {
         const response = await $host.post(`/news`, { title }, {
             headers: {
@@ -24,11 +24,10 @@ export const postNews = async (title) => {
         return response.data;
     } catch (e) {
         return e;
-        throw e;
     }
 };
 
-export const addNewsText = async (newsId, text, blockNumber) => {
+export const addNewsText = async (newsId:number, text:string, blockNumber:number) => {
     try {
         const response = await $host.post(`/news/${newsId}/content`, { blockNumber, text }, {
             headers: {
@@ -38,11 +37,10 @@ export const addNewsText = async (newsId, text, blockNumber) => {
         return response.data;
     } catch (e) {
         return e;
-        throw e;
     }
 };
 
-export const addNewsTag = async (newsId, tag) => {
+export const addNewsTag = async (newsId:number, tag:string) => {
     try {
         const response = await $host.post(`/news/${newsId}/tag`, { tag }, {
             headers: {
@@ -52,11 +50,10 @@ export const addNewsTag = async (newsId, tag) => {
         return response.data;
     } catch (e) {
         return e;
-        throw e;
     }
 };
 
-export const addNewsImg = async (newsId, image) => {
+export const addNewsImg = async (newsId:number, image:HTMLImageElement) => {
     try {
         const formData = new FormData();
         formData.append('image', image);
@@ -70,7 +67,6 @@ export const addNewsImg = async (newsId, image) => {
         return response.data;
     } catch (e) {
         return e;
-        throw e;
     }
 };
 
@@ -81,21 +77,19 @@ export const getNews = async () => {
         return response.data;
     } catch (e) {
         return e;
-        throw e;
     }
 };
 
-export const getNewsById = async (newsId) => {
+export const getNewsById = async (newsId: number) => {
     try {
         const response = await $host.get(`/news/${newsId}`);
         return response.data;
     } catch (e) {
         return e;
-        throw e;
     }
 };
 
-export const deleteNews = async (newsId) => {
+export const deleteNews = async (newsId: number) => {
    const token = localStorage.getItem("jwt");
     try {
         const response = await $host.delete(`/news/${newsId}`, {
@@ -106,24 +100,22 @@ export const deleteNews = async (newsId) => {
         return response.data;
     } catch (e) {
         return e;
-        throw e;
     }
 };
-export const deleteNewsPic = async (newsId) => {
+export const deleteNewsPic = async (newsId:number) => {
     const token = localStorage.getItem("jwt");
     try {
         const response = await $host.delete(`/news/${newsId}/image`, {
             headers: {
-                Authorization: "Bearer " + token
+                Authorization: "Bearer " + token,
             }
         });
         return response.data;
     } catch (e) {
         return e;
-        throw e;
     }
 };
-export const deleteNewsContent = async (newsId) => {
+export const deleteNewsContent = async (newsId:number) => {
     const token = localStorage.getItem("jwt");
     try {
         const response = await $host.delete(`/news/${newsId}/content`, {
@@ -134,6 +126,5 @@ export const deleteNewsContent = async (newsId) => {
         return response.data;
     } catch (e) {
         return e;
-        throw e;
     }
 }

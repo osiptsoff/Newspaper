@@ -9,7 +9,6 @@ export const $host = axios.create({
 })
 
 import { refreshToken } from '@/hooks/useUser';
-import router from "@/router";
 
 axios.interceptors.response.use(
     response => response,
@@ -19,6 +18,7 @@ axios.interceptors.response.use(
             originalRequest._retry = true;
             const accessToken = await refreshToken();
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
+            console.log(5555)
             return axios(originalRequest);
         }
         return Promise.reject(error);

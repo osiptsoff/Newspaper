@@ -20,13 +20,23 @@ export const loginUser = async (logUser: User) => {
     try {
         const response = await $host.post("/auth", logUser);
         const userStore = useUserStore();
-        userStore.setUserData(response.data.id, response.data.name, response.data.login, response.data.lastName);
+        userStore.setUserData(response.data.role, response.data.name, response.data.login, response.data.lastName);
         return response;
     } catch (e) {
         return e;
     }
 };
 
+export const infoUser = async () => {
+    try {
+        const response = await $host.post("/user",);
+        const userStore = useUserStore();
+        userStore.setUserData(response.data.role, response.data.name, response.data.login, response.data.lastName);
+        return response;
+    } catch (e) {
+        return e;
+    }
+};
 export const refreshToken = async () => {
     const refreshToken = localStorage.getItem("refreshToken");
     try {
@@ -38,7 +48,6 @@ export const refreshToken = async () => {
         return response.data;
     } catch (e) {
         return e;
-        throw e;
     }
 };
 

@@ -1,33 +1,32 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-
 interface User {
-  id: number;
   login: string;
-  name: string;
-  lastName: string;
+  name?: string;
+  lastName?: string;
+  role: Array<{value:string}>;
 }
 
 export const useUserStore = defineStore("userStore", () => {
   const user = ref<User>({
-    id: 0,
     name: "",
     login: "",
     lastName: "",
+    role: [],
   });
-  const setUserData = (id: number, lastName: string, name: string, login: string) => {
-    user.value.id = id;
+  const setUserData = (lastName: string, name: string, login: string, role: []) => {
     user.value.name = name;
     user.value.login = login;
     user.value.lastName =  lastName;
+    user.value.role = role;
   };
 
   const deleteUserData = () => {
-    user.value.id = 0;
     user.value.name = "";
     user.value.login = "";
     user.value.lastName = "";
+    user.value.role = [];
   };
 
   return {

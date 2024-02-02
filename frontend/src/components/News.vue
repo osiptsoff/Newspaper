@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { getNews, postNews, addNewsText, addNewsTag, addNewsImg, Post } from '@/hooks/usePost'
+import { getNews } from '@/hooks/usePost'
 
 const newsList = ref<Array>([]);
 

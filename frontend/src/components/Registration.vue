@@ -107,7 +107,6 @@
 import { ref, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import "vue3-toastify/dist/index.css";
-import { toast } from "vue3-toastify";
 import { User, createUser } from "@/hooks/useUser";
 const router = useRouter();
 
@@ -133,7 +132,7 @@ const sendData = async () => {
       login: login.value,
       password: password.value,
     };
-    const result = await createUser(newUser);
+    await createUser(newUser);
 
 };
 </script>

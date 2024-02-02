@@ -42,7 +42,7 @@ const goToAccountOrLogin = () => {
           <div class="flex mb-6 justify-center" v-if="active === 'user' "></div>
           <h2 class="block text-2xl font-bold">{{userStore.user.name}}</h2>
           <hr>
-          <button class="w-full text-start text-md py-2 px-3 border-y hover:bg-gray-700 rounded-none" :class="{ 'bg-gray-800 font-semibold': active === 'user' }" @click="goToAccountOrLogin">Личный кабинет</button>
+          <button class="w-full text-start text-md py-2 px-3 border-y hover:bg-gray-700 rounded-none" :class="{ 'bg-gray-800 font-semibold': active === 'user' }" @click="goToAccountOrLogin">Войти</button>
           <button @click="logout()" class="w-full text-start -mt-2 text-md py-2 px-3 border-y hover:bg-gray-700 rounded-none">Выйти</button>
         </div>
       </div>

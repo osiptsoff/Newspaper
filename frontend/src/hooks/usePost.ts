@@ -15,6 +15,7 @@ export interface Post {
 const token = localStorage.getItem("access");
 
 export const postNews = async (title: string) => {
+    const token = getCookie('token');
     try {
         const response = await $host.post(`/news`, { title }, {
             headers: {
@@ -28,6 +29,7 @@ export const postNews = async (title: string) => {
 };
 
 export const addNewsText = async (newsId:number, text:string, blockNumber:number) => {
+    const token = getCookie('token');
     try {
         const response = await $host.post(`/news/${newsId}/content`, { blockNumber, text }, {
             headers: {
@@ -41,6 +43,7 @@ export const addNewsText = async (newsId:number, text:string, blockNumber:number
 };
 
 export const addNewsTag = async (newsId:number, tag:string) => {
+    const token = getCookie('token');
     try {
         const response = await $host.post(`/news/${newsId}/tag`, { tag }, {
             headers: {
@@ -53,11 +56,12 @@ export const addNewsTag = async (newsId:number, tag:string) => {
     }
 };
 
+import {getCookie} from "@/hooks/useUser";
 export const addNewsImg = async (newsId:number, image:HTMLImageElement) => {
+    const token = getCookie('token');
     try {
         const formData = new FormData();
-        formData.append('image', image);
-
+        formData.append('image',  image);
         const response = await $host.post(`/news/${newsId}/image`, formData, {
             headers: {
                 Authorization: "Bearer " + token,
@@ -90,7 +94,7 @@ export const getNewsById = async (newsId: number) => {
 };
 
 export const deleteNews = async (newsId: number) => {
-   const token = localStorage.getItem("jwt");
+    const token = getCookie('token');
     try {
         const response = await $host.delete(`/news/${newsId}`, {
             headers: {
@@ -103,7 +107,7 @@ export const deleteNews = async (newsId: number) => {
     }
 };
 export const deleteNewsPic = async (newsId:number) => {
-    const token = localStorage.getItem("jwt");
+    const token = getCookie('token');
     try {
         const response = await $host.delete(`/news/${newsId}/image`, {
             headers: {
@@ -116,7 +120,7 @@ export const deleteNewsPic = async (newsId:number) => {
     }
 };
 export const deleteNewsContent = async (newsId:number) => {
-    const token = localStorage.getItem("jwt");
+    const token = getCookie('token');
     try {
         const response = await $host.delete(`/news/${newsId}/content`, {
             headers: {

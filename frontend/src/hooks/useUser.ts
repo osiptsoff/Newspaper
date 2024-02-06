@@ -1,5 +1,5 @@
 import { $host } from "@/api";
-import {useUserStore} from "@/stores/userStore";
+import Cookies from 'js-cookie';
 export interface User {
     name: string,
     lastName: string,
@@ -15,41 +15,45 @@ export const createUser = async (newUser: User) => {
         return e;
     }
 }
-
-export const loginUser = async (logUser: User) => {
-    try {
-        const response = await $host.post("/auth", logUser);
-        const userStore = useUserStore();
-        userStore.setUserData(response.data.role, response.data.name, response.data.login, response.data.lastName);
-        return response;
-    } catch (e) {
-        return e;
-    }
-};
-
-export const infoUser = async () => {
-    try {
-        const response = await $host.post("/user",);
-        const userStore = useUserStore();
-        userStore.setUserData(response.data.role, response.data.name, response.data.login, response.data.lastName);
-        return response;
-    } catch (e) {
-        return e;
-    }
-};
 export const refreshToken = async () => {
-    const refreshToken = localStorage.getItem("refreshToken");
+    const token = getCookie('token');
     try {
-        const response = await $host.post('api/auth', { refreshToken }, {
+        const response = await $host.post('api/auth/refresh', token,{
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': "Bearer " + token
             }
         });
+        Cookies.set('token', response.data.value);
         return response.data;
     } catch (e) {
         return e;
     }
 };
+
+export const loginUser = async (logUser: User) => {
+    try {
+        const response = await $host.post("/auth" , logUser);
+        Cookies.set('token', response.data.value);
+        const token = response.data.value;
+        if (response.data.type === "refresh"){
+            await refreshToken(token)
+            return response
+        }
+        return response;
+    } catch (e) {
+        return e;
+    }
+};
+
+
+export const getCookie = function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
 
 export const logoutUser = async (logoutAUser: any) => {
     try {

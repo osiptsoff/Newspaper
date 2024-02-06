@@ -18,7 +18,7 @@ axios.interceptors.response.use(
             originalRequest._retry = true;
             const accessToken = await refreshToken();
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken;
-            console.log(5555)
+            console.log(accessToken)
             return axios(originalRequest);
         }
         return Promise.reject(error);

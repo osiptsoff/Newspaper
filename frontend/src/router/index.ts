@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import Main from '../views/Main.vue'
+import Main from '@/views/Main.vue'
 import Loginuser from "@/views/Loginuser.vue";
 import NewPost from "@/components/NewPost.vue";
+import Account from "@/components/Account.vue";
 
 
 
@@ -20,6 +21,10 @@ const router = createRouter({
     {
       path : '/newpost',
       component: NewPost,
+    },
+    {
+      path: '/account',
+      component: Account,
     }
     ]
 })

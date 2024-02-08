@@ -5,7 +5,7 @@ export interface User {
     lastName?: string,
     login: string,
     password: string,
-    roles: string
+    roles: [string]
 }
 
 export const createUser = async (newUser: User) => {
@@ -77,7 +77,7 @@ export const infoUser = async () => {
         Cookies.set('login', response.data.login);
         Cookies.set('name', response.data.name);
         Cookies.set('lastName', response.data.lastName);
-        Cookies.set('roles', response.data.roles);
+        Cookies.set('roles', JSON.stringify(response.data.roles.map(roles => roles.value)));
         return response;
     } catch (e) {
         return e;

@@ -1,31 +1,34 @@
 <script setup lang="ts">
 import router from "@/router";
-import { ref } from "vue";
-import { useUserStore } from "@/stores/userStore";
+import { ref, onMounted } from "vue";
+import {infoUser, logoutUser, getCookie} from "@/hooks/useUser";
+import {last} from "@volar/typescript/lib/typescript/core";
 
-const userStore = useUserStore();
 const active = ref('user');
 const showDropdown = ref(false);
+const login = ref("")
+const name = ref("")
+const lastName = ref("")
+const roles = ref("")
 
-const logout = () => {
-  userStore.deleteUserData();
-  localStorage.removeItem('jwt');
-  localStorage.removeItem('user');
-}
+onMounted(async () => {
+  await infoUser();
+  login.value = getCookie('login');
+  name.value = getCookie('name');
+  lastName.value = getCookie('lastName');
+  roles.value = getCookie('roles');
+});
+
+const logout = async () => {
+  await logoutUser();
+};
 
 const toggleDropdown = () => {
   showDropdown.value = !showDropdown.value;
 }
 
-const goToAccountOrLogin = () => {
-  if (userStore.user.name) {
-    // Navigate to personal account page
-    router.push('/account');
-  } else {
-    // Navigate to login page
-    router.push('/login');
-  }
-}
+
+
 
 </script>
 
@@ -40,10 +43,10 @@ const goToAccountOrLogin = () => {
       <div v-if="showDropdown" class="card h-full w-full bg-base-100 shadow-xl">
         <div class="card-body bg-gray-200">
           <div class="flex mb-6 justify-center" v-if="active === 'user' "></div>
-          <h2 class="block text-2xl font-bold">{{userStore.user.name}}</h2>
+          <h2 class="block text-2xl font-bold" v-if="login">{{name +' '+ lastName}}</h2>
           <hr>
-          <button class="w-full text-start text-md py-2 px-3 border-y hover:bg-gray-700 rounded-none" :class="{ 'bg-gray-800 font-semibold': active === 'user' }" @click="goToAccountOrLogin">Войти</button>
-          <button @click="logout()" class="w-full text-start -mt-2 text-md py-2 px-3 border-y hover:bg-gray-700 rounded-none">Выйти</button>
+          <button class="w-full text-start text-md py-2 px-3 border-y hover:bg-gray-700 rounded-none" :class="{ 'bg-gray-800 font-semibold': active === 'user' }" @click="router.push('/login')"  v-if="!login">Войти</button>
+          <button @click="logout" class="w-full text-start -mt-2 text-md py-2 px-3 border-y hover:bg-gray-700 rounded-none"  v-if="login">Выйти</button>
         </div>
       </div>
     </div>

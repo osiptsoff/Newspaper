@@ -31,12 +31,12 @@ import Header from "@/components/Header.vue";
 
 const active = ref(true);
 
-// const handleRegistration = (isCreate: boolean) => {
-//   active.value = true;
-// };
-// const handleLogin = (isCreate: boolean) => {
-//   active.value = false;
-// };
+const handleRegistration = (isCreate: boolean) => {
+  active.value = true;
+};
+const handleLogin = (isCreate: boolean) => {
+  active.value = false;
+};
 
 
 </script>

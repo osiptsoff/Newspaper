@@ -63,7 +63,7 @@
 
 <script setup lang='ts'>
 import { ref, getCurrentInstance } from "vue";
-import { loginUser } from "@/hooks/useUser";
+import { loginUser, refreshToken } from "@/hooks/useUser";
 import { useRouter } from 'vue-router';
 
 const router = useRouter();

@@ -1,10 +1,11 @@
 import { $host } from "@/api";
 import Cookies from 'js-cookie';
 export interface User {
-    name: string,
-    lastName: string,
+    name?: string,
+    lastName?: string,
     login: string,
-    password: string
+    password: string,
+    roles: string
 }
 
 export const createUser = async (newUser: User) => {
@@ -18,10 +19,12 @@ export const createUser = async (newUser: User) => {
 export const refreshToken = async () => {
     const token = getCookie('token');
     try {
-        const response = await $host.post('api/auth/refresh', token,{
+        const response = await $host.post("/auth/refresh", {
+            type: 'refresh',
+            value: token,
+        }, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': "Bearer " + token
             }
         });
         Cookies.set('token', response.data.value);
@@ -35,10 +38,8 @@ export const loginUser = async (logUser: User) => {
     try {
         const response = await $host.post("/auth" , logUser);
         Cookies.set('token', response.data.value);
-        const token = response.data.value;
-        if (response.data.type === "refresh"){
-            await refreshToken(token)
-            return response
+        if (response.data.type === "refresh") {
+            await refreshToken();
         }
         return response;
     } catch (e) {
@@ -47,17 +48,58 @@ export const loginUser = async (logUser: User) => {
 };
 
 
-export const getCookie = function getCookie(name) {
-    let matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
+export function getCookie(name) {
+    let cookieArr = document.cookie.split(";");
+
+    for(let i =  0; i < cookieArr.length; i++) {
+        let cookiePair = cookieArr[i].split("=");
+
+        if(name == cookiePair[0].trim()) {
+            return decodeURIComponent(cookiePair[1]);
+        }
+    }
+
+    return null;
+}
+function deleteCookie(name) {
+    document.cookie = name + '=; expires=Thu,  01 Jan  1970  00:00:00 UTC; path=/;';
 }
 
-
-export const logoutUser = async (logoutAUser: any) => {
+export const infoUser = async () => {
+    const token = getCookie('token');
     try {
-        const response = await $host.post("/auth/logout", logoutAUser);
+        const response = await $host.get("/user", {
+            headers:{
+                'Content-Type': 'application/json',
+                Authorization: "Bearer "+ token
+            }
+        });
+        Cookies.set('login', response.data.login);
+        Cookies.set('name', response.data.name);
+        Cookies.set('lastName', response.data.lastName);
+        Cookies.set('roles', response.data.roles);
+        return response;
+    } catch (e) {
+        return e;
+    }
+};
+
+export const logoutUser = async () => {
+    const  token = getCookie('token');
+    try {
+        const response = await $host.post("/auth/logout",{
+            type: 'refresh',
+            value: token,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+            }});
+        deleteCookie('login');
+        deleteCookie('name');
+        deleteCookie('lastName');
+        deleteCookie('token');
+        deleteCookie('roles');
+        location.reload();
         return response;
     } catch (e) {
         return e;

@@ -17,7 +17,13 @@ onMounted(async () => {
   lastName.value = getCookie('lastName');
   roles.value = JSON.parse(getCookie('roles'));
 });
-const isAdmin = computed(() => roles.value.includes('admin'));
+
+const isAdmin = computed(() => {
+  if (login.value) {
+    return roles.value.includes('admin');
+  }
+  return false;
+});
 
 const logout = async () => {
   await logoutUser();
@@ -41,11 +47,11 @@ const toggleDropdown = () => {
       <img class="w-8 h-8 mr-0 ml-auto" src="/img.png" >
       <div v-if="showDropdown" class="card h-full w-full bg-base-100 shadow-xl">
         <div class="card-body bg-gray-200">
-          <div class="flex mb-6 justify-center" v-if="active === 'user' "></div>
+          <div class="flex mb-6 justify-center" v-if="login"></div>
           <h2 class="block text-2xl font-bold text-purple-950 border border-black p-2 hover:bg-purple-300" v-if="login" @click="router.push('/account')">{{name +' '+ lastName}}</h2>
           <hr>
           <button class="w-full text-start text-md py-2 px-3 border-y hover:bg-gray-700 rounded-none" :class="{ 'bg-gray-800 font-semibold': active === 'user' }" @click="router.push('/login')" v-if="!login">Войти</button>
-          <button @click="logout" class="w-full text-start -mt-2 text-md py-2 px-3 border-y hover:bg-gray-700 rounded-none" v-if="login">Выйти</button>
+          <button @click="logout"  class="w-full text-start -mt-2 text-md py-2 px-3 border-y hover:bg-gray-700 rounded-none" v-if="login">Выйти</button>
         </div>
       </div>
     </div>

@@ -1,14 +1,24 @@
 import { $host } from "@/api";
 import {getCookie} from "@/hooks/useUser";
 
-interface Tag {
+interface tag {
     name: string;
 }
+export const getAllTag = async () => {
+    try {
+        const response = await $host.get("/tag");
+        return response;
+    } catch (e) {
+        return e;
+    }
+};
 
-export const saveTag = async (tag: Tag) => {
+export const saveTag = async (tag) => {
     const token = getCookie('token');
     try {
-        const response = await $host.post("/api/tag", tag, {
+        const response = await $host.post("/api/tag", { body: {
+                "name": "tag"
+            }}, {
             headers: {
                 Authorization: "Bearer " + token
             }

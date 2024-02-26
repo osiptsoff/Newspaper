@@ -4,7 +4,7 @@
     <Header/>
     <div class="flex">
       <section class="flex flex-col items-center justify-center w-full">
-        <News class="w-3/4"/>
+        <News class="w-screen"/>
       </section>
     </div>
   </div>

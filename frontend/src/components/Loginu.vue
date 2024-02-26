@@ -84,7 +84,7 @@ const sendData = async () => {
   };
   try {
     await loginUser(userCredentials); // Вызываем функцию loginUser
-    await router.push('/'); // Перенаправляем пользователя на страницу личного кабинета
+    await router.push('/account'); // Перенаправляем пользователя на страницу личного кабинета
   } catch (error) {
     console.error(error);
   }

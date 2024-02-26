@@ -1,5 +1,4 @@
 
-
 <template>
   <div>
     <div
@@ -79,12 +78,17 @@
                 >
                 </a>
               </div>
+              <div>
+                <label for="confirmPassword" class="block mb-2 text-sm font-medium text-gray-900">Подтвердите пароль</label>
+                <input v-model="confirmPassword" type="password" name="confirmPassword" id="confirmPassword" :class="{ 'border-red-500': !passwordsMatch }" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="••••••••" required />
+              </div>
             </div>
             <div>
             </div>
           </div>
           <button
             type="submit"
+            @click="sendData" :disabled="!passwordsMatch"
             class="w-full text-white bg-purple-600 hover:bg-orange-400 focus:ring-4 focus:outline-none transition-all-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           >
             Зарегистрироваться
@@ -104,7 +108,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref, getCurrentInstance } from "vue";
+import { ref, getCurrentInstance, computed } from "vue";
 import { useRouter } from "vue-router";
 import "vue3-toastify/dist/index.css";
 import { User, createUser } from "@/hooks/useUser";
@@ -123,13 +127,14 @@ let password = ref("");
 const isSign = () => {
   instance.emit("createUser", true);
 };
-
+const confirmPassword = ref('');
+const passwordsMatch = computed(() => password.value === confirmPassword.value);
 const sendData = async () => {
   errorMsg.value = "";
     const newUser: User = {
-     name: name.value,
-      lastName: lastName.value,
       login: login.value,
+      name: name.value,
+      lastName: lastName.value,
       password: password.value,
     };
     await createUser(newUser);

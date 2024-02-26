@@ -1,37 +1,41 @@
-// import { defineStore } from "pinia";
-// import { ref } from "vue";
 //
-// interface User {
-//   login: string;
-//   name?: string;
-//   lastName?: string;
-//   role: Array<{value:string}>;
+// import { defineStore } from 'pinia';
+//
+// interface NewsItem {
+//     id: number;
+//     title: string;
+//     content: string[];
+//     tags: string[];
+//     image?: File | null;
 // }
 //
-// export const useUserStore = defineStore("userStore", () => {
-//   const user = ref<User>({
-//     name: "",
-//     login: "",
-//     lastName: "",
-//     role: [],
-//   });
-//   const setUserData = (lastName: string, name: string, login: string, role: []) => {
-//     user.value.name = name;
-//     user.value.login = login;
-//     user.value.lastName =  lastName;
-//     user.value.role = role;
-//   };
-//
-//   const deleteUserData = () => {
-//     user.value.name = "";
-//     user.value.login = "";
-//     user.value.lastName = "";
-//     user.value.role = [];
-//   };
-//
-//   return {
-//     user,
-//     setUserData,
-//     deleteUserData,
-//   };
+// export const useNewsStore = defineStore('news', {
+//     state: () => ({
+//         newsList: [] as NewsItem[],
+//         loading: false,
+//         error: null as Error | null,
+//     }),
+//     actions: {
+//         async fetchNews() {
+//             this.loading = true;
+//             this.error = null;
+//             try {
+//                 const response = await allNews();
+//                 this.newsList = response.data;
+//             } catch (error) {
+//                 this.error = error;
+//             } finally {
+//                 this.loading = false;
+//             }
+//         },
+//         addNewsItem(newsItem: Omit<NewsItem, 'id'>) {
+//             this.newsList.unshift({
+//                 id: Date.now(),
+//                 ...newsItem,
+//             });
+//         },
+//         removeNewsItemById(id: number) {
+//             this.newsList = this.newsList.filter((item) => item.id !== id);
+//         },
+//     },
 // });

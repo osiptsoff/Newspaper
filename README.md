@@ -96,4 +96,4 @@ npm install
 npm run dev
 
 
-3. Откройте приложение в браузере по адресу: http://localhost:5173TO_DO
+3. Откройте приложение в браузере по адресу: http://localhost:5173

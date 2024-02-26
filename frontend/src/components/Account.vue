@@ -14,8 +14,8 @@
       </p>
       <p v-else class="text-lg font-medium text-gray-800 hover:text-pink-500" @click="router.push('/login')">Please log in</p>
     </div>
+    <div>избранные новости:</div>
   </div>
-  <div>избранные новости</div>
 </template>
 
 <script setup lang="ts">

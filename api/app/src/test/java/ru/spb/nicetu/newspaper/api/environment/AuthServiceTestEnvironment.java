@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import ru.spb.nicetu.newspaper.api.repository.TokenRepository;
 import ru.spb.nicetu.newspaper.api.repository.UserRepository;
-import ru.spb.nicetu.newspaper.api.service.AuthService;
+import ru.spb.nicetu.newspaper.api.service.AuthServiceImpl;
 import ru.spb.nicetu.newspaper.api.test.AuthServiceTests;
 
 /**
@@ -23,7 +23,7 @@ import ru.spb.nicetu.newspaper.api.test.AuthServiceTests;
 @RequiredArgsConstructor
 @Getter
 public class AuthServiceTestEnvironment {
-    private final AuthService authService;
+    private final AuthServiceImpl authService;
     private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
 

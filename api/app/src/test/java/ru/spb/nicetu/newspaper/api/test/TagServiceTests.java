@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
+import ru.spb.nicetu.newspaper.api.environment.TagServiceTestEnvironment;
 import ru.spb.nicetu.newspaper.api.model.Tag;
-import ru.spb.nicetu.newspaper.api.repository.TagRepository;
 import ru.spb.nicetu.newspaper.api.service.TagService;
 
 /**
@@ -25,13 +25,11 @@ import ru.spb.nicetu.newspaper.api.service.TagService;
 @SpringBootTest
 @Transactional
 public class TagServiceTests {
-    private final TagRepository tagRepository;
-    private final TagService tagService;
+    private final TagServiceTestEnvironment env;
 
     @Autowired
-    public TagServiceTests(TagRepository tagRepository, TagService tagService) {
-        this.tagRepository = tagRepository;
-        this.tagService = tagService;
+    public TagServiceTests(TagServiceTestEnvironment env) {
+        this.env = env;
     }
 
     @Test
@@ -40,18 +38,18 @@ public class TagServiceTests {
         Tag tag2 = new Tag();
 
         tag1.setName("find all tags tag1");
-        tag1 = tagRepository.save(tag1);
+        tag1 = env.getTagRepository().save(tag1);
         tag2.setName("find all tags tag2");
-        tag2 = tagRepository.save(tag2);
+        tag2 = env.getTagRepository().save(tag2);
 
-        List<Tag> tags = tagService.findAllTags();
+        List<Tag> tags = env.getTagService().findAllTags();
 
         Assert.isTrue(tags.size() > 2, "At least 2 tags must be present");
         Assert.isTrue(tags.contains(tag1), "First tag must be present");
         Assert.isTrue(tags.contains(tag2), "Second tag must be present");
 
-        tagRepository.delete(tag1);
-        tagRepository.delete(tag2);
+        env.getTagRepository().delete(tag1);
+        env.getTagRepository().delete(tag2);
     }
 
     @Test
@@ -59,13 +57,13 @@ public class TagServiceTests {
         Tag tag = new Tag();
         tag.setName("Test tag");
 
-        tag = tagService.saveTag(tag);
+        tag = env.getTagService().saveTag(tag);
 
-        Optional<Tag> dbTag = tagRepository.findById(tag.getId());
+        Optional<Tag> dbTag = env.getTagRepository().findById(tag.getId());
 
         Assert.isTrue(dbTag.isPresent(), "Must be present");
 
-        tagRepository.delete(tag);
+        env.getTagRepository().delete(tag);
     }
     
     @Test
@@ -73,14 +71,14 @@ public class TagServiceTests {
         Tag tag = new Tag();
         tag.setName("Test tag");
 
-        tag = tagService.saveTag(tag);
+        tag = env.getTagService().saveTag(tag);
 
-        Tag dbTag = tagService.findTagByName(tag.getName());
+        Tag dbTag = env.getTagService().findTagByName(tag.getName());
 
         Assert.notNull(dbTag, "Must be present");
         Assert.isTrue(dbTag.equals(tag), "Must be equal to one it's created from");
 
-        tagRepository.delete(tag);
+        env.getTagRepository().delete(tag);
     }
 
     @Test
@@ -88,13 +86,13 @@ public class TagServiceTests {
         Tag tag = new Tag();
         tag.setName("Test tag");
 
-        tag = tagService.saveTag(tag);
+        tag = env.getTagService().saveTag(tag);
 
-        Assert.isTrue(tagRepository.existsById(tag.getId()), "Must exist in db");
+        Assert.isTrue(env.getTagRepository().existsById(tag.getId()), "Must exist in db");
 
-        tagService.deleteTag(tag);
+        env.getTagService().deleteTag(tag);
 
-        Assert.isTrue(!tagRepository.existsById(tag.getId()), "Must not exist in db");
+        Assert.isTrue(!env.getTagRepository().existsById(tag.getId()), "Must not exist in db");
 
     }
 }

@@ -28,6 +28,7 @@ import ru.spb.nicetu.newspaper.api.dto.UserTagListDto;
 import ru.spb.nicetu.newspaper.api.model.News;
 import ru.spb.nicetu.newspaper.api.model.User;
 import ru.spb.nicetu.newspaper.api.service.UserService;
+import ru.spb.nicetu.newspaper.api.service.util.SecurityUserUtil;
 
 /**
  * <p>Controller for '/user' endpoint.</p>
@@ -49,10 +50,11 @@ public class UserController {
     private final UserService userService;
 
     private final AuthUtil authUtil;
+    private final SecurityUserUtil securityUserUtil;
 
     @GetMapping()
     public UserInfoDto getUserInfo() {
-        return UserInfoDto.from(userService.getAuthenticatedUser());
+        return UserInfoDto.from(securityUserUtil.getAuthenticatedUser());
     }
 
     @GetMapping("/tag")

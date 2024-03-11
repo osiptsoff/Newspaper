@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import ru.spb.nicetu.newspaper.api.model.News;
 import ru.spb.nicetu.newspaper.api.repository.NewsContentRepository;
 import ru.spb.nicetu.newspaper.api.repository.NewsRepository;
-import ru.spb.nicetu.newspaper.api.service.NewsContentService;
+import ru.spb.nicetu.newspaper.api.service.NewsContentServiceImpl;
 import ru.spb.nicetu.newspaper.api.test.NewsContentServiceTests;
 
 /**
@@ -29,7 +29,7 @@ public class NewsContentServiceTestEnvironment {
     private final NewsRepository newsRepository;
 
     private final NewsContentRepository newsContentRepository;
-    private final NewsContentService newsContentService;
+    private final NewsContentServiceImpl newsContentService;
 
     private News testNews;
 

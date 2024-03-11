@@ -26,7 +26,6 @@ import ru.spb.nicetu.newspaper.api.repository.UserRepository;
 import ru.spb.nicetu.newspaper.api.security.jwt.JwtUtility;
 import ru.spb.nicetu.newspaper.api.service.exception.UnregistredTokenException;
 import ru.spb.nicetu.newspaper.api.service.exception.UsernameTakenException;
-import ru.spb.nicetu.newspaper.api.service.util.SecurityUserUtil;
 
 /**
  * <p>{@link AuthService} implementation.</p>
@@ -49,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
     private final RoleRepository roleRepository;
 
     private final JwtUtility jwtUtility;
-    private final SecurityUserUtil securityUserUtil;
+    private final SecurityUserService securityUserService;
     private final PasswordEncoder passwordEncoder;
 
     @Setter
@@ -108,7 +107,7 @@ public class AuthServiceImpl implements AuthService {
                 throw new BadCredentialsException("Invalid username or password");
             }
 
-            String token = jwtUtility.generateRefreshToken(securityUserUtil.userToDetails(user));
+            String token = jwtUtility.generateRefreshToken(securityUserService.userToDetails(user));
             
             if(tokensPersistent) {
                 Token dbToken = new Token(user.getId(), token, user);

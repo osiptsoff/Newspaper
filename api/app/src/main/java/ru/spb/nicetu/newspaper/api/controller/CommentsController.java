@@ -29,8 +29,8 @@ import ru.spb.nicetu.newspaper.api.model.News;
 import ru.spb.nicetu.newspaper.api.model.User;
 import ru.spb.nicetu.newspaper.api.service.CommentsService;
 import ru.spb.nicetu.newspaper.api.service.NewsService;
+import ru.spb.nicetu.newspaper.api.service.SecurityUserService;
 import ru.spb.nicetu.newspaper.api.service.exception.MissingEntityException;
-import ru.spb.nicetu.newspaper.api.service.util.SecurityUserUtil;
 
 /**
  * <p>Controller for '/comment' endpoint.</p>
@@ -49,7 +49,7 @@ public class CommentsController {
     private final NewsService newsService;
 
     private final AuthUtil authUtil;
-    private final SecurityUserUtil securityUserUtil;
+    private final SecurityUserService securityUserService;
 
     @PostMapping()
     public CommentDto saveComment(@Valid @RequestBody CommentDto dto) {
@@ -58,7 +58,7 @@ public class CommentsController {
             throw new MissingEntityException();
         }
 
-        User user = securityUserUtil.getAuthenticatedUser();
+        User user = securityUserService.getAuthenticatedUser();
 
         Comment comment = new Comment();
         comment.setAuthor(user);

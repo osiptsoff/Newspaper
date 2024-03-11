@@ -29,7 +29,6 @@ import ru.spb.nicetu.newspaper.api.repository.UserRepository;
 import ru.spb.nicetu.newspaper.api.repository.UserTagRepository;
 import ru.spb.nicetu.newspaper.api.service.auxiliary.NewsLikedTagsPair;
 import ru.spb.nicetu.newspaper.api.service.exception.MissingEntityException;
-import ru.spb.nicetu.newspaper.api.service.util.SecurityUserUtil;
 
 /**
  * <p>{@link UserDetailsService} and {@link UserService} implementation.</p>
@@ -56,7 +55,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private final TagRepository tagRepository;
     private final UserTagRepository userTagRepository;
 
-    private final SecurityUserUtil securityUserUtil;
+    private final SecurityUserService securityUserService;
 
     @Value("${app.config.newsPageSize}")
     @Setter
@@ -253,7 +252,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             throw new UsernameNotFoundException("No user with requested username");
         }
 
-        return securityUserUtil.userToDetails(user);
+        return securityUserService.userToDetails(user);
     }  
 
     private void likeNews(String login, Long newsId, boolean like) {

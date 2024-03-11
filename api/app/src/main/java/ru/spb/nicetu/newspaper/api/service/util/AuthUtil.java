@@ -1,4 +1,4 @@
-package ru.spb.nicetu.newspaper.api.controller.util;
+package ru.spb.nicetu.newspaper.api.service.util;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.context.SecurityContextHolder;

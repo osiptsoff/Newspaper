@@ -15,6 +15,7 @@ import ru.spb.nicetu.newspaper.api.dto.TokenDto;
 import ru.spb.nicetu.newspaper.api.dto.UserAuthenticateDto;
 import ru.spb.nicetu.newspaper.api.dto.UserRegistrationDto;
 import ru.spb.nicetu.newspaper.api.service.AuthService;
+import ru.spb.nicetu.newspaper.api.service.facade.AuthServiceFacade;
 
 /**
  * <p>Controller for '/auth' endpoint.</p>
@@ -29,34 +30,27 @@ import ru.spb.nicetu.newspaper.api.service.AuthService;
 @RequiredArgsConstructor
 @Validated
 public class AuthController {
-    private final AuthService authService;
+    private final AuthServiceFacade authServiceFacade;
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void register(@Valid @RequestBody UserRegistrationDto userDto) {
-        authService.register(userDto.getLogin(),
-            userDto.getPassword(),
-            userDto.getName(),
-            userDto.getLastName());
+        authServiceFacade.register(userDto);
     }
 
     @PostMapping()
     public TokenDto authenticate(@Valid @RequestBody UserAuthenticateDto dto) {
-        String token = authService.authenticate(dto.getLogin(), dto.getPassword());
-
-        return new TokenDto("refresh", token);
+        return authServiceFacade.authenticate(dto);
     }
 
     @PostMapping("/refresh")
     public TokenDto refresh(@Valid @RequestBody TokenDto tokenDto) {
-        String token = authService.refresh(tokenDto.getValue());
-
-        return new TokenDto("access", token);
+        return authServiceFacade.refresh(tokenDto);
     }
 
     @PostMapping("/logout")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void logout(@Valid @RequestBody TokenDto tokenDto) {
-        authService.logout(tokenDto.getValue());
+        authServiceFacade.logout(tokenDto);
     }
 }

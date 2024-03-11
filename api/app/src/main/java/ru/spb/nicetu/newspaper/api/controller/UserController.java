@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import ru.spb.nicetu.newspaper.api.controller.util.AuthUtil;
 import ru.spb.nicetu.newspaper.api.dto.LikeNewsDto;
 import ru.spb.nicetu.newspaper.api.dto.LikeTagDto;
 import ru.spb.nicetu.newspaper.api.dto.NewsSignatureDto;
@@ -29,6 +28,7 @@ import ru.spb.nicetu.newspaper.api.model.News;
 import ru.spb.nicetu.newspaper.api.model.User;
 import ru.spb.nicetu.newspaper.api.service.SecurityUserService;
 import ru.spb.nicetu.newspaper.api.service.UserService;
+import ru.spb.nicetu.newspaper.api.service.util.AuthUtil;
 
 /**
  * <p>Controller for '/user' endpoint.</p>

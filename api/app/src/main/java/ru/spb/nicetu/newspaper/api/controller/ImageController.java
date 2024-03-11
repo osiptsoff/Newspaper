@@ -17,9 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
-import ru.spb.nicetu.newspaper.api.model.image.FileSystemImage;
 import ru.spb.nicetu.newspaper.api.model.image.AbstractImage;
-import ru.spb.nicetu.newspaper.api.service.AbstractImageService;
+import ru.spb.nicetu.newspaper.api.service.facade.ImageServiceFacadeImpl;
 
 /**
  * <p>Controller for '/news/{id}/image' endpoint.</p>
@@ -34,11 +33,12 @@ import ru.spb.nicetu.newspaper.api.service.AbstractImageService;
 @RequiredArgsConstructor
 @Validated
 public class ImageController {
-    private final AbstractImageService<FileSystemImage> imageService;
+    private final ImageServiceFacadeImpl imageServiceFacade;
 
     @GetMapping()
     public ResponseEntity<Resource> getImage(@PathVariable("id") Long id) {
-        AbstractImage image = imageService.findImage(id);
+        AbstractImage image = imageServiceFacade.getImage(id);
+
         return ResponseEntity
             .ok()
             .contentType(MediaType.valueOf(image.getType()))
@@ -50,14 +50,12 @@ public class ImageController {
     public void postImage(@RequestParam("file") MultipartFile file,
             @RequestHeader("Image-Type") String type,
             @PathVariable("id") Long id) {
-        MediaType mediaType = imageService.resolveMediaType(type);
-
-        imageService.saveImage(file, mediaType, id);
+        imageServiceFacade.postImage(file, type, id);
     }
 
     @DeleteMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteImage(@PathVariable("id") Long id) {
-        imageService.deleteImage(id);
+        imageServiceFacade.deleteImage(id);
     }
 }

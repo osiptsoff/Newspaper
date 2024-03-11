@@ -34,6 +34,8 @@ import ru.spb.nicetu.newspaper.api.model.embeddable.NewsContentBlockId;
 import ru.spb.nicetu.newspaper.api.service.NewsContentService;
 import ru.spb.nicetu.newspaper.api.service.NewsService;
 import ru.spb.nicetu.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResult;
+import ru.spb.nicetu.newspaper.api.service.facade.NewsServiceFacade;
+import ru.spb.nicetu.newspaper.api.service.facade.NewsServiceFacadeImpl;
 
 /**
  * <p>Controller for '/news' endpoint.</p>
@@ -49,121 +51,53 @@ import ru.spb.nicetu.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResu
 @RequiredArgsConstructor
 @Validated
 public class NewsController {
-    private final NewsService newsService;
-    private final NewsContentService newsContentService;
+    private final NewsServiceFacade newsServiceFacade;
 
     @GetMapping()
     public PageDto<NewsSignatureDto> getAllNewsPage(@RequestParam Integer pageNumber) {
-        Page<News> page = newsService.findAllNews(pageNumber);
-
-        List<NewsSignatureDto> resultList = page.map(n -> NewsSignatureDto.from(n)).toList();
-
-        return new PageDto<NewsSignatureDto>(resultList, page.isLast());
+        return newsServiceFacade.getAllNewsPage(pageNumber);
     }
 
     @GetMapping("/{id}")
     public FetchedNewsDto getNews(@PathVariable Long id) {
-        NewsServiceFindNewsByIdResult fetchedNews = newsService.findNewsById(id);
-        if(fetchedNews == null) {
-            throw new NullPointerException();
-        }
-
-        FetchedNewsDto result = new FetchedNewsDto();
-        result.setNewsSignature(NewsSignatureDto.from(fetchedNews.getNews()));
-        result.setComments(fetchedNews
-            .getNews()
-            .getComments()
-            .stream()
-            .map(c -> CommentDto.from(c) )
-            .collect(Collectors.toList()));
-        result.setContent(fetchedNews
-            .getNews()
-            .getContentBlocks()
-            .stream()
-            .map(b -> NewsContentBlockDto.from(b) )
-            .collect(Collectors.toList()));
-
-        result.setLikesCount(newsService.countLikes(id));
-
-        result.setIsLastCommentsPage(fetchedNews.getIsLastCommentsPage());
-        result.setIsLastContentPage(fetchedNews.getIsLastContentPage());
-
-        return result;
+        return newsServiceFacade.getNews(id);
     }
 
     @GetMapping("{id}/content")
     public PageDto<NewsContentBlockDto> getNewsContentPage(@PathVariable("id") Long newsId,
             @RequestParam Integer pageNumber) {
-        List<NewsContentBlockDto> data = new LinkedList<>();
-        Page<NewsContentBlock> page = newsContentService.findNthPageOfContent(newsId, pageNumber);
-
-        page.forEach(b -> data.add(NewsContentBlockDto.from(b)));
-
-        return new PageDto<NewsContentBlockDto>(data, page.isLast());
+        return newsServiceFacade.getNewsContentPage(newsId, pageNumber);
     }
 
     @PostMapping()
     public NewsSignatureDto saveNewsSignature(@Valid @RequestBody NewsSignatureDto dto) {
-        News newsSignature = new News();
-        newsSignature.setId(dto.getId());
-        newsSignature.setTitle(dto.getTitle());
-        newsSignature.setPostTime(new Date().toInstant().atOffset(ZoneOffset.UTC));
-        newsSignature = newsService.saveNews(newsSignature);
-
-        dto.setId(newsSignature.getId());
-        dto.setPostTime(newsSignature.getPostTime());
-        dto.setTags(null);
-
-        return dto;
+        return newsServiceFacade.saveNewsSignature(dto);
     }
 
     @PostMapping("/{id}/content")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void saveNewsContent(@Valid @RequestBody List<NewsContentBlockDto> blocks,
             @PathVariable Long id) {
-        News news = newsService.findNewsByIdNoFetch(id);
-        if(news == null) {
-            throw new NullPointerException();
-        }
-        List<NewsContentBlock> result = new LinkedList<>();
-
-        blocks.forEach(b -> {
-            NewsContentBlock block = new NewsContentBlock();
-            block.setNewsContentBlockId(new NewsContentBlockId());
-            block.getNewsContentBlockId().setNewsId(news.getId());
-            block.getNewsContentBlockId().setNumber(b.getBlockNumber());
-            block.setNews(news);
-            block.setText(b.getText());
-
-            result.add(block);
-        });
-
-        newsContentService.saveMultipleNewsContentBlocks(result);
+        newsServiceFacade.saveNewsContent(blocks, id);
     }
 
     @PostMapping("/{id}/tag")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void associateWithTag(@Valid @RequestBody TagAssociationRequestDto dto,
             @PathVariable Long id) {
-        if(dto.getBelongs()) {
-            newsService.associateWithTag(id, dto.getTag());
-        } else {
-            newsService.deassociateWithTag(id, dto.getTag());
-        }
+        newsServiceFacade.associateWithTag(dto, id);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteNews(@PathVariable("id") Long newsId) {
-        newsService.deleteNews(newsId);
+        newsServiceFacade.deleteNews(newsId);
     }
 
     @DeleteMapping("/{id}/content")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteNewsContent(@PathVariable Long id) {
-        News news = newsService.findNewsByIdNoFetch(id);
-
-        newsContentService.deleteAllContentOfNews(news);
+        newsServiceFacade.deleteNewsContent(id);
     }
 
 }

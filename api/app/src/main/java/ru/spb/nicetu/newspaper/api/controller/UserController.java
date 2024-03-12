@@ -19,9 +19,7 @@ import ru.spb.nicetu.newspaper.api.dto.PageDto;
 import ru.spb.nicetu.newspaper.api.dto.SingleValueDto;
 import ru.spb.nicetu.newspaper.api.dto.UserInfoDto;
 import ru.spb.nicetu.newspaper.api.dto.UserTagListDto;
-import ru.spb.nicetu.newspaper.api.service.UserService;
 import ru.spb.nicetu.newspaper.api.service.facade.UserServiceFacade;
-import ru.spb.nicetu.newspaper.api.service.util.AuthUtil;
 
 /**
  * <p>Controller for '/user' endpoint.</p>
@@ -32,8 +30,7 @@ import ru.spb.nicetu.newspaper.api.service.util.AuthUtil;
  *      <li>getting news considering user's preferences.</li></ol></p>
  * <p>All paths of this endpoint have additional protection: user can retrieve information of his own only.</p>
     * @author Nikita Osiptsov
-    * @see {@link UserService}
-    * @see {@link AuthUtil}
+    * @see {@link UserServiceFacade}
  * @since 1.0
  */
 @RestController

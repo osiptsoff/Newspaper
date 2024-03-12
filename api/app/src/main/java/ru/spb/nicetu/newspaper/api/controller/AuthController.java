@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import ru.spb.nicetu.newspaper.api.dto.TokenDto;
 import ru.spb.nicetu.newspaper.api.dto.UserAuthenticateDto;
 import ru.spb.nicetu.newspaper.api.dto.UserRegistrationDto;
-import ru.spb.nicetu.newspaper.api.service.AuthService;
 import ru.spb.nicetu.newspaper.api.service.facade.AuthServiceFacade;
 
 /**
@@ -26,7 +25,7 @@ import ru.spb.nicetu.newspaper.api.service.facade.AuthServiceFacade;
  *
  * <p>Provides API for registration, authentication and logging out.</p>
     * @author Nikita Osiptsov
-    * @see {@link AuthService}
+    * @see {@link AuthServiceFacade}
  * @since 1.0
  */
 @RestController

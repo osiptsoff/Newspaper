@@ -18,14 +18,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import ru.spb.nicetu.newspaper.api.model.image.AbstractImage;
-import ru.spb.nicetu.newspaper.api.service.facade.ImageServiceFacadeImpl;
+import ru.spb.nicetu.newspaper.api.model.image.FileSystemImage;
+import ru.spb.nicetu.newspaper.api.service.facade.ImageServiceFacade;
 
 /**
  * <p>Controller for '/news/{id}/image' endpoint.</p>
  *
  * <p>Provides API for posting, updating, deletion and reading picture associated with news with given id.</p>
     * @author Nikita Osiptsov
-    * @see {@link ImageService}
+    * @see {@link ImageServiceFacade}
  * @since 1.0
  */
 @RestController
@@ -33,7 +34,7 @@ import ru.spb.nicetu.newspaper.api.service.facade.ImageServiceFacadeImpl;
 @RequiredArgsConstructor
 @Validated
 public class ImageController {
-    private final ImageServiceFacadeImpl imageServiceFacade;
+    private final ImageServiceFacade<FileSystemImage> imageServiceFacade;
 
     @GetMapping()
     public ResponseEntity<Resource> getImage(@PathVariable("id") Long id) {

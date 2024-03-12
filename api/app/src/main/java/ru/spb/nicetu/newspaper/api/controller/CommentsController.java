@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import ru.spb.nicetu.newspaper.api.dto.CommentDto;
 import ru.spb.nicetu.newspaper.api.dto.PageDto;
-import ru.spb.nicetu.newspaper.api.service.CommentsService;
 import ru.spb.nicetu.newspaper.api.service.facade.CommentsServiceFacade;
 
 /**
@@ -26,7 +25,7 @@ import ru.spb.nicetu.newspaper.api.service.facade.CommentsServiceFacade;
  *
  * <p>Provides API for posting, updating, deletion and reading comments.</p>
     * @author Nikita Osiptsov
-    * @see {@link CommentsService}
+    * @see {@link CommentsServiceFacade}
  * @since 1.0
  */
 @RestController

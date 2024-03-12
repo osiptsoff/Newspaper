@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import ru.spb.nicetu.newspaper.api.dto.TagDto;
-import ru.spb.nicetu.newspaper.api.service.TagService;
 import ru.spb.nicetu.newspaper.api.service.facade.TagServiceFacade;
 
 /**
@@ -24,7 +23,7 @@ import ru.spb.nicetu.newspaper.api.service.facade.TagServiceFacade;
  *
  * <p>Provides API for posting, updating, deletion and reading tags.</p>
     * @author Nikita Osiptsov
-    * @see {@link TagService}
+    * @see {@link TagServiceFacade}
  * @since 1.0
  */
 @RestController

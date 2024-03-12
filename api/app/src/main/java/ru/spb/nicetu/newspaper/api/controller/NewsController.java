@@ -22,8 +22,6 @@ import ru.spb.nicetu.newspaper.api.dto.NewsContentBlockDto;
 import ru.spb.nicetu.newspaper.api.dto.NewsSignatureDto;
 import ru.spb.nicetu.newspaper.api.dto.PageDto;
 import ru.spb.nicetu.newspaper.api.dto.TagAssociationRequestDto;
-import ru.spb.nicetu.newspaper.api.service.NewsContentService;
-import ru.spb.nicetu.newspaper.api.service.NewsService;
 import ru.spb.nicetu.newspaper.api.service.facade.NewsServiceFacade;
 
 /**
@@ -31,8 +29,7 @@ import ru.spb.nicetu.newspaper.api.service.facade.NewsServiceFacade;
  *
  * <p>Provides API for posting, updating, deletion and reading news and news content.</p>
     * @author Nikita Osiptsov
-    * @see {@link NewsService}
-    * @see {@link NewsContentService}
+    * @see {@link NewsServiceFacade}
  * @since 1.0
  */
 @RestController

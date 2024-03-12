@@ -49,7 +49,7 @@ public class ControllerAdvice {
 
     @ExceptionHandler(JwtException.class)
     public ResponseEntity<Map<String, Object>> handleTokenExpiredException() {
-        return getEntity(HttpStatus.FORBIDDEN, "Refresh token expired");
+        return getEntity(HttpStatus.FORBIDDEN, "Refresh token is invalid or expired");
     }
 
     @ExceptionHandler(UsernameTakenException.class)

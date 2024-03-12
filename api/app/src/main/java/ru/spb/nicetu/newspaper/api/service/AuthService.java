@@ -14,5 +14,5 @@ public interface AuthService {
     String authenticate(String login, String password);
     void logout(String refreshToken);
     String refresh(String refreshToken);
-
+    Integer getRefreshLifespawn();
 }

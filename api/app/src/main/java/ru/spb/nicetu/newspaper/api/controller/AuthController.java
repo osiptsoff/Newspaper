@@ -1,9 +1,13 @@
 package ru.spb.nicetu.newspaper.api.controller;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,13 +43,26 @@ public class AuthController {
     }
 
     @PostMapping()
-    public TokenDto authenticate(@Valid @RequestBody UserAuthenticateDto dto) {
-        return authServiceFacade.authenticate(dto);
+    public TokenDto authenticate(@Valid @RequestBody UserAuthenticateDto dto,
+            HttpServletResponse response) {
+        TokenDto refreshTokenDto = authServiceFacade.authenticate(dto);
+
+        ResponseCookie cookie = ResponseCookie.from("refresh", refreshTokenDto.getValue())
+            .httpOnly(true)
+            .secure(false)
+            .maxAge(authServiceFacade.getRefreshLifespawn())
+            .path("/")
+            .domain("localhost")
+            .sameSite("lax")
+            .build();
+        response.addHeader("Set-Cookie", cookie.toString());
+        
+        return authServiceFacade.refresh(refreshTokenDto);
     }
 
-    @PostMapping("/refresh")
-    public TokenDto refresh(@Valid @RequestBody TokenDto tokenDto) {
-        return authServiceFacade.refresh(tokenDto);
+    @GetMapping("/refresh")
+    public TokenDto refresh(@CookieValue("refresh") String refreshToken) {
+        return authServiceFacade.refresh(new TokenDto("refresh", refreshToken));
     }
 
     @PostMapping("/logout")

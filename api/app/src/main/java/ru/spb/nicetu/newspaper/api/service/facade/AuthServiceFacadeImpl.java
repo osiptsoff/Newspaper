@@ -46,5 +46,10 @@ public class AuthServiceFacadeImpl implements AuthServiceFacade {
     public void logout(TokenDto tokenDto) {
         authService.logout(tokenDto.getValue());
     }
+
+    @Override
+    public Integer getRefreshLifespawn() {
+        return authService.getRefreshLifespawn();
+    }
     
 }

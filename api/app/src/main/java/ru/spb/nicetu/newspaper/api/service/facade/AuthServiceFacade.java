@@ -19,4 +19,5 @@ public interface AuthServiceFacade {
     TokenDto authenticate(UserAuthenticateDto dto);
     TokenDto refresh(TokenDto tokenDto);
     void logout(TokenDto tokenDto);
+    Integer getRefreshLifespawn();
 }

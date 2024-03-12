@@ -178,4 +178,9 @@ public class AuthServiceImpl implements AuthService {
             throw e;
         }
     }
+
+    @Override
+    public Integer getRefreshLifespawn() {
+        return jwtUtility.getRefreshLifespawn();
+    }
 }

@@ -21,7 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import ru.spb.nicetu.newspaper.api.security.jwt.JwtAuthenticationFilter;
-import ru.spb.nicetu.newspaper.api.service.UserService;
+import ru.spb.nicetu.newspaper.api.service.UserServiceImpl;
 
 /**
  * <p>Spring Security configuration class.</p>
@@ -33,7 +33,7 @@ import ru.spb.nicetu.newspaper.api.service.UserService;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     @Setter
     @Value("${app.config.security.clientUrl}")

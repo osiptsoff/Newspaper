@@ -19,7 +19,7 @@ import ru.spb.nicetu.newspaper.api.model.NewsContentBlock;
 import ru.spb.nicetu.newspaper.api.model.embeddable.NewsContentBlockId;
 import ru.spb.nicetu.newspaper.api.repository.NewsRepository;
 import ru.spb.nicetu.newspaper.api.repository.TagRepository;
-import ru.spb.nicetu.newspaper.api.service.NewsService;
+import ru.spb.nicetu.newspaper.api.service.NewsServiceImpl;
 import ru.spb.nicetu.newspaper.api.test.NewsServiceTests;
 
 /**
@@ -34,7 +34,7 @@ import ru.spb.nicetu.newspaper.api.test.NewsServiceTests;
 @RequiredArgsConstructor
 @Getter
 public class NewsServiceTestEnvironment {
-    private final NewsService newsService;
+    private final NewsServiceImpl newsService;
     private final TagRepository tagRepository;
     private final NewsRepository newsRepository;
 

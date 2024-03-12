@@ -13,7 +13,7 @@ import ru.spb.nicetu.newspaper.api.model.News;
  * <p>Also contains {@code Boolean}s to indicate if pages were last.</p>
     * @author Nikita Osiptsov
     * @see {@link News}
-    * @see {@link NewsService}
+    * @see {@link NewsServiceImpl}
  * @since 1.0
  */
 @Setter

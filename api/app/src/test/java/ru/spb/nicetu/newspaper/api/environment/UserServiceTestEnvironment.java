@@ -14,7 +14,7 @@ import ru.spb.nicetu.newspaper.api.model.User;
 import ru.spb.nicetu.newspaper.api.repository.NewsRepository;
 import ru.spb.nicetu.newspaper.api.repository.TagRepository;
 import ru.spb.nicetu.newspaper.api.repository.UserRepository;
-import ru.spb.nicetu.newspaper.api.service.UserService;
+import ru.spb.nicetu.newspaper.api.service.UserServiceImpl;
 
 /**
  * <p>Environment used in {@code UserServiceTestEnvironment}.</p>
@@ -28,7 +28,7 @@ import ru.spb.nicetu.newspaper.api.service.UserService;
 @RequiredArgsConstructor
 @Getter
 public class UserServiceTestEnvironment {
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     private final UserRepository userRepository;
     private final TagRepository tagRepository;

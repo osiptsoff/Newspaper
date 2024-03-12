@@ -1,7 +1,6 @@
 package ru.spb.nicetu.newspaper.api.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -17,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import ru.spb.nicetu.newspaper.api.dto.TagDto;
-import ru.spb.nicetu.newspaper.api.model.Tag;
 import ru.spb.nicetu.newspaper.api.service.TagService;
+import ru.spb.nicetu.newspaper.api.service.facade.TagServiceFacade;
 
 /**
  * <p>Controller for '/tag' endpoint.</p>
@@ -33,29 +32,21 @@ import ru.spb.nicetu.newspaper.api.service.TagService;
 @ResponseStatus(HttpStatus.NO_CONTENT)
 @RequiredArgsConstructor
 public class TagController {
-    private final TagService tagService;
+    private final TagServiceFacade tagServiceFacade;
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public List<TagDto> findAllTags() {
-        return tagService.findAllTags()
-            .stream()
-            .map(t -> TagDto.from(t))
-            .collect(Collectors.toList());
+        return tagServiceFacade.findAllTags();
     }
 
     @PostMapping()
     public void saveTag(@Valid @RequestBody TagDto tagDto) {
-        Tag tag = new Tag();
-        tag.setName(tagDto.getName());
-
-        tagService.saveTag(tag);
+        tagServiceFacade.saveTag(tagDto);
     }
 
     @DeleteMapping()
     public void deleteTag(@RequestParam String name) {
-        Tag tag = tagService.findTagByName(name);
-
-        tagService.deleteTag(tag);
+        tagServiceFacade.deleteTag(name);
     }
 }

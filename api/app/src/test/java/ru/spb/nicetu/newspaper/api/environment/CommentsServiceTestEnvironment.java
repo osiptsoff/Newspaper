@@ -17,7 +17,7 @@ import ru.spb.nicetu.newspaper.api.model.embeddable.NewsContentBlockId;
 import ru.spb.nicetu.newspaper.api.repository.CommentRepository;
 import ru.spb.nicetu.newspaper.api.repository.NewsRepository;
 import ru.spb.nicetu.newspaper.api.repository.UserRepository;
-import ru.spb.nicetu.newspaper.api.service.CommentsService;
+import ru.spb.nicetu.newspaper.api.service.CommentsServiceImpl;
 import ru.spb.nicetu.newspaper.api.test.CommentsServiceTests;
 
 /**
@@ -35,7 +35,7 @@ public class CommentsServiceTestEnvironment {
 
     private @Getter final CommentRepository commentRepository;
     private @Getter final UserRepository userRepository;
-    private @Getter final CommentsService commentService;
+    private @Getter final CommentsServiceImpl commentService;
 
     private @Getter News testNews;
     private @Getter User testUser;

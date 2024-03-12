@@ -34,10 +34,10 @@ public class JwtUtility {
 
     @Value("${app.config.security.accessLifespawnSec}")
     @Setter
-    private Long accesLifespawn;
+    private Integer accesLifespawn;
     @Value("${app.config.security.refreshLifespawnSec}")
     @Setter
-    private Long refreshLifespawn;
+    private Integer refreshLifespawn;
 
     public JwtUtility(@Value("${app.config.security.accessSecret}") String base64AccessKey,
             @Value("${app.config.security.refreshSecret}") String base64RefreshKey) {
@@ -60,6 +60,10 @@ public class JwtUtility {
     public UserPrincipal parseAndValidateAccessToken(String accessToken) {
         return generateUserPrincipal(accessToken, accessKey);
     }
+
+    public Integer getRefreshLifespawn() {
+        return refreshLifespawn;
+    } 
 
     private UserPrincipal generateUserPrincipal(String token, SecretKey key) {
         Claims claims = parseToken(token, key);
@@ -87,7 +91,7 @@ public class JwtUtility {
         return new UserPrincipal(user);
     }
 
-    private String generateToken(UserDetails userPrincipal, SecretKey key, Long lifespawn) {
+    private String generateToken(UserDetails userPrincipal, SecretKey key, Integer lifespawn) {
         Date now = new Date();
 
         return Jwts.builder()

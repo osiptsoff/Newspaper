@@ -12,7 +12,7 @@ import ru.spb.nicetu.newspaper.api.service.AbstractImageService;
  * <p>Minimizes client dependencies; converts DTOs to domain objects, converts result domain objects to DTOs</p>
     * @author Nikita Osiptsov
     * @see {@link AbstractImageService}
- * @since 1.1
+ * @since 1.2
  */
 public interface ImageServiceFacade<T extends AbstractImage> {
     AbstractImage getImage(Long id);

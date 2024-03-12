@@ -1,14 +1,9 @@
 package ru.spb.nicetu.newspaper.api.controller;
 
-import java.time.ZoneOffset;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,20 +17,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import ru.spb.nicetu.newspaper.api.dto.CommentDto;
 import ru.spb.nicetu.newspaper.api.dto.FetchedNewsDto;
 import ru.spb.nicetu.newspaper.api.dto.NewsContentBlockDto;
 import ru.spb.nicetu.newspaper.api.dto.NewsSignatureDto;
 import ru.spb.nicetu.newspaper.api.dto.PageDto;
 import ru.spb.nicetu.newspaper.api.dto.TagAssociationRequestDto;
-import ru.spb.nicetu.newspaper.api.model.News;
-import ru.spb.nicetu.newspaper.api.model.NewsContentBlock;
-import ru.spb.nicetu.newspaper.api.model.embeddable.NewsContentBlockId;
 import ru.spb.nicetu.newspaper.api.service.NewsContentService;
 import ru.spb.nicetu.newspaper.api.service.NewsService;
-import ru.spb.nicetu.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResult;
 import ru.spb.nicetu.newspaper.api.service.facade.NewsServiceFacade;
-import ru.spb.nicetu.newspaper.api.service.facade.NewsServiceFacadeImpl;
 
 /**
  * <p>Controller for '/news' endpoint.</p>

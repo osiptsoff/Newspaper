@@ -12,7 +12,7 @@ import ru.spb.nicetu.newspaper.api.model.User;
     * @author Nikita Osiptsov
     * @see {@link User}
     * @see {@link UserDetails}
- * @since 1.0
+ * @since 1.2
  */
 public interface SecurityUserService {
     UserDetails userToDetails(User user);

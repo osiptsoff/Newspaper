@@ -16,7 +16,7 @@ import ru.spb.nicetu.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResu
     * @see {@link News}
     * @see {@link Tag}
     * @see {@link Comment}
- * @since 1.1
+ * @since 1.2
  */
 public interface NewsService {
     Page<News> findAllNews(Integer page);

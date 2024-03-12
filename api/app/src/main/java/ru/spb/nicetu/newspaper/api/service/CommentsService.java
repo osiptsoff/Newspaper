@@ -13,7 +13,7 @@ import ru.spb.nicetu.newspaper.api.model.News;
  * <p>Logs its work and unpredicted exceptions.</p>
     * @author Nikita Osiptsov
     * @see {@link Comment}
- * @since 1.1
+ * @since 1.2
  */
 public interface CommentsService {
     Comment saveComment(Comment comment);

@@ -7,7 +7,7 @@ import ru.spb.nicetu.newspaper.api.model.User;
  * 
  * <p>Can be used to register users, authenticate users, refreshing access token and logout.</p>
     * @author Nikita Osiptsov
- * @since 1.1
+ * @since 1.2
  */
 public interface AuthService {
     User register(String login, String password, String name, String lastName);

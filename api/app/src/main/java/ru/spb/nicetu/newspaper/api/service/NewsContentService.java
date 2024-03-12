@@ -14,7 +14,7 @@ import ru.spb.nicetu.newspaper.api.model.NewsContentBlock;
  * <p>Multiple blocks are returned by pages.</p>
     * @author Nikita Osiptsov
     * @see {@link NewsContentBlock}
- * @since 1.0
+ * @since 1.2
  */
 public interface NewsContentService {
     NewsContentBlock saveNewsContentBlock(NewsContentBlock newsContentBlock);

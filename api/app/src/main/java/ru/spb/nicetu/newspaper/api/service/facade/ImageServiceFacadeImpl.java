@@ -13,9 +13,9 @@ import ru.spb.nicetu.newspaper.api.service.AbstractImageService;
  * <p>{@link ImageServiceFacade} implementation for {@link FileSystemImage}</p>
  * 
     * @author Nikita Osiptsov
-    * @see {@link ImageServiceFacade}
+    * @see {@link AbstractImageService}
     * @see {@link FileSystemImage}
- * @since 1.1
+ * @since 1.2
  */
 @Component
 @RequiredArgsConstructor

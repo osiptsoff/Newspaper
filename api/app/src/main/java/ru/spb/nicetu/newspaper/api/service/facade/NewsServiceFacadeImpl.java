@@ -28,7 +28,8 @@ import ru.spb.nicetu.newspaper.api.service.auxiliary.NewsServiceFindNewsByIdResu
  * 
     * @author Nikita Osiptsov
     * @see {@link NewsServiceFacade}
- * @since 1.1
+    * @see {@link NewsContentService}
+ * @since 1.2
  */
 @Component
 @RequiredArgsConstructor

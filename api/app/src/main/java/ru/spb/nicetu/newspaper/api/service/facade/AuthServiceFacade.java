@@ -12,7 +12,7 @@ import ru.spb.nicetu.newspaper.api.service.AuthService;
  * <p>Minimizes client dependencies; converts DTOs to domain objects, converts result domain objects to DTOs</p>
     * @author Nikita Osiptsov
     * @see {@link AuthService}
- * @since 1.1
+ * @since 1.2
  */
 public interface AuthServiceFacade {
     void register(UserRegistrationDto userDto);

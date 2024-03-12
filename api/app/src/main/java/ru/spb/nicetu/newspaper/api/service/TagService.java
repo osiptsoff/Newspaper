@@ -10,7 +10,7 @@ import ru.spb.nicetu.newspaper.api.model.Tag;
  * <p>Can be used to save, delete and get {@code Tag}s.</p>
     * @author Nikita Osiptsov
     * @see {@link Tag}
- * @since 1.0
+ * @since 1.2
  */
 public interface TagService {
     List<Tag> findAllTags();

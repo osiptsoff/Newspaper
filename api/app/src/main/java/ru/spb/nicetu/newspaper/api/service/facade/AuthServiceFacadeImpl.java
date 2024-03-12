@@ -13,7 +13,7 @@ import ru.spb.nicetu.newspaper.api.service.AuthService;
  * 
     * @author Nikita Osiptsov
     * @see {@link AuthService}
- * @since 1.1
+ * @since 1.2
  */
 @Component
 @RequiredArgsConstructor

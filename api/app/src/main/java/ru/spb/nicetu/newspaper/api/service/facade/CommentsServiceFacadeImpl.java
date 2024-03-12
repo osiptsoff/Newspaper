@@ -24,7 +24,10 @@ import ru.spb.nicetu.newspaper.api.service.util.AuthUtil;
  * 
     * @author Nikita Osiptsov
     * @see {@link CommentsService}
- * @since 1.1
+    * @see {@link NewsService}
+    * @see {@link AuthUtil}
+    * @see {@link SecurityUserService}
+ * @since 1.2
  */
 @Component
 @RequiredArgsConstructor

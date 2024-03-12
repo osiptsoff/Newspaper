@@ -12,7 +12,7 @@ import ru.spb.nicetu.newspaper.api.service.TagService;
  * <p>Minimizes client dependencies; converts DTOs to domain objects, converts result domain objects to DTOs</p>
     * @author Nikita Osiptsov
     * @see {@link TagService}
- * @since 1.1
+ * @since 1.2
  */
 public interface TagServiceFacade {
     List<TagDto> findAllTags();

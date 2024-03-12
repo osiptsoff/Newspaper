@@ -18,7 +18,7 @@ import ru.spb.nicetu.newspaper.api.model.UserTag;
     * @see {@link News}
     * @see {@link Tag}
     * @see {@link UserTag}
- * @since 1.0
+ * @since 1.2
  */
 public interface UserService {
     User findByLogin(String login);

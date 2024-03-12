@@ -11,7 +11,7 @@ import ru.spb.nicetu.newspaper.api.service.CommentsService;
  * <p>Minimizes client dependencies; converts DTOs to domain objects, converts result domain objects to DTOs</p>
     * @author Nikita Osiptsov
     * @see {@link CommentsService}
- * @since 1.1
+ * @since 1.2
  */
 public interface CommentsServiceFacade {
     CommentDto saveComment(CommentDto dto);
